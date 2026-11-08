@@ -8,13 +8,28 @@ const app = express();
 
 const PORT = process.env.PORT || 3001;
 
+const courseRoutes = require('./routes/course.routes');
+const authRoutes = require('./routes/auth.routes');
+
 app.use(cors());
 app.use(express.json());
+
+// Rutas de cursos
+app.use('/api/courses', courseRoutes);
+// Rutas de autenticación
+app.use('/api/auth', authRoutes);
 
 // Ruta inicial
 app.get('/', (req, res) => {
   res.json({
     message: 'API de SkillUp Campus funcionando correctamente'
+  });
+});
+
+// Verificar el estado del servidor
+app.get('/health', (req, res) => {
+  res.status(200).json({
+    status: 'ok'
   });
 });
 
