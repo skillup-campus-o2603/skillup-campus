@@ -81,3 +81,22 @@ Los componentes y las páginas consumen estos tokens CSS para mantener la identi
 - El panel de administración tiene su ruta y una estructura inicial; no ejecuta operaciones CRUD.
 - La ruta `/admin` todavía no tiene protección por roles. Cuando se implemente la autenticación, debe verificarse el JWT y el rol de administrador desde el backend; ocultar un enlace en el frontend no es una medida de seguridad.
 - El frontend todavía no necesita modificar ni iniciar el backend para mostrar estas pantallas.
+
+## Landing actualizada según wireframes
+
+La página de inicio incluye franja informativa, hero con fotografía, beneficios visuales, cursos destacados, testimonios de muestra y footer extendido. Las imágenes fotográficas se cargan desde Pexels; por eso requieren conexión a Internet.
+
+### Créditos de fotografía
+
+Las fotografías utilizadas pertenecen a sus autores en Pexels y se encuentran publicadas con licencia gratuita de Pexels:
+
+- MART PRODUCTION — [Trabajo colaborativo](https://www.pexels.com/photo/colleagues-brainstorming-a-business-project-at-a-meeting-7550308/).
+- Antoni Shkraba — [Clase online](https://www.pexels.com/photo/person-teaching-girl-on-laptop-screen-6266990/).
+- Jessica Olivella — [Estudiante en el aula](https://www.pexels.com/photo/focused-woman-working-on-a-laptop-in-classroom-37809798/).
+- RDNE Stock project — [Diploma](https://www.pexels.com/photo/a-newly-graduate-holding-his-diploma-7713379/).
+- Andrea Piacquadio — [Estudiante con laptop](https://www.pexels.com/photo/woman-using-a-laptop-3776180/).
+- Atlantic Ambience — [Dashboard de datos](https://www.pexels.com/photo/close-up-shot-of-a-laptop-computer-12969403/).
+- Jakub Zerdzicki — [Programación](https://www.pexels.com/photo/close-up-of-programmer-typing-code-on-laptop-36496927/).
+- Sasha Kim — [Diseño digital](https://www.pexels.com/photo/person-using-a-laptop-and-a-drawing-tablet-9414025/).
+
+Las tarjetas de beneficios y los testimonios siguen el wireframe y contienen texto de presentación. Antes de publicar la plataforma, el equipo debe confirmar la disponibilidad real de clases en vivo, mentorías y certificaciones, y reemplazar los testimonios ilustrativos por opiniones autorizadas.

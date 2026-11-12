@@ -1,45 +1,45 @@
 :root {
-  /* Identidad visual tomada del Moodboard oficial de SkillUp Campus. */
-  --color-primary: #090e95;
-  --color-primary-dark: #06096b;
-  --color-primary-light: #222bbd;
-  --color-primary-soft: #eef0ff;
+    /* Identidad visual tomada del Moodboard oficial de SkillUp Campus. */
+    --color-primary: #090e95;
+    --color-primary-dark: #06096b;
+    --color-primary-light: #222bbd;
+    --color-primary-soft: #eef0ff;
 
-  --color-accent: #ef6111;
-  --color-accent-dark: #d94e05;
-  --color-accent-soft: #fff0e7;
+    --color-accent: #ef6111;
+    --color-accent-dark: #d94e05;
+    --color-accent-soft: #fff0e7;
 
-  --color-purple: #8832d9;
-  --color-yellow: #f7c331;
-  --color-cyan: #ccffff;
+    --color-purple: #8832d9;
+    --color-yellow: #f7c331;
+    --color-cyan: #ccffff;
 
-  --color-text: #17182a;
-  --color-text-muted: #626579;
-  --color-background: #f7f8fc;
-  --color-surface: #ffffff;
-  --color-border: #e5e7f0;
-  --color-dark-surface: #080b3d;
+    --color-text: #17182a;
+    --color-text-muted: #626579;
+    --color-background: #f7f8fc;
+    --color-surface: #ffffff;
+    --color-border: #e5e7f0;
+    --color-dark-surface: #080b3d;
 
-  --font-family: "Roboto", Arial, sans-serif;
-  --font-size-body: 1rem;
-  --font-size-button: 0.875rem;
-  --font-size-footer: 0.8125rem;
+    --font-family: "Roboto", Arial, sans-serif;
+    --font-size-body: 1rem;
+    --font-size-button: 0.875rem;
+    --font-size-footer: 0.8125rem;
 
-  --spacing-xs: 0.5rem;
-  --spacing-sm: 0.75rem;
-  --spacing-md: 1rem;
-  --spacing-lg: 1.5rem;
-  --spacing-xl: 2rem;
-  --spacing-2xl: 3rem;
-  --spacing-3xl: 5rem;
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 0.75rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 3rem;
+    --spacing-3xl: 5rem;
 
-  --radius-sm: 6px;
-  --radius-md: 8px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
-  --radius-pill: 999px;
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+    --radius-pill: 999px;
 
-  --shadow-card: 0 18px 48px rgb(9 14 149 / 9%);
-  --shadow-floating: 0 18px 42px rgb(6 9 80 / 18%);
-  --container-width: 1160px;
+    --shadow-card: 0 18px 48px rgb(9 14 149 / 9%);
+    --shadow-floating: 0 18px 42px rgb(6 9 80 / 18%);
+    --container-width: 1160px;
 }
