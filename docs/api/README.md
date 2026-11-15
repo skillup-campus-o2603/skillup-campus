@@ -229,6 +229,46 @@ Permite que un usuario inicie sesión con su correo electrónico y contraseña.
 
 ---
 
+
+### POST /api/auth/register
+
+Registra un nuevo usuario con el rol Student y crea
+automáticamente su perfil de estudiante.
+
+**Body:**
+```json
+{
+  "name": "Ana",
+  "surname": "García",
+  "username": "anagarcia",
+  "email": "ana@ejemplo.com",
+  "password": "ClaveSegura123",
+  "country": "Argentina",
+  "address": "Dirección opcional",
+  "telephone": "3704000000"
+}
+```
+
+**Campos obligatorios:**
+name, surname, username, email, password, country.
+
+**Campos opcionales:**
+address, telephone.
+
+**Respuesta exitosa:** 201 Created.
+
+**Errores posibles:**
+- 400: Datos incompletos o inválidos.
+- 409: Correo o nombre de usuario duplicado.
+- 500: Error interno del servidor.
+
+**Seguridad:**
+- Contraseña almacenada mediante bcrypt.
+- Rol Student asignado automáticamente.
+- Usuario y perfil creados mediante transacción.
+- La contraseña no se incluye en la respuesta.
+
+
 ## 5. Integración con Frontend
 
 El frontend está desarrollado con React y Vite.
@@ -253,5 +293,6 @@ Posteriormente, los mismos endpoints consultarán PostgreSQL mediante Sequelize,
 | GET /api/courses | Definido | Mock funcional |
 | GET /api/courses/:id | Definido | Mock funcional |
 | POST /api/auth/login | Definido | Mock funcional |
+| POST /api/auth/register | Definido |Implementado |
 
 Los estados se actualizarán a medida que se implementen y prueben los endpoints.

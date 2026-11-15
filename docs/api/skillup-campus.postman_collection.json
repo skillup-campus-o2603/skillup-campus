@@ -615,6 +615,750 @@
               "body": "{\n    \"success\": false,\n    \"message\": \"Credenciales inválidas\"\n}"
             }
           ]
+        },
+        {
+          "name": "Registro Exitoso",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Ana\",\r\n  \"surname\": \"García\",\r\n  \"username\": \"anagarcia\",\r\n  \"email\": \"ana@ejemplo.com\",\r\n  \"password\": \"ClaveSegura123\",\r\n  \"country\": \"Argentina\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3001/api/auth/register",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3001",
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Registro Duplicado",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Ana\",\r\n  \"surname\": \"García\",\r\n  \"username\": \"anagarcia\",\r\n  \"email\": \"ana@ejemplo.com\",\r\n  \"password\": \"ClaveSegura123\",\r\n  \"country\": \"Argentina\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3001/api/auth/register",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3001",
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Registro Duplicado",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"name\": \"Ana\",\r\n  \"surname\": \"García\",\r\n  \"username\": \"anagarcia\",\r\n  \"email\": \"ana@ejemplo.com\",\r\n  \"password\": \"ClaveSegura123\",\r\n  \"country\": \"Argentina\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:3001/api/auth/register",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "3001",
+                  "path": [
+                    "api",
+                    "auth",
+                    "register"
+                  ]
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "79"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"4f-4x/KrtN/mr8QzJ9MN4IhnO9OoS0\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sat, 14 Nov 2026 02:52:35 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": false,\n    \"message\": \"El correo o nombre de usuario ya está registrado\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Registro - Campo vacio",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Pedro\",\r\n  \"surname\": \"López\",\r\n  \"username\": \"pedrolopez\",\r\n  \"email\": \"pedro@ejemplo.com\",\r\n  \"password\": \"ClaveSegura123\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3001/api/auth/register",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3001",
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Registro - Campo vacio",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"name\": \"Pedro\",\r\n  \"surname\": \"López\",\r\n  \"username\": \"pedrolopez\",\r\n  \"email\": \"pedro@ejemplo.com\",\r\n  \"password\": \"ClaveSegura123\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:3001/api/auth/register",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "3001",
+                  "path": [
+                    "api",
+                    "auth",
+                    "register"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "77"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"4d-k9gaESohVQQfRFLipQG403VM2ug\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sat, 14 Nov 2026 02:56:15 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": false,\n    \"message\": \"Todos los campos obligatorios deben completarse\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Registro - Contraseña corta",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Pedro\",\r\n  \"surname\": \"López\",\r\n  \"username\": \"pedrolopez\",\r\n  \"email\": \"pedro@ejemplo.com\",\r\n  \"password\": \"1234\",\r\n  \"country\": \"Argentina\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3001/api/auth/register",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3001",
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Registro - Contraseña corta",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"name\": \"Pedro\",\r\n  \"surname\": \"López\",\r\n  \"username\": \"pedrolopez\",\r\n  \"email\": \"pedro@ejemplo.com\",\r\n  \"password\": \"1234\",\r\n  \"country\": \"Argentina\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:3001/api/auth/register",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "3001",
+                  "path": [
+                    "api",
+                    "auth",
+                    "register"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "77"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"4d-xYvxdPOPPRJoLagIu+p5mxF04GQ\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sat, 14 Nov 2026 02:58:28 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": false,\n    \"message\": \"La contraseña debe tener al menos 8 caracteres\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Registro-Correo Invalido",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Pedro\",\r\n  \"surname\": \"López\",\r\n  \"username\": \"pedrolopez\",\r\n  \"email\": \"pedrocorreo.com\",\r\n  \"password\": \"ClaveSegura123\",\r\n  \"country\": \"Argentina\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3001/api/auth/register",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3001",
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Registro-Correo Invalido",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"name\": \"Pedro\",\r\n  \"surname\": \"López\",\r\n  \"username\": \"pedrolopez\",\r\n  \"email\": \"pedrocorreo.com\",\r\n  \"password\": \"ClaveSegura123\",\r\n  \"country\": \"Argentina\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:3001/api/auth/register",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "3001",
+                  "path": [
+                    "api",
+                    "auth",
+                    "register"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "78"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"4e-6ducvaxkLXyF3XYRiw9b4H3R11s\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sat, 14 Nov 2026 03:09:04 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": false,\n    \"message\": \"El formato del correo electrónico no es válido\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Registro-Exitoso con perfil estudiante",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Pedro\",\r\n  \"surname\": \"López\",\r\n  \"username\": \"pedrolopez\",\r\n  \"email\": \"pedro@ejemplo.com\",\r\n  \"password\": \"ClaveSegura123\",\r\n  \"country\": \"Argentina\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3001/api/auth/register",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3001",
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Registro-Exitoso con perfil estudiante",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"name\": \"Pedro\",\r\n  \"surname\": \"López\",\r\n  \"username\": \"pedrolopez\",\r\n  \"email\": \"pedro@ejemplo.com\",\r\n  \"password\": \"ClaveSegura123\",\r\n  \"country\": \"Argentina\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:3001/api/auth/register",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "3001",
+                  "path": [
+                    "api",
+                    "auth",
+                    "register"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "204"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"cc-OBRp0+6piGKfaSXMe8yFkn8zy6I\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 15 Nov 2026 01:01:34 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Usuario registrado correctamente\",\n    \"data\": {\n        \"id\": \"2\",\n        \"name\": \"Pedro\",\n        \"surname\": \"López\",\n        \"username\": \"pedrolopez\",\n        \"email\": \"pedro@ejemplo.com\",\n        \"country\": \"Argentina\",\n        \"role\": \"Student\"\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Registro-nombre de usuario con espacios",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"María\",\r\n  \"surname\": \"Fernández\",\r\n  \"username\": \"maria fernandez\",\r\n  \"email\": \"maria@ejemplo.com\",\r\n  \"password\": \"ClaveSegura123\",\r\n  \"country\": \"Argentina\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3001/api/auth/register",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3001",
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Registro-nombre de usuario con espacios",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"name\": \"María\",\r\n  \"surname\": \"Fernández\",\r\n  \"username\": \"maria fernandez\",\r\n  \"email\": \"maria@ejemplo.com\",\r\n  \"password\": \"ClaveSegura123\",\r\n  \"country\": \"Argentina\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:3001/api/auth/register",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "3001",
+                  "path": [
+                    "api",
+                    "auth",
+                    "register"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "134"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"86-QkrBXZezPIpGM/LNUT3J3DhmnBw\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 15 Nov 2026 01:40:28 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": false,\n    \"message\": \"El nombre de usuario solo puede contener letras, números, puntos, guiones y guiones bajos, sin espacios\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Registro-país demasiado largo",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"María\",\r\n  \"surname\": \"Fernández\",\r\n  \"username\": \"mariafernandez\",\r\n  \"email\": \"maria@ejemplo.com\",\r\n  \"password\": \"ClaveSegura123\",\r\n  \"country\": \"ArgentinaArgentinaArgentinaArgentinaArgentinaArgentina\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3001/api/auth/register",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3001",
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Registro-país demasiado largo",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"name\": \"María\",\r\n  \"surname\": \"Fernández\",\r\n  \"username\": \"mariafernandez\",\r\n  \"email\": \"maria@ejemplo.com\",\r\n  \"password\": \"ClaveSegura123\",\r\n  \"country\": \"ArgentinaArgentinaArgentinaArgentinaArgentinaArgentina\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:3001/api/auth/register",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "3001",
+                  "path": [
+                    "api",
+                    "auth",
+                    "register"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "81"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"51-egvDxK9jZAZgr7P6ijm8+Bm165Q\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 15 Nov 2026 01:59:37 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": false,\n    \"message\": \"El campo country no puede superar los 50 caracteres\"\n}"
+            }
+          ]
         }
       ]
     }
