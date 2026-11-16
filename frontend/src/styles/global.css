@@ -724,7 +724,7 @@ a {
     line-height: 1.7;
 }
 
-.catalog-toolbar {
+.courses-toolbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -732,7 +732,7 @@ a {
     margin-bottom: 1.15rem;
 }
 
-.catalog-toolbar>div {
+.courses-toolbar>div {
     display: flex;
     align-items: baseline;
     gap: 0.75rem;
@@ -1071,9 +1071,14 @@ a {
     line-height: 1.6;
 }
 
+.auth-footnote a,
 .auth-footnote span {
     color: var(--color-primary);
     font-weight: 700;
+}
+
+.auth-footnote a:hover {
+    text-decoration: underline;
 }
 
 .back-link {
@@ -1088,6 +1093,74 @@ a {
     margin: 1.4rem 0 0;
     color: #85879a;
     font-size: 0.68rem;
+}
+
+/* Registro: mantiene el lenguaje visual del Login y adapta el formulario a más campos. */
+.auth-register-page {
+    padding-block: 2.75rem;
+}
+
+.auth-register-layout {
+    width: min(100%, 1020px);
+    grid-template-columns: 0.85fr 1.15fr;
+}
+
+.auth-register-aside {
+    min-height: 650px;
+}
+
+.auth-register-card {
+    padding: 2.2rem 2.5rem;
+}
+
+.auth-register-card .auth-heading h2 {
+    font-size: 1.9rem;
+}
+
+.auth-register-fields {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem 1rem;
+}
+
+.auth-field {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 0.45rem;
+}
+
+.auth-field-full {
+    grid-column: 1 / -1;
+}
+
+.auth-register-form .auth-field label {
+    margin-top: 0;
+}
+
+.auth-register-form .auth-field input {
+    min-height: 45px;
+    padding: 0.7rem 0.8rem;
+    font-size: 0.84rem;
+}
+
+.auth-register-form .button {
+    margin-top: 1rem;
+}
+
+.auth-register-card .auth-footnote a {
+    color: var(--color-primary);
+    font-weight: 700;
+}
+
+.auth-register-card .form-notice {
+    margin-bottom: 0;
+}
+
+.form-notice-error {
+    border-left-color: #c62828;
+    background: #fff0f0;
+    color: #9e1b1b;
 }
 
 /* Administración y ruta 404 */
@@ -1406,6 +1479,18 @@ a {
         padding: 2rem 1.6rem;
     }
 
+    .auth-register-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .auth-register-aside {
+        min-height: 260px;
+    }
+
+    .auth-register-card {
+        padding: 2rem 1.6rem;
+    }
+
     .footer-inner {
         min-height: 125px;
         flex-direction: column;
@@ -1415,9 +1500,19 @@ a {
         text-align: center;
     }
 
-    .catalog-toolbar {
+    .courses-toolbar {
         align-items: flex-start;
         flex-direction: column;
+    }
+}
+
+@media (max-width: 520px) {
+    .auth-register-fields {
+        grid-template-columns: 1fr;
+    }
+
+    .auth-field-full {
+        grid-column: auto;
     }
 }
 

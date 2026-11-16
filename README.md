@@ -56,7 +56,7 @@ Se desarrollará un **Producto Mínimo Viable (MVP)** durante 8 semanas, prioriz
 
 - Autenticación mediante JWT.
 - Protección de rutas privadas.
-- Control de acceso según roles (Administrador y Alumno).
+- Control de acceso según roles (Administrador, Profesor y Estudiante).
 - Validación de datos de entrada.
 - Almacenamiento seguro de contraseñas.
 

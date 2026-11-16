@@ -28,7 +28,7 @@ const sampleCourses = [
     },
 ];
 
-export default function Catalog() {
+export default function Courses() {
     return (
         <section className="container page-section">
             <div className="page-heading">
@@ -37,7 +37,7 @@ export default function Catalog() {
                 <p>Elegí un tema, explorá nuevas ideas y empezá a desarrollar tus habilidades.</p>
             </div>
 
-            <div className="catalog-toolbar">
+            <div className="courses-toolbar">
                 <div>
                     <strong className="results-label">Cursos destacados</strong>
                     <span className="results-count">3 opciones de ejemplo</span>

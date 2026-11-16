@@ -13,7 +13,7 @@ export default function Navbar() {
                         <span className="announcement-icon" aria-hidden="true">✦</span>
                         Nuevo ciclo lectivo: descubrí cursos para impulsar tu futuro.
                     </p>
-                    <Link to="/catalog">
+                    <Link to="/courses">
                         Explorar cursos <span aria-hidden="true">→</span>
                     </Link>
                 </div>
@@ -34,7 +34,7 @@ export default function Navbar() {
 
                 <div className="nav-actions">
                     <Link className="button button-outline button-small" to="/login">Iniciar sesión</Link>
-                    <Link className="button button-accent button-small" to="/catalog">Explorar cursos</Link>
+                    <Link className="button button-accent button-small" to="/courses">Explorar cursos</Link>
                 </div>
             </div>
         </header>

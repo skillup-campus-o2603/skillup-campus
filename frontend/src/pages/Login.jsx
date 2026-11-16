@@ -53,7 +53,7 @@ export default function Login() {
                     </form>
                     {notice && <p className="form-notice" role="status">{notice}</p>}
                     <p className="auth-footnote">
-                        ¿Todavía no tenés una cuenta? <span>El registro estará disponible próximamente.</span>
+                        ¿Todavía no tenés una cuenta? <Link to="/register">Registrate acá -estudiante-.</Link>
                     </p>
                     <Link className="back-link" to="/">← Volver al inicio</Link>
                     <p className="demo-disclaimer">Vista demostrativa · Sin conexión con el backend todavía</p>

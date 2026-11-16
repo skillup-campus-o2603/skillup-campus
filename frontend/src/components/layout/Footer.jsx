@@ -19,15 +19,15 @@ export default function Footer() {
                     <h2>Explorá</h2>
                     <Link to="/">Inicio</Link>
                     <Link to="/#beneficios">Beneficios</Link>
-                    <Link to="/catalog">Catálogo de cursos</Link>
+                    <Link to="/courses">Cursos</Link>
                     <Link to="/#testimonios">Testimonios</Link>
                 </div>
 
                 <div className="footer-column">
                     <h2>Tu cuenta</h2>
                     <Link to="/login">Iniciar sesión</Link>
-                    <Link to="/admin">Administración</Link>
-                    <span className="footer-muted-link">Registro · Próximamente</span>
+                    <Link to="/admins">Administración</Link>
+                    <Link to="/register">Registro -estudiante-</Link>
                 </div>
 
                 <div className="footer-column footer-contact-column">

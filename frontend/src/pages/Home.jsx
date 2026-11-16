@@ -132,7 +132,7 @@ export default function Home() {
                             alcanzar tus objetivos. Tu próximo paso empieza acá.
                         </p>
                         <div className="landing-hero-actions">
-                            <Link className="button button-accent" to="/catalog">
+                            <Link className="button button-accent" to="/courses">
                                 Explorar cursos <span aria-hidden="true">↗</span>
                             </Link>
                             <Link className="landing-secondary-link" to="/#beneficios">
@@ -207,14 +207,14 @@ export default function Home() {
                             <h2 id="courses-title">Catálogo de cursos</h2>
                             <p>Conocé algunas de las propuestas disponibles y elegí por dónde empezar.</p>
                         </div>
-                        <Link className="button button-primary landing-course-cta" to="/catalog">
+                        <Link className="button button-primary landing-course-cta" to="/courses">
                             Ver catálogo completo <span aria-hidden="true">→</span>
                         </Link>
                     </div>
 
                     <div className="landing-course-grid">
                         {featuredCourses.map((course) => (
-                            <Link className="landing-course-card" to="/catalog" key={course.title}>
+                            <Link className="landing-course-card" to="/courses" key={course.title}>
                                 <div className={`landing-course-image ${course.tone}`}>
                                     <img src={course.image} alt={course.imageAlt} loading="lazy" />
                                     <span className="landing-course-category">{course.category}</span>
@@ -244,7 +244,7 @@ export default function Home() {
                 <div className="container">
                     <div className="landing-section-heading landing-section-heading-centered">
                         <span className="eyebrow">COMUNIDAD SKILLUP</span>
-                        <h2 id="testimonials-title">Lo que dicen nuestros alumnos</h2>
+                        <h2 id="testimonials-title">Lo que dicen nuestros estudiantes</h2>
                         <p>Las experiencias de quienes aprenden pueden inspirar nuevos comienzos.</p>
                     </div>
 

@@ -1,4 +1,4 @@
-export default function Admin() {
+export default function Admins() {
     return (
         <section className="container page-section admin-page">
             <div className="page-heading">
