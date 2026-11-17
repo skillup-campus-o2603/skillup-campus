@@ -4,56 +4,113 @@ const sequelize = require('../config/database');
 const User = require('../models/User');
 const Role = require('../models/Role');
 const Student = require('../models/Student');
+const jwt = require('jsonwebtoken');
+
 
 // POST /api/auth/login
-const login = (req, res) => {
-  const { email, password } = req.body || {};
+const login = async (req, res) => {
+  try {
+    const { email, password } = req.body || {};
 
-  // Validar campos obligatorios
-  if (
-    typeof email !== 'string' ||
-    typeof password !== 'string' ||
-    !email.trim() ||
-    !password.trim()
-  ) {
-    return res.status(400).json({
-      success: false,
-      message: 'Email y contraseña son obligatorios'
-    });
-  }
-
-  // Credenciales ficticias para probar el endpoint
-  const mockUser = {
-    id: 1,
-    name: 'Ana',
-    surname: 'García',
-    email: 'alumno@ejemplo.com',
-    role: 'Student'
-  };
-
-  const mockPassword = 'ClaveDeEjemplo123';
-
-  // Comprobar credenciales simuladas
-  if (
-    email !== mockUser.email ||
-    password !== mockPassword
-  ) {
-    return res.status(401).json({
-      success: false,
-      message: 'Credenciales inválidas'
-    });
-  }
-
-  // Respuesta simulada, sin generar un JWT real
-  return res.status(200).json({
-    success: true,
-    message: 'Inicio de sesión exitoso',
-    data: {
-      user: mockUser,
-      token: 'mock-jwt-token-no-valido',
-      expiresIn: '24h'
+    // 1. Validar campos obligatorios
+    if (
+      typeof email !== 'string' ||
+      typeof password !== 'string' ||
+      !email.trim() ||
+      !password.trim()
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: 'Email y contraseña son obligatorios'
+      });
     }
-  });
+
+    // 2. Normalizar email
+    const normalizedEmail = email.trim().toLowerCase();
+
+    // 3. Buscar usuario en PostgreSQL
+    const user = await User.findOne({
+      where: { email: normalizedEmail }
+    });
+
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: 'Credenciales inválidas'
+      });
+    }
+
+    // 4. Verificar contraseña con bcrypt
+    const validPassword = await bcrypt.compare(
+      password,
+      user.password
+    );
+
+    if (!validPassword) {
+      return res.status(401).json({
+        success: false,
+        message: 'Credenciales inválidas'
+      });
+    }
+
+    // 5. Buscar el rol del usuario
+    const role = await Role.findByPk(user.role_id);
+
+    if (!role) {
+      return res.status(500).json({
+        success: false,
+        message: 'Error interno del servidor'
+      });
+    }
+
+    // 6. Verificar configuración JWT
+    if (!process.env.JWT_SECRET) {
+      console.error('JWT_SECRET no está configurado');
+
+      return res.status(500).json({
+        success: false,
+        message: 'Error interno del servidor'
+      });
+    }
+
+    // 7. Generar JWT con expiración de 24 horas
+    const token = jwt.sign(
+      {
+        id: user.id,
+        role: role.name
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: '24h',
+        algorithm: 'HS256'
+      }
+    );
+
+    // 8. Responder sin exponer la contraseña
+    return res.status(200).json({
+      success: true,
+      message: 'Inicio de sesión exitoso',
+      data: {
+        user: {
+          id: user.id,
+          name: user.name,
+          surname: user.surname,
+          email: user.email,
+          role: role.name
+        },
+        token,
+        expiresIn: '24h'
+      }
+    });
+
+  } catch (error) {
+    console.error('Error al iniciar sesión:', error);
+
+    return res.status(500).json({
+      success: false,
+      message: 'Error interno del servidor'
+    });
+  }
 };
 
 // POST /api/auth/register

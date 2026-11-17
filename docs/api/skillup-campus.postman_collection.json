@@ -1,10 +1,11 @@
 {
   "info": {
     "_postman_id": "0e596d4a-73d2-4425-b152-eaa06ef75e74",
-    "name": "SkillUp Campus - API v1",
+    "name": "SkillUp Campus - API v1 (Semanas 3 y 4)",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "45338759",
-    "_collection_link": "https://go.postman.co/collection/45338759-0e596d4a-73d2-4425-b152-eaa06ef75e74?source=collection_link"
+    "_collection_link": "https://go.postman.co/collection/45338759-0e596d4a-73d2-4425-b152-eaa06ef75e74?source=collection_link",
+    "description": "Colección de endpoints reales de SkillUp Campus. Configurar adminToken y studentToken en variables locales de Postman; no compartir tokens. Los POST/PUT/DELETE modifican la base de datos."
   },
   "item": [
     {
@@ -23,6 +24,9 @@
               "path": [
                 "health"
               ]
+            },
+            "auth": {
+              "type": "noauth"
             }
           },
           "response": [
@@ -43,43 +47,21 @@
               },
               "status": "OK",
               "code": 200,
-              "_postman_previewlanguage": null,
-              "header": [
-                {
-                  "key": "X-Powered-By",
-                  "value": "Express"
-                },
-                {
-                  "key": "Access-Control-Allow-Origin",
-                  "value": "*"
-                },
-                {
-                  "key": "Content-Type",
-                  "value": "application/json; charset=utf-8"
-                },
-                {
-                  "key": "Content-Length",
-                  "value": "15"
-                },
-                {
-                  "key": "ETag",
-                  "value": "W/\"f-VaSQ4oDUiZblZNAEkkN+sX+q3Sg\""
-                },
-                {
-                  "key": "Date",
-                  "value": "Sun, 08 Nov 2026 01:45:55 GMT"
-                },
-                {
-                  "key": "Connection",
-                  "value": "keep-alive"
-                },
-                {
-                  "key": "Keep-Alive",
-                  "value": "timeout=5"
-                }
-              ],
-              "cookie": [],
-              "body": "{\n    \"status\": \"ok\"\n}"
+              "header": [],
+              "body": "{\n  \"status\": \"ok\"\n}"
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
             }
           ]
         }
@@ -102,6 +84,9 @@
                 "api",
                 "courses"
               ]
+            },
+            "auth": {
+              "type": "noauth"
             }
           },
           "response": [
@@ -123,43 +108,21 @@
               },
               "status": "OK",
               "code": 200,
-              "_postman_previewlanguage": null,
-              "header": [
-                {
-                  "key": "X-Powered-By",
-                  "value": "Express"
-                },
-                {
-                  "key": "Access-Control-Allow-Origin",
-                  "value": "*"
-                },
-                {
-                  "key": "Content-Type",
-                  "value": "application/json; charset=utf-8"
-                },
-                {
-                  "key": "Content-Length",
-                  "value": "1568"
-                },
-                {
-                  "key": "ETag",
-                  "value": "W/\"620-orbvzh8smgLmghUO0ocjUH5C5PI\""
-                },
-                {
-                  "key": "Date",
-                  "value": "Sun, 08 Nov 2026 01:46:32 GMT"
-                },
-                {
-                  "key": "Connection",
-                  "value": "keep-alive"
-                },
-                {
-                  "key": "Keep-Alive",
-                  "value": "timeout=5"
-                }
-              ],
-              "cookie": [],
-              "body": "{\n    \"success\": true,\n    \"message\": \"Cursos obtenidos correctamente\",\n    \"data\": [\n        {\n            \"id\": 1,\n            \"title\": \"Inteligencia Artificial Aplicada: Crea Prompts y Automatizaciones reales\",\n            \"description\": \"Dominá herramientas generativas de IA para automatizar tareas, redactar prompts avanzados y optimizar tus flujos de trabajo diarios sin necesidad de programar.\",\n            \"category\": {\n                \"id\": 1,\n                \"name\": \"Inteligencia Artificial\"\n            },\n            \"level\": \"Principiante\",\n            \"durationMinutes\": 1440,\n            \"imageUrl\": null,\n            \"price\": 0\n        },\n        {\n            \"id\": 2,\n            \"title\": \"Excel Práctico: Construcción de Dashboards y Análisis de Datos\",\n            \"description\": \"Transformá datos complejos en dashboards e informes ejecutivos mediante tablas dinámicas, funciones avanzadas y automatización de procesos clave.\",\n            \"category\": {\n                \"id\": 2,\n                \"name\": \"Análisis de Datos\"\n            },\n            \"level\": \"Intermedio\",\n            \"durationMinutes\": 1440,\n            \"imageUrl\": null,\n            \"price\": 0\n        },\n        {\n            \"id\": 3,\n            \"title\": \"Desarrollo Web desde Cero: Construí tu Primer Sitio Web Interactivo\",\n            \"description\": \"Construí sitios y aplicaciones web interactivas desde cero aprendiendo la estructura, el diseño y la lógica detrás del desarrollo de software moderno.\",\n            \"category\": {\n                \"id\": 3,\n                \"name\": \"Desarrollo Web\"\n            },\n            \"level\": \"Principiante\",\n            \"durationMinutes\": 1440,\n            \"imageUrl\": null,\n            \"price\": 0\n        },\n        {\n            \"id\": 4,\n            \"title\": \"Prototipado UX/UI: Diseñá y Testeá tu Primera App en Figma\",\n            \"description\": \"Diseñá aplicaciones digitales atractivas y funcionales con Figma, desde la investigación de usuarios hasta la creación de prototipos interactivos.\",\n            \"category\": {\n                \"id\": 4,\n                \"name\": \"Diseño UX/UI\"\n            },\n            \"level\": \"Principiante\",\n            \"durationMinutes\": 1440,\n            \"imageUrl\": null,\n            \"price\": 0\n        }\n    ]\n}"
+              "header": [],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Cursos obtenidos correctamente\",\n  \"data\": []\n}"
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
             }
           ]
         },
@@ -169,76 +132,21 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/api/courses/1",
+              "raw": "{{baseUrl}}/api/courses/{{courseId}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "courses",
-                "1"
+                "{{courseId}}"
               ]
+            },
+            "auth": {
+              "type": "noauth"
             }
           },
-          "response": [
-            {
-              "name": "Obtener curso por ID",
-              "originalRequest": {
-                "method": "GET",
-                "header": [],
-                "url": {
-                  "raw": "{{baseUrl}}/api/courses/1",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "courses",
-                    "1"
-                  ]
-                }
-              },
-              "status": "OK",
-              "code": 200,
-              "_postman_previewlanguage": null,
-              "header": [
-                {
-                  "key": "X-Powered-By",
-                  "value": "Express"
-                },
-                {
-                  "key": "Access-Control-Allow-Origin",
-                  "value": "*"
-                },
-                {
-                  "key": "Content-Type",
-                  "value": "application/json; charset=utf-8"
-                },
-                {
-                  "key": "Content-Length",
-                  "value": "458"
-                },
-                {
-                  "key": "ETag",
-                  "value": "W/\"1ca-OKVH28KnrXeHum1s+qbv1qErxtw\""
-                },
-                {
-                  "key": "Date",
-                  "value": "Sun, 08 Nov 2026 01:47:00 GMT"
-                },
-                {
-                  "key": "Connection",
-                  "value": "keep-alive"
-                },
-                {
-                  "key": "Keep-Alive",
-                  "value": "timeout=5"
-                }
-              ],
-              "cookie": [],
-              "body": "{\n    \"success\": true,\n    \"message\": \"Curso obtenido correctamente\",\n    \"data\": {\n        \"id\": 1,\n        \"title\": \"Inteligencia Artificial Aplicada: Crea Prompts y Automatizaciones reales\",\n        \"description\": \"Dominá herramientas generativas de IA para automatizar tareas, redactar prompts avanzados y optimizar tus flujos de trabajo diarios sin necesidad de programar.\",\n        \"category\": {\n            \"id\": 1,\n            \"name\": \"Inteligencia Artificial\"\n        },\n        \"level\": \"Principiante\",\n        \"durationMinutes\": 1440,\n        \"imageUrl\": null,\n        \"price\": 0\n    }\n}"
-            }
-          ]
+          "response": []
         },
         {
           "name": "Obtener curso por ID - 404 Not Found",
@@ -280,43 +188,335 @@
               },
               "status": "Not Found",
               "code": 404,
-              "_postman_previewlanguage": null,
-              "header": [
+              "header": [],
+              "body": "{\n  \"success\": false,\n  \"message\": \"Curso no encontrado\"\n}"
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Creacion curso - Administrador y datos válidos",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
                 {
-                  "key": "X-Powered-By",
-                  "value": "Express"
-                },
-                {
-                  "key": "Access-Control-Allow-Origin",
-                  "value": "*"
-                },
-                {
-                  "key": "Content-Type",
-                  "value": "application/json; charset=utf-8"
-                },
-                {
-                  "key": "Content-Length",
-                  "value": "49"
-                },
-                {
-                  "key": "ETag",
-                  "value": "W/\"31-9patAtxpO2UgltDvY4ra6ebJeT4\""
-                },
-                {
-                  "key": "Date",
-                  "value": "Sun, 08 Nov 2026 01:47:21 GMT"
-                },
-                {
-                  "key": "Connection",
-                  "value": "keep-alive"
-                },
-                {
-                  "key": "Keep-Alive",
-                  "value": "timeout=5"
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
                 }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"title\": \"Introducción a la Programación con Python\",\r\n  \"description\": \"Aprendé los fundamentos de Python, variables, estructuras de control y funciones.\",\r\n  \"category_id\": 1,\r\n  \"duration_minutes\": 1200,\r\n  \"image_url\": null,\r\n  \"price\": 0,\r\n  \"level_id\": 1\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/courses",
+              "host": [
+                "{{baseUrl}}"
               ],
-              "cookie": [],
-              "body": "{\n    \"success\": false,\n    \"message\": \"Curso no encontrado\"\n}"
+              "path": [
+                "api",
+                "courses"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Creacion curso - Administrador y datos válidos",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"title\": \"Introducción a la Programación con Python\",\r\n  \"description\": \"Aprendé los fundamentos de Python, variables, estructuras de control y funciones.\",\r\n  \"category_id\": 1,\r\n  \"duration_minutes\": 1200,\r\n  \"image_url\": null,\r\n  \"price\": 0,\r\n  \"level_id\": 1\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/courses",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "courses"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Curso creado correctamente\",\n  \"data\": {\n    \"id\": 1,\n    \"title\": \"Introducción a la Programación con Python\",\n    \"description\": \"Aprendé los fundamentos de Python, variables, estructuras de control y funciones.\",\n    \"category\": {\n      \"id\": 1,\n      \"name\": \"Programación\"\n    },\n    \"level\": \"Principiante\",\n    \"durationMinutes\": 1200,\n    \"imageUrl\": null,\n    \"price\": 0\n  }\n}"
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "  const result = pm.response.json();",
+                  "  if (result.data && result.data.id) pm.collectionVariables.set(\"courseId\", String(result.data.id));",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Creacion curso - Estudiante 403",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{studentToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"title\": \"Introducción a la Programación con Python\",\r\n  \"description\": \"Aprendé los fundamentos de Python, variables, estructuras de control y funciones.\",\r\n  \"category_id\": 1,\r\n  \"duration_minutes\": 1200,\r\n  \"image_url\": null,\r\n  \"price\": 0,\r\n  \"level_id\": 1\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/courses",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "courses"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Creacion curso - Estudiante 403",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"title\": \"Introducción a la Programación con Python\",\r\n  \"description\": \"Aprendé los fundamentos de Python, variables, estructuras de control y funciones.\",\r\n  \"category_id\": 1,\r\n  \"duration_minutes\": 1200,\r\n  \"image_url\": null,\r\n  \"price\": 0,\r\n  \"level_id\": 1\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/courses",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "courses"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [],
+              "body": "{\n  \"success\": false,\n  \"message\": \"No tienes permisos para realizar esta acción\"\n}"
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 403\", function () {",
+                  "    pm.response.to.have.status(403);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Actualizar curso - Administrador y datos válidos",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"title\": \"Python desde Cero: Fundamentos de Programación\",\r\n  \"description\": \"Aprendé Python desde cero con ejercicios prácticos, funciones y estructuras de datos.\",\r\n  \"duration_minutes\": 1500,\r\n  \"price\": 0\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/courses/{{courseId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "courses",
+                "{{courseId}}"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Actualizar curso - Administrador y datos válidos",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"title\": \"Python desde Cero: Fundamentos de Programación\",\r\n  \"description\": \"Aprendé Python desde cero con ejercicios prácticos, funciones y estructuras de datos.\",\r\n  \"duration_minutes\": 1500,\r\n  \"price\": 0\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/courses/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "courses",
+                    "1"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Curso actualizado correctamente\",\n  \"data\": {\n    \"id\": 1,\n    \"title\": \"Python desde Cero: Fundamentos de Programación\",\n    \"description\": \"Aprendé Python desde cero con ejercicios prácticos, funciones y estructuras de datos.\",\n    \"category\": {\n      \"id\": 1,\n      \"name\": \"Programación\"\n    },\n    \"level\": \"Principiante\",\n    \"durationMinutes\": 1500,\n    \"imageUrl\": null,\n    \"price\": 0\n  }\n}"
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Eliminar curso - Administrador",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/courses/{{courseId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "courses",
+                "{{courseId}}"
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
             }
           ]
         }
@@ -326,13 +526,18 @@
       "name": "Auth",
       "item": [
         {
-          "name": "Iniciar sesión",
+          "name": "Iniciar sesión - Credenciales correctas",
           "request": {
             "method": "POST",
-            "header": [],
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"email\": \"alumno@ejemplo.com\",\r\n  \"password\": \"ClaveDeEjemplo123\"\r\n}\r\n  ",
+              "raw": "{\r\n  \"email\": \"pedro@ejemplo.com\",\r\n  \"password\": \"ClaveSegura123\"\r\n}\r\n  ",
               "options": {
                 "raw": {
                   "language": "json"
@@ -349,6 +554,9 @@
                 "auth",
                 "login"
               ]
+            },
+            "auth": {
+              "type": "noauth"
             }
           },
           "response": [
@@ -359,7 +567,7 @@
                 "header": [],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\r\n  \"email\": \"alumno@ejemplo.com\",\r\n  \"password\": \"ClaveDeEjemplo123\"\r\n}\r\n  ",
+                  "raw": "{\r\n  \"email\": \"pedro@ejemplo.com\",\r\n  \"password\": \"ClaveSegura123\"\r\n}\r\n  ",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -380,43 +588,35 @@
               },
               "status": "OK",
               "code": 200,
-              "_postman_previewlanguage": null,
-              "header": [
-                {
-                  "key": "X-Powered-By",
-                  "value": "Express"
-                },
-                {
-                  "key": "Access-Control-Allow-Origin",
-                  "value": "*"
-                },
-                {
-                  "key": "Content-Type",
-                  "value": "application/json; charset=utf-8"
-                },
-                {
-                  "key": "Content-Length",
-                  "value": "211"
-                },
-                {
-                  "key": "ETag",
-                  "value": "W/\"d3-BabG3WQ5MmCxKTy1iaum1YMgKZY\""
-                },
-                {
-                  "key": "Date",
-                  "value": "Sun, 08 Nov 2026 01:47:42 GMT"
-                },
-                {
-                  "key": "Connection",
-                  "value": "keep-alive"
-                },
-                {
-                  "key": "Keep-Alive",
-                  "value": "timeout=5"
-                }
-              ],
-              "cookie": [],
-              "body": "{\n    \"success\": true,\n    \"message\": \"Inicio de sesión exitoso\",\n    \"data\": {\n        \"user\": {\n            \"id\": 1,\n            \"name\": \"Ana\",\n            \"surname\": \"García\",\n            \"email\": \"alumno@ejemplo.com\",\n            \"role\": \"Student\"\n        },\n        \"token\": \"mock-jwt-token-no-valido\",\n        \"expiresIn\": \"24h\"\n    }\n}"
+              "header": [],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Inicio de sesión exitoso\",\n  \"data\": {\n    \"user\": {\n      \"id\": \"2\",\n      \"name\": \"Pedro\",\n      \"surname\": \"López\",\n      \"email\": \"pedro@ejemplo.com\",\n      \"role\": \"Student\"\n    },\n    \"token\": \"<JWT_GENERADO_POR_EL_SERVIDOR>\",\n    \"expiresIn\": \"24h\"\n  }\n}"
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "  const result = pm.response.json();",
+                  "  if (result.data && result.data.token && result.data.user && result.data.user.role === \"Student\") {",
+                  "    pm.collectionVariables.set(\"studentToken\", result.data.token);",
+                  "  }",
+                  "}"
+                ]
+              }
             }
           ]
         },
@@ -427,7 +627,12 @@
               "type": "noauth"
             },
             "method": "POST",
-            "header": [],
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
             "body": {
               "mode": "raw",
               "raw": "{\r\n\r\n}\r\n  ",
@@ -478,43 +683,21 @@
               },
               "status": "Bad Request",
               "code": 400,
-              "_postman_previewlanguage": null,
-              "header": [
-                {
-                  "key": "X-Powered-By",
-                  "value": "Express"
-                },
-                {
-                  "key": "Access-Control-Allow-Origin",
-                  "value": "*"
-                },
-                {
-                  "key": "Content-Type",
-                  "value": "application/json; charset=utf-8"
-                },
-                {
-                  "key": "Content-Length",
-                  "value": "66"
-                },
-                {
-                  "key": "ETag",
-                  "value": "W/\"42-RkEyUQ25bMGwQkFEyDSFFdwpK4Y\""
-                },
-                {
-                  "key": "Date",
-                  "value": "Sun, 08 Nov 2026 01:48:08 GMT"
-                },
-                {
-                  "key": "Connection",
-                  "value": "keep-alive"
-                },
-                {
-                  "key": "Keep-Alive",
-                  "value": "timeout=5"
-                }
-              ],
-              "cookie": [],
-              "body": "{\n    \"success\": false,\n    \"message\": \"Email y contraseña son obligatorios\"\n}"
+              "header": [],
+              "body": "{\n  \"success\": false,\n  \"message\": \"Email y contraseña son obligatorios\"\n}"
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});"
+                ]
+              }
             }
           ]
         },
@@ -525,10 +708,15 @@
               "type": "noauth"
             },
             "method": "POST",
-            "header": [],
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"email\": \"alumno@ejemplo.com\",\r\n  \"password\": \"ClaveDeEjemplo12\"\r\n}\r\n  ",
+              "raw": "{\r\n  \"email\": \"pedro@ejemplo.com\",\r\n  \"password\": \"ClaveSegura\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -555,7 +743,7 @@
                 "header": [],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\r\n  \"email\": \"alumno@ejemplo.com\",\r\n  \"password\": \"ClaveDeEjemplo12\"\r\n}\r\n  ",
+                  "raw": "{\r\n  \"email\": \"pedro@ejemplo.com\",\r\n  \"password\": \"ClaveSegura\"\r\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -576,51 +764,115 @@
               },
               "status": "Unauthorized",
               "code": 401,
-              "_postman_previewlanguage": null,
-              "header": [
-                {
-                  "key": "X-Powered-By",
-                  "value": "Express"
-                },
-                {
-                  "key": "Access-Control-Allow-Origin",
-                  "value": "*"
-                },
-                {
-                  "key": "Content-Type",
-                  "value": "application/json; charset=utf-8"
-                },
-                {
-                  "key": "Content-Length",
-                  "value": "53"
-                },
-                {
-                  "key": "ETag",
-                  "value": "W/\"35-6rZgz14UnhSnmDz23cgFvoi8KRo\""
-                },
-                {
-                  "key": "Date",
-                  "value": "Sun, 08 Nov 2026 01:48:22 GMT"
-                },
-                {
-                  "key": "Connection",
-                  "value": "keep-alive"
-                },
-                {
-                  "key": "Keep-Alive",
-                  "value": "timeout=5"
-                }
-              ],
-              "cookie": [],
-              "body": "{\n    \"success\": false,\n    \"message\": \"Credenciales inválidas\"\n}"
+              "header": [],
+              "body": "{\n  \"success\": false,\n  \"message\": \"Credenciales inválidas\"\n}"
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 401\", function () {",
+                  "    pm.response.to.have.status(401);",
+                  "});"
+                ]
+              }
             }
           ]
         },
         {
-          "name": "Registro Exitoso",
+          "name": "Iniciar sesión - Email no registrado",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"email\": \"pepe@ejemplo.com\",\r\n  \"password\": \"ClaveSegura123\"\r\n}\r\n  ",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Iniciar sesión - Email no registrado",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"email\": \"pepe@ejemplo.com\",\r\n  \"password\": \"ClaveSegura123\"\r\n}\r\n  ",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/auth/login",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "auth",
+                    "login"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [],
+              "body": "{\n  \"success\": false,\n  \"message\": \"Credenciales inválidas\"\n}"
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 401\", function () {",
+                  "    pm.response.to.have.status(401);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Registro - Ejemplo de solicitud",
           "request": {
             "method": "POST",
-            "header": [],
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
             "body": {
               "mode": "raw",
               "raw": "{\r\n  \"name\": \"Ana\",\r\n  \"surname\": \"García\",\r\n  \"username\": \"anagarcia\",\r\n  \"email\": \"ana@ejemplo.com\",\r\n  \"password\": \"ClaveSegura123\",\r\n  \"country\": \"Argentina\"\r\n}",
@@ -631,17 +883,18 @@
               }
             },
             "url": {
-              "raw": "http://localhost:3001/api/auth/register",
-              "protocol": "http",
+              "raw": "{{baseUrl}}/api/auth/register",
               "host": [
-                "localhost"
+                "{{baseUrl}}"
               ],
-              "port": "3001",
               "path": [
                 "api",
                 "auth",
                 "register"
               ]
+            },
+            "auth": {
+              "type": "noauth"
             }
           },
           "response": []
@@ -653,7 +906,12 @@
               "type": "noauth"
             },
             "method": "POST",
-            "header": [],
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
             "body": {
               "mode": "raw",
               "raw": "{\r\n  \"name\": \"Ana\",\r\n  \"surname\": \"García\",\r\n  \"username\": \"anagarcia\",\r\n  \"email\": \"ana@ejemplo.com\",\r\n  \"password\": \"ClaveSegura123\",\r\n  \"country\": \"Argentina\"\r\n}",
@@ -664,12 +922,10 @@
               }
             },
             "url": {
-              "raw": "http://localhost:3001/api/auth/register",
-              "protocol": "http",
+              "raw": "{{baseUrl}}/api/auth/register",
               "host": [
-                "localhost"
+                "{{baseUrl}}"
               ],
-              "port": "3001",
               "path": [
                 "api",
                 "auth",
@@ -708,43 +964,21 @@
               },
               "status": "Conflict",
               "code": 409,
-              "_postman_previewlanguage": null,
-              "header": [
-                {
-                  "key": "X-Powered-By",
-                  "value": "Express"
-                },
-                {
-                  "key": "Access-Control-Allow-Origin",
-                  "value": "*"
-                },
-                {
-                  "key": "Content-Type",
-                  "value": "application/json; charset=utf-8"
-                },
-                {
-                  "key": "Content-Length",
-                  "value": "79"
-                },
-                {
-                  "key": "ETag",
-                  "value": "W/\"4f-4x/KrtN/mr8QzJ9MN4IhnO9OoS0\""
-                },
-                {
-                  "key": "Date",
-                  "value": "Sat, 14 Nov 2026 02:52:35 GMT"
-                },
-                {
-                  "key": "Connection",
-                  "value": "keep-alive"
-                },
-                {
-                  "key": "Keep-Alive",
-                  "value": "timeout=5"
-                }
-              ],
-              "cookie": [],
-              "body": "{\n    \"success\": false,\n    \"message\": \"El correo o nombre de usuario ya está registrado\"\n}"
+              "header": [],
+              "body": "{\n  \"success\": false,\n  \"message\": \"El correo o nombre de usuario ya está registrado\"\n}"
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 409\", function () {",
+                  "    pm.response.to.have.status(409);",
+                  "});"
+                ]
+              }
             }
           ]
         },
@@ -755,7 +989,12 @@
               "type": "noauth"
             },
             "method": "POST",
-            "header": [],
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
             "body": {
               "mode": "raw",
               "raw": "{\r\n  \"name\": \"Pedro\",\r\n  \"surname\": \"López\",\r\n  \"username\": \"pedrolopez\",\r\n  \"email\": \"pedro@ejemplo.com\",\r\n  \"password\": \"ClaveSegura123\"\r\n}",
@@ -766,12 +1005,10 @@
               }
             },
             "url": {
-              "raw": "http://localhost:3001/api/auth/register",
-              "protocol": "http",
+              "raw": "{{baseUrl}}/api/auth/register",
               "host": [
-                "localhost"
+                "{{baseUrl}}"
               ],
-              "port": "3001",
               "path": [
                 "api",
                 "auth",
@@ -810,43 +1047,21 @@
               },
               "status": "Bad Request",
               "code": 400,
-              "_postman_previewlanguage": null,
-              "header": [
-                {
-                  "key": "X-Powered-By",
-                  "value": "Express"
-                },
-                {
-                  "key": "Access-Control-Allow-Origin",
-                  "value": "*"
-                },
-                {
-                  "key": "Content-Type",
-                  "value": "application/json; charset=utf-8"
-                },
-                {
-                  "key": "Content-Length",
-                  "value": "77"
-                },
-                {
-                  "key": "ETag",
-                  "value": "W/\"4d-k9gaESohVQQfRFLipQG403VM2ug\""
-                },
-                {
-                  "key": "Date",
-                  "value": "Sat, 14 Nov 2026 02:56:15 GMT"
-                },
-                {
-                  "key": "Connection",
-                  "value": "keep-alive"
-                },
-                {
-                  "key": "Keep-Alive",
-                  "value": "timeout=5"
-                }
-              ],
-              "cookie": [],
-              "body": "{\n    \"success\": false,\n    \"message\": \"Todos los campos obligatorios deben completarse\"\n}"
+              "header": [],
+              "body": "{\n  \"success\": false,\n  \"message\": \"Todos los campos obligatorios deben completarse\"\n}"
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});"
+                ]
+              }
             }
           ]
         },
@@ -857,7 +1072,12 @@
               "type": "noauth"
             },
             "method": "POST",
-            "header": [],
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
             "body": {
               "mode": "raw",
               "raw": "{\r\n  \"name\": \"Pedro\",\r\n  \"surname\": \"López\",\r\n  \"username\": \"pedrolopez\",\r\n  \"email\": \"pedro@ejemplo.com\",\r\n  \"password\": \"1234\",\r\n  \"country\": \"Argentina\"\r\n}",
@@ -868,12 +1088,10 @@
               }
             },
             "url": {
-              "raw": "http://localhost:3001/api/auth/register",
-              "protocol": "http",
+              "raw": "{{baseUrl}}/api/auth/register",
               "host": [
-                "localhost"
+                "{{baseUrl}}"
               ],
-              "port": "3001",
               "path": [
                 "api",
                 "auth",
@@ -912,43 +1130,21 @@
               },
               "status": "Bad Request",
               "code": 400,
-              "_postman_previewlanguage": null,
-              "header": [
-                {
-                  "key": "X-Powered-By",
-                  "value": "Express"
-                },
-                {
-                  "key": "Access-Control-Allow-Origin",
-                  "value": "*"
-                },
-                {
-                  "key": "Content-Type",
-                  "value": "application/json; charset=utf-8"
-                },
-                {
-                  "key": "Content-Length",
-                  "value": "77"
-                },
-                {
-                  "key": "ETag",
-                  "value": "W/\"4d-xYvxdPOPPRJoLagIu+p5mxF04GQ\""
-                },
-                {
-                  "key": "Date",
-                  "value": "Sat, 14 Nov 2026 02:58:28 GMT"
-                },
-                {
-                  "key": "Connection",
-                  "value": "keep-alive"
-                },
-                {
-                  "key": "Keep-Alive",
-                  "value": "timeout=5"
-                }
-              ],
-              "cookie": [],
-              "body": "{\n    \"success\": false,\n    \"message\": \"La contraseña debe tener al menos 8 caracteres\"\n}"
+              "header": [],
+              "body": "{\n  \"success\": false,\n  \"message\": \"La contraseña debe tener al menos 8 caracteres\"\n}"
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});"
+                ]
+              }
             }
           ]
         },
@@ -959,7 +1155,12 @@
               "type": "noauth"
             },
             "method": "POST",
-            "header": [],
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
             "body": {
               "mode": "raw",
               "raw": "{\r\n  \"name\": \"Pedro\",\r\n  \"surname\": \"López\",\r\n  \"username\": \"pedrolopez\",\r\n  \"email\": \"pedrocorreo.com\",\r\n  \"password\": \"ClaveSegura123\",\r\n  \"country\": \"Argentina\"\r\n}",
@@ -970,12 +1171,10 @@
               }
             },
             "url": {
-              "raw": "http://localhost:3001/api/auth/register",
-              "protocol": "http",
+              "raw": "{{baseUrl}}/api/auth/register",
               "host": [
-                "localhost"
+                "{{baseUrl}}"
               ],
-              "port": "3001",
               "path": [
                 "api",
                 "auth",
@@ -1014,54 +1213,37 @@
               },
               "status": "Bad Request",
               "code": 400,
-              "_postman_previewlanguage": null,
-              "header": [
-                {
-                  "key": "X-Powered-By",
-                  "value": "Express"
-                },
-                {
-                  "key": "Access-Control-Allow-Origin",
-                  "value": "*"
-                },
-                {
-                  "key": "Content-Type",
-                  "value": "application/json; charset=utf-8"
-                },
-                {
-                  "key": "Content-Length",
-                  "value": "78"
-                },
-                {
-                  "key": "ETag",
-                  "value": "W/\"4e-6ducvaxkLXyF3XYRiw9b4H3R11s\""
-                },
-                {
-                  "key": "Date",
-                  "value": "Sat, 14 Nov 2026 03:09:04 GMT"
-                },
-                {
-                  "key": "Connection",
-                  "value": "keep-alive"
-                },
-                {
-                  "key": "Keep-Alive",
-                  "value": "timeout=5"
-                }
-              ],
-              "cookie": [],
-              "body": "{\n    \"success\": false,\n    \"message\": \"El formato del correo electrónico no es válido\"\n}"
+              "header": [],
+              "body": "{\n  \"success\": false,\n  \"message\": \"El formato del correo electrónico no es válido\"\n}"
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});"
+                ]
+              }
             }
           ]
         },
         {
-          "name": "Registro-Exitoso con perfil estudiante",
+          "name": "Registro - Exitoso con perfil estudiante (201)",
           "request": {
             "auth": {
               "type": "noauth"
             },
             "method": "POST",
-            "header": [],
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
             "body": {
               "mode": "raw",
               "raw": "{\r\n  \"name\": \"Pedro\",\r\n  \"surname\": \"López\",\r\n  \"username\": \"pedrolopez\",\r\n  \"email\": \"pedro@ejemplo.com\",\r\n  \"password\": \"ClaveSegura123\",\r\n  \"country\": \"Argentina\"\r\n}",
@@ -1072,12 +1254,10 @@
               }
             },
             "url": {
-              "raw": "http://localhost:3001/api/auth/register",
-              "protocol": "http",
+              "raw": "{{baseUrl}}/api/auth/register",
               "host": [
-                "localhost"
+                "{{baseUrl}}"
               ],
-              "port": "3001",
               "path": [
                 "api",
                 "auth",
@@ -1116,43 +1296,21 @@
               },
               "status": "Created",
               "code": 201,
-              "_postman_previewlanguage": null,
-              "header": [
-                {
-                  "key": "X-Powered-By",
-                  "value": "Express"
-                },
-                {
-                  "key": "Access-Control-Allow-Origin",
-                  "value": "*"
-                },
-                {
-                  "key": "Content-Type",
-                  "value": "application/json; charset=utf-8"
-                },
-                {
-                  "key": "Content-Length",
-                  "value": "204"
-                },
-                {
-                  "key": "ETag",
-                  "value": "W/\"cc-OBRp0+6piGKfaSXMe8yFkn8zy6I\""
-                },
-                {
-                  "key": "Date",
-                  "value": "Sun, 15 Nov 2026 01:01:34 GMT"
-                },
-                {
-                  "key": "Connection",
-                  "value": "keep-alive"
-                },
-                {
-                  "key": "Keep-Alive",
-                  "value": "timeout=5"
-                }
-              ],
-              "cookie": [],
-              "body": "{\n    \"success\": true,\n    \"message\": \"Usuario registrado correctamente\",\n    \"data\": {\n        \"id\": \"2\",\n        \"name\": \"Pedro\",\n        \"surname\": \"López\",\n        \"username\": \"pedrolopez\",\n        \"email\": \"pedro@ejemplo.com\",\n        \"country\": \"Argentina\",\n        \"role\": \"Student\"\n    }\n}"
+              "header": [],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Usuario registrado correctamente\",\n  \"data\": {\n    \"id\": \"2\",\n    \"name\": \"Pedro\",\n    \"surname\": \"López\",\n    \"username\": \"pedrolopez\",\n    \"email\": \"pedro@ejemplo.com\",\n    \"country\": \"Argentina\",\n    \"role\": \"Student\"\n  }\n}"
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});"
+                ]
+              }
             }
           ]
         },
@@ -1163,7 +1321,12 @@
               "type": "noauth"
             },
             "method": "POST",
-            "header": [],
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
             "body": {
               "mode": "raw",
               "raw": "{\r\n  \"name\": \"María\",\r\n  \"surname\": \"Fernández\",\r\n  \"username\": \"maria fernandez\",\r\n  \"email\": \"maria@ejemplo.com\",\r\n  \"password\": \"ClaveSegura123\",\r\n  \"country\": \"Argentina\"\r\n}",
@@ -1174,12 +1337,10 @@
               }
             },
             "url": {
-              "raw": "http://localhost:3001/api/auth/register",
-              "protocol": "http",
+              "raw": "{{baseUrl}}/api/auth/register",
               "host": [
-                "localhost"
+                "{{baseUrl}}"
               ],
-              "port": "3001",
               "path": [
                 "api",
                 "auth",
@@ -1218,43 +1379,21 @@
               },
               "status": "Bad Request",
               "code": 400,
-              "_postman_previewlanguage": null,
-              "header": [
-                {
-                  "key": "X-Powered-By",
-                  "value": "Express"
-                },
-                {
-                  "key": "Access-Control-Allow-Origin",
-                  "value": "*"
-                },
-                {
-                  "key": "Content-Type",
-                  "value": "application/json; charset=utf-8"
-                },
-                {
-                  "key": "Content-Length",
-                  "value": "134"
-                },
-                {
-                  "key": "ETag",
-                  "value": "W/\"86-QkrBXZezPIpGM/LNUT3J3DhmnBw\""
-                },
-                {
-                  "key": "Date",
-                  "value": "Sun, 15 Nov 2026 01:40:28 GMT"
-                },
-                {
-                  "key": "Connection",
-                  "value": "keep-alive"
-                },
-                {
-                  "key": "Keep-Alive",
-                  "value": "timeout=5"
-                }
-              ],
-              "cookie": [],
-              "body": "{\n    \"success\": false,\n    \"message\": \"El nombre de usuario solo puede contener letras, números, puntos, guiones y guiones bajos, sin espacios\"\n}"
+              "header": [],
+              "body": "{\n  \"success\": false,\n  \"message\": \"El nombre de usuario solo puede contener letras, números, puntos, guiones y guiones bajos, sin espacios\"\n}"
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});"
+                ]
+              }
             }
           ]
         },
@@ -1265,7 +1404,12 @@
               "type": "noauth"
             },
             "method": "POST",
-            "header": [],
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
             "body": {
               "mode": "raw",
               "raw": "{\r\n  \"name\": \"María\",\r\n  \"surname\": \"Fernández\",\r\n  \"username\": \"mariafernandez\",\r\n  \"email\": \"maria@ejemplo.com\",\r\n  \"password\": \"ClaveSegura123\",\r\n  \"country\": \"ArgentinaArgentinaArgentinaArgentinaArgentinaArgentina\"\r\n}",
@@ -1276,12 +1420,10 @@
               }
             },
             "url": {
-              "raw": "http://localhost:3001/api/auth/register",
-              "protocol": "http",
+              "raw": "{{baseUrl}}/api/auth/register",
               "host": [
-                "localhost"
+                "{{baseUrl}}"
               ],
-              "port": "3001",
               "path": [
                 "api",
                 "auth",
@@ -1320,77 +1462,46 @@
               },
               "status": "Bad Request",
               "code": 400,
-              "_postman_previewlanguage": null,
-              "header": [
-                {
-                  "key": "X-Powered-By",
-                  "value": "Express"
-                },
-                {
-                  "key": "Access-Control-Allow-Origin",
-                  "value": "*"
-                },
-                {
-                  "key": "Content-Type",
-                  "value": "application/json; charset=utf-8"
-                },
-                {
-                  "key": "Content-Length",
-                  "value": "81"
-                },
-                {
-                  "key": "ETag",
-                  "value": "W/\"51-egvDxK9jZAZgr7P6ijm8+Bm165Q\""
-                },
-                {
-                  "key": "Date",
-                  "value": "Sun, 15 Nov 2026 01:59:37 GMT"
-                },
-                {
-                  "key": "Connection",
-                  "value": "keep-alive"
-                },
-                {
-                  "key": "Keep-Alive",
-                  "value": "timeout=5"
-                }
-              ],
-              "cookie": [],
-              "body": "{\n    \"success\": false,\n    \"message\": \"El campo country no puede superar los 50 caracteres\"\n}"
+              "header": [],
+              "body": "{\n  \"success\": false,\n  \"message\": \"El campo country no puede superar los 50 caracteres\"\n}"
+            }
+          ],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});"
+                ]
+              }
             }
           ]
         }
       ]
     }
   ],
-  "event": [
-    {
-      "listen": "prerequest",
-      "script": {
-        "type": "text/javascript",
-        "packages": {},
-        "requests": {},
-        "exec": [
-          ""
-        ]
-      }
-    },
-    {
-      "listen": "test",
-      "script": {
-        "type": "text/javascript",
-        "packages": {},
-        "requests": {},
-        "exec": [
-          ""
-        ]
-      }
-    }
-  ],
+  "event": [],
   "variable": [
     {
       "key": "baseUrl",
       "value": "http://localhost:3001"
+    },
+    {
+      "key": "courseId",
+      "value": "1"
+    },
+    {
+      "key": "adminToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "studentToken",
+      "value": "",
+      "type": "string"
     }
   ]
 }
