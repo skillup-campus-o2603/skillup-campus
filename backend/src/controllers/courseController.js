@@ -11,7 +11,10 @@ const formatCourse = (course) => ({
     id: course.category_id,
     name: course.category_name
   },
-  level: course.level_name,
+  level: {
+    id: course.level_id,
+    name: course.level_name
+  },
   durationMinutes: course.duration_minutes,
   imageUrl: course.image_url,
   price: Number(course.price)
