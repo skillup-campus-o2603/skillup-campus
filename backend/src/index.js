@@ -8,8 +8,10 @@ const app = express();
 
 const PORT = process.env.PORT || 3001;
 
-const courseRoutes = require('./routes/course.routes');
-const authRoutes = require('./routes/auth.routes');
+const courseRoutes = require('./routes/courseRoutes');
+const authRoutes = require('./routes/authRoutes');
+const authMiddleware = require('./middlewares/authMiddleware');
+const roleMiddleware = require('./middlewares/roleMiddleware');
 
 app.use(cors());
 app.use(express.json());
