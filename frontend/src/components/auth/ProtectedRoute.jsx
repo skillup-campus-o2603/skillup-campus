@@ -9,7 +9,9 @@ export default function ProtectedRoute({ children, roles }) {
         return <Navigate to="/login" replace state={{ from: location }} />;
     }
 
-    if (roles?.length && !roles.includes(user?.role)) {
+    const allowedRoles = roles?.flat() || [];
+
+    if (allowedRoles.length && !allowedRoles.includes(user?.role)) {
         return <Navigate to="/courses" replace />;
     }
 

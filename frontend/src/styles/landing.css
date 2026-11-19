@@ -1042,3 +1042,13 @@
         display: none;
     }
 }
+
+/* En móviles, mantener visibles las dos acciones públicas del Navbar. */
+@media (max-width: 720px) {
+    .landing-navbar .nav-actions .button-outline {
+        display: inline-flex;
+        min-height: 36px;
+        padding: 0.5rem 0.7rem;
+        font-size: 0.75rem;
+    }
+}

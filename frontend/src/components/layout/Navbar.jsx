@@ -10,6 +10,9 @@ export default function Navbar() {
     const navigate = useNavigate();
 
     function handleSignOut() {
+        const confirmed = window.confirm('¿Seguro que querés cerrar sesión?');
+        if (!confirmed) return;
+        
         signOut();
         navigate('/', { replace: true });
     }
