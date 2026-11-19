@@ -1,11 +1,11 @@
 {
   "info": {
-    "_postman_id": "0e596d4a-73d2-4425-b152-eaa06ef75e74",
+    "_postman_id": "7687a362-53da-4541-a291-a8979c3c7e2b",
     "name": "SkillUp Campus - API v1 (Semanas 3 y 4)",
+    "description": "Colección de endpoints reales de SkillUp Campus. Configurar adminToken y studentToken en variables locales de Postman; no compartir tokens. Los POST/PUT/DELETE modifican la base de datos.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "45338759",
-    "_collection_link": "https://go.postman.co/collection/45338759-0e596d4a-73d2-4425-b152-eaa06ef75e74?source=collection_link",
-    "description": "Colección de endpoints reales de SkillUp Campus. Configurar adminToken y studentToken en variables locales de Postman; no compartir tokens. Los POST/PUT/DELETE modifican la base de datos."
+    "_collection_link": "https://go.postman.co/collection/45338759-7687a362-53da-4541-a291-a8979c3c7e2b?source=collection_link"
   },
   "item": [
     {
@@ -13,7 +13,23 @@
       "item": [
         {
           "name": "Health",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
+            "auth": {
+              "type": "noauth"
+            },
             "method": "GET",
             "header": [],
             "url": {
@@ -24,9 +40,6 @@
               "path": [
                 "health"
               ]
-            },
-            "auth": {
-              "type": "noauth"
             }
           },
           "response": [
@@ -47,10 +60,20 @@
               },
               "status": "OK",
               "code": 200,
+              "_postman_previewlanguage": "Text",
               "header": [],
+              "cookie": [],
               "body": "{\n  \"status\": \"ok\"\n}"
             }
-          ],
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Courses",
+      "item": [
+        {
+          "name": "Listar cursos",
           "event": [
             {
               "listen": "test",
@@ -63,16 +86,11 @@
                 ]
               }
             }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Courses",
-      "item": [
-        {
-          "name": "Listar cursos",
+          ],
           "request": {
+            "auth": {
+              "type": "noauth"
+            },
             "method": "GET",
             "header": [],
             "url": {
@@ -84,9 +102,6 @@
                 "api",
                 "courses"
               ]
-            },
-            "auth": {
-              "type": "noauth"
             }
           },
           "response": [
@@ -108,27 +123,52 @@
               },
               "status": "OK",
               "code": 200,
-              "header": [],
-              "body": "{\n  \"success\": true,\n  \"message\": \"Cursos obtenidos correctamente\",\n  \"data\": []\n}"
-            }
-          ],
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\"HTTP 200\", function () {",
-                  "    pm.response.to.have.status(200);",
-                  "});"
-                ]
-              }
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "663"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"297-IfQ8fB58ciPqQi5PvSaFRluuDR8\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 18 Nov 2026 20:10:50 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Cursos obtenidos correctamente\",\n    \"data\": [\n        {\n            \"id\": 1,\n            \"title\": \"Python desde Cero: Fundamentos de Programación\",\n            \"description\": \"Aprendé Python desde cero con ejercicios prácticos, funciones y estructuras de datos.\",\n            \"category\": {\n                \"id\": 1,\n                \"name\": \"Programación\"\n            },\n            \"level\": {\n                \"id\": 1,\n                \"name\": \"Principiante\"\n            },\n            \"durationMinutes\": 1500,\n            \"imageUrl\": null,\n            \"price\": 0\n        },\n        {\n            \"id\": 4,\n            \"title\": \"Introducción a la Programación con Python\",\n            \"description\": \"Aprendé los fundamentos de Python, variables, estructuras de control y funciones.\",\n            \"category\": {\n                \"id\": 1,\n                \"name\": \"Programación\"\n            },\n            \"level\": {\n                \"id\": 1,\n                \"name\": \"Principiante\"\n            },\n            \"durationMinutes\": 1200,\n            \"imageUrl\": null,\n            \"price\": 0\n        }\n    ]\n}"
             }
           ]
         },
         {
           "name": "Obtener curso por ID",
           "request": {
+            "auth": {
+              "type": "noauth"
+            },
             "method": "GET",
             "header": [],
             "url": {
@@ -141,15 +181,83 @@
                 "courses",
                 "{{courseId}}"
               ]
-            },
-            "auth": {
-              "type": "noauth"
             }
           },
-          "response": []
+          "response": [
+            {
+              "name": "Obtener curso por ID",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/courses/{{courseId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "courses",
+                    "{{courseId}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "366"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"16e-5Tnkwg7W6c/8QUcmPhmuzaCAmOA\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 18 Nov 2026 20:12:17 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Curso obtenido correctamente\",\n    \"data\": {\n        \"id\": 1,\n        \"title\": \"Python desde Cero: Fundamentos de Programación\",\n        \"description\": \"Aprendé Python desde cero con ejercicios prácticos, funciones y estructuras de datos.\",\n        \"category\": {\n            \"id\": 1,\n            \"name\": \"Programación\"\n        },\n        \"level\": {\n            \"id\": 1,\n            \"name\": \"Principiante\"\n        },\n        \"durationMinutes\": 1500,\n        \"imageUrl\": null,\n        \"price\": 0\n    }\n}"
+            }
+          ]
         },
         {
           "name": "Obtener curso por ID - 404 Not Found",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "auth": {
               "type": "noauth"
@@ -188,26 +296,40 @@
               },
               "status": "Not Found",
               "code": 404,
+              "_postman_previewlanguage": "Text",
               "header": [],
+              "cookie": [],
               "body": "{\n  \"success\": false,\n  \"message\": \"Curso no encontrado\"\n}"
             }
-          ],
+          ]
+        },
+        {
+          "name": "Creacion curso - Administrador y datos válidos",
           "event": [
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\"HTTP 404\", function () {",
-                  "    pm.response.to.have.status(404);",
+                  "pm.test(\"HTTP 201\", function () {",
+                  "    pm.response.to.have.status(201);",
                   "});"
                 ]
               }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "  const result = pm.response.json();",
+                  "  if (result.data && result.data.id) pm.collectionVariables.set(\"courseId\", String(result.data.id));",
+                  "}"
+                ]
+              }
             }
-          ]
-        },
-        {
-          "name": "Creacion curso - Administrador y datos válidos",
+          ],
           "request": {
             "auth": {
               "type": "bearer",
@@ -251,7 +373,12 @@
               "name": "Creacion curso - Administrador y datos válidos",
               "originalRequest": {
                 "method": "POST",
-                "header": [],
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
                 "body": {
                   "mode": "raw",
                   "raw": "{\r\n  \"title\": \"Introducción a la Programación con Python\",\r\n  \"description\": \"Aprendé los fundamentos de Python, variables, estructuras de control y funciones.\",\r\n  \"category_id\": 1,\r\n  \"duration_minutes\": 1200,\r\n  \"image_url\": null,\r\n  \"price\": 0,\r\n  \"level_id\": 1\r\n}",
@@ -274,38 +401,61 @@
               },
               "status": "Created",
               "code": 201,
-              "header": [],
-              "body": "{\n  \"success\": true,\n  \"message\": \"Curso creado correctamente\",\n  \"data\": {\n    \"id\": 1,\n    \"title\": \"Introducción a la Programación con Python\",\n    \"description\": \"Aprendé los fundamentos de Python, variables, estructuras de control y funciones.\",\n    \"category\": {\n      \"id\": 1,\n      \"name\": \"Programación\"\n    },\n    \"level\": \"Principiante\",\n    \"durationMinutes\": 1200,\n    \"imageUrl\": null,\n    \"price\": 0\n  }\n}"
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "355"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"163-2g/9+FfqWSbNI+mCx4Mbk78KQ3I\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 18 Nov 2026 20:14:08 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Curso creado correctamente\",\n    \"data\": {\n        \"id\": 5,\n        \"title\": \"Introducción a la Programación con Python\",\n        \"description\": \"Aprendé los fundamentos de Python, variables, estructuras de control y funciones.\",\n        \"category\": {\n            \"id\": 1,\n            \"name\": \"Programación\"\n        },\n        \"level\": {\n            \"id\": 1,\n            \"name\": \"Principiante\"\n        },\n        \"durationMinutes\": 1200,\n        \"imageUrl\": null,\n        \"price\": 0\n    }\n}"
             }
-          ],
+          ]
+        },
+        {
+          "name": "Creacion curso - Estudiante 403",
           "event": [
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\"HTTP 201\", function () {",
-                  "    pm.response.to.have.status(201);",
+                  "pm.test(\"HTTP 403\", function () {",
+                  "    pm.response.to.have.status(403);",
                   "});"
                 ]
               }
-            },
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "if (pm.response.code === 201) {",
-                  "  const result = pm.response.json();",
-                  "  if (result.data && result.data.id) pm.collectionVariables.set(\"courseId\", String(result.data.id));",
-                  "}"
-                ]
-              }
             }
-          ]
-        },
-        {
-          "name": "Creacion curso - Estudiante 403",
+          ],
           "request": {
             "auth": {
               "type": "bearer",
@@ -372,26 +522,28 @@
               },
               "status": "Forbidden",
               "code": 403,
+              "_postman_previewlanguage": "Text",
               "header": [],
+              "cookie": [],
               "body": "{\n  \"success\": false,\n  \"message\": \"No tienes permisos para realizar esta acción\"\n}"
             }
-          ],
+          ]
+        },
+        {
+          "name": "Actualizar curso - Administrador y datos válidos",
           "event": [
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\"HTTP 403\", function () {",
-                  "    pm.response.to.have.status(403);",
+                  "pm.test(\"HTTP 200\", function () {",
+                  "    pm.response.to.have.status(200);",
                   "});"
                 ]
               }
             }
-          ]
-        },
-        {
-          "name": "Actualizar curso - Administrador y datos válidos",
+          ],
           "request": {
             "auth": {
               "type": "bearer",
@@ -436,10 +588,15 @@
               "name": "Actualizar curso - Administrador y datos válidos",
               "originalRequest": {
                 "method": "PUT",
-                "header": [],
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\r\n  \"title\": \"Python desde Cero: Fundamentos de Programación\",\r\n  \"description\": \"Aprendé Python desde cero con ejercicios prácticos, funciones y estructuras de datos.\",\r\n  \"duration_minutes\": 1500,\r\n  \"price\": 0\r\n}",
+                  "raw": "{\r\n  \"title\": \"Python desde Cero: Fundamentos de Programación\",\r\n  \"description\": \"Aprendé Python desde cero con ejercicios prácticos, funciones y estructuras de datos.\",\r\n  \"duration_minutes\": 2500,\r\n  \"price\": 0\r\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -447,23 +604,61 @@
                   }
                 },
                 "url": {
-                  "raw": "{{baseUrl}}/api/courses/1",
+                  "raw": "{{baseUrl}}/api/courses/{{courseId}}",
                   "host": [
                     "{{baseUrl}}"
                   ],
                   "path": [
                     "api",
                     "courses",
-                    "1"
+                    "{{courseId}}"
                   ]
                 }
               },
               "status": "OK",
               "code": 200,
-              "header": [],
-              "body": "{\n  \"success\": true,\n  \"message\": \"Curso actualizado correctamente\",\n  \"data\": {\n    \"id\": 1,\n    \"title\": \"Python desde Cero: Fundamentos de Programación\",\n    \"description\": \"Aprendé Python desde cero con ejercicios prácticos, funciones y estructuras de datos.\",\n    \"category\": {\n      \"id\": 1,\n      \"name\": \"Programación\"\n    },\n    \"level\": \"Principiante\",\n    \"durationMinutes\": 1500,\n    \"imageUrl\": null,\n    \"price\": 0\n  }\n}"
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "369"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"171-gyA5ZOv1WWXRQnSl7U+Va45918Q\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 18 Nov 2026 20:15:17 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Curso actualizado correctamente\",\n    \"data\": {\n        \"id\": 4,\n        \"title\": \"Python desde Cero: Fundamentos de Programación\",\n        \"description\": \"Aprendé Python desde cero con ejercicios prácticos, funciones y estructuras de datos.\",\n        \"category\": {\n            \"id\": 1,\n            \"name\": \"Programación\"\n        },\n        \"level\": {\n            \"id\": 1,\n            \"name\": \"Principiante\"\n        },\n        \"durationMinutes\": 2500,\n        \"imageUrl\": null,\n        \"price\": 0\n    }\n}"
             }
-          ],
+          ]
+        },
+        {
+          "name": "Eliminar curso - Administrador",
           "event": [
             {
               "listen": "test",
@@ -476,10 +671,7 @@
                 ]
               }
             }
-          ]
-        },
-        {
-          "name": "Eliminar curso - Administrador",
+          ],
           "request": {
             "auth": {
               "type": "bearer",
@@ -505,7 +697,73 @@
               ]
             }
           },
-          "response": [],
+          "response": [
+            {
+              "name": "Eliminar curso - Administrador",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/courses/{{courseId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "courses",
+                    "{{courseId}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "58"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"3a-AMjvZORq+nfGlQ6OSiUGxE/Wxl4\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 18 Nov 2026 20:20:47 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Curso eliminado correctamente\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Iniciar sesión - Credenciales correctas",
           "event": [
             {
               "listen": "test",
@@ -517,17 +775,26 @@
                   "});"
                 ]
               }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "  const result = pm.response.json();",
+                  "  if (result.data && result.data.token && result.data.user && result.data.user.role === \"Student\") {",
+                  "    pm.collectionVariables.set(\"studentToken\", result.data.token);",
+                  "  }",
+                  "}"
+                ]
+              }
             }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Auth",
-      "item": [
-        {
-          "name": "Iniciar sesión - Credenciales correctas",
+          ],
           "request": {
+            "auth": {
+              "type": "noauth"
+            },
             "method": "POST",
             "header": [
               {
@@ -554,9 +821,6 @@
                 "auth",
                 "login"
               ]
-            },
-            "auth": {
-              "type": "noauth"
             }
           },
           "response": [
@@ -588,40 +852,28 @@
               },
               "status": "OK",
               "code": 200,
+              "_postman_previewlanguage": "Text",
               "header": [],
+              "cookie": [],
               "body": "{\n  \"success\": true,\n  \"message\": \"Inicio de sesión exitoso\",\n  \"data\": {\n    \"user\": {\n      \"id\": \"2\",\n      \"name\": \"Pedro\",\n      \"surname\": \"López\",\n      \"email\": \"pedro@ejemplo.com\",\n      \"role\": \"Student\"\n    },\n    \"token\": \"<JWT_GENERADO_POR_EL_SERVIDOR>\",\n    \"expiresIn\": \"24h\"\n  }\n}"
             }
-          ],
+          ]
+        },
+        {
+          "name": "Iniciar sesión-Campos vacios",
           "event": [
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\"HTTP 200\", function () {",
-                  "    pm.response.to.have.status(200);",
+                  "pm.test(\"HTTP 400\", function () {",
+                  "    pm.response.to.have.status(400);",
                   "});"
                 ]
               }
-            },
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "if (pm.response.code === 200) {",
-                  "  const result = pm.response.json();",
-                  "  if (result.data && result.data.token && result.data.user && result.data.user.role === \"Student\") {",
-                  "    pm.collectionVariables.set(\"studentToken\", result.data.token);",
-                  "  }",
-                  "}"
-                ]
-              }
             }
-          ]
-        },
-        {
-          "name": "Iniciar sesión-Campos vacios",
+          ],
           "request": {
             "auth": {
               "type": "noauth"
@@ -683,26 +935,28 @@
               },
               "status": "Bad Request",
               "code": 400,
+              "_postman_previewlanguage": "Text",
               "header": [],
+              "cookie": [],
               "body": "{\n  \"success\": false,\n  \"message\": \"Email y contraseña son obligatorios\"\n}"
             }
-          ],
+          ]
+        },
+        {
+          "name": "Iniciar sesión-Contrseña Invalida",
           "event": [
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\"HTTP 400\", function () {",
-                  "    pm.response.to.have.status(400);",
+                  "pm.test(\"HTTP 401\", function () {",
+                  "    pm.response.to.have.status(401);",
                   "});"
                 ]
               }
             }
-          ]
-        },
-        {
-          "name": "Iniciar sesión-Contrseña Invalida",
+          ],
           "request": {
             "auth": {
               "type": "noauth"
@@ -764,10 +1018,15 @@
               },
               "status": "Unauthorized",
               "code": 401,
+              "_postman_previewlanguage": "Text",
               "header": [],
+              "cookie": [],
               "body": "{\n  \"success\": false,\n  \"message\": \"Credenciales inválidas\"\n}"
             }
-          ],
+          ]
+        },
+        {
+          "name": "Iniciar sesión - Email no registrado",
           "event": [
             {
               "listen": "test",
@@ -780,10 +1039,7 @@
                 ]
               }
             }
-          ]
-        },
-        {
-          "name": "Iniciar sesión - Email no registrado",
+          ],
           "request": {
             "auth": {
               "type": "noauth"
@@ -845,27 +1101,19 @@
               },
               "status": "Unauthorized",
               "code": 401,
+              "_postman_previewlanguage": "Text",
               "header": [],
+              "cookie": [],
               "body": "{\n  \"success\": false,\n  \"message\": \"Credenciales inválidas\"\n}"
-            }
-          ],
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\"HTTP 401\", function () {",
-                  "    pm.response.to.have.status(401);",
-                  "});"
-                ]
-              }
             }
           ]
         },
         {
           "name": "Registro - Ejemplo de solicitud",
           "request": {
+            "auth": {
+              "type": "noauth"
+            },
             "method": "POST",
             "header": [
               {
@@ -892,15 +1140,25 @@
                 "auth",
                 "register"
               ]
-            },
-            "auth": {
-              "type": "noauth"
             }
           },
           "response": []
         },
         {
           "name": "Registro Duplicado",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 409\", function () {",
+                  "    pm.response.to.have.status(409);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "auth": {
               "type": "noauth"
@@ -964,26 +1222,28 @@
               },
               "status": "Conflict",
               "code": 409,
+              "_postman_previewlanguage": "Text",
               "header": [],
+              "cookie": [],
               "body": "{\n  \"success\": false,\n  \"message\": \"El correo o nombre de usuario ya está registrado\"\n}"
             }
-          ],
+          ]
+        },
+        {
+          "name": "Registro - Campo vacio",
           "event": [
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\"HTTP 409\", function () {",
-                  "    pm.response.to.have.status(409);",
+                  "pm.test(\"HTTP 400\", function () {",
+                  "    pm.response.to.have.status(400);",
                   "});"
                 ]
               }
             }
-          ]
-        },
-        {
-          "name": "Registro - Campo vacio",
+          ],
           "request": {
             "auth": {
               "type": "noauth"
@@ -1047,10 +1307,15 @@
               },
               "status": "Bad Request",
               "code": 400,
+              "_postman_previewlanguage": "Text",
               "header": [],
+              "cookie": [],
               "body": "{\n  \"success\": false,\n  \"message\": \"Todos los campos obligatorios deben completarse\"\n}"
             }
-          ],
+          ]
+        },
+        {
+          "name": "Registro - Contraseña corta",
           "event": [
             {
               "listen": "test",
@@ -1063,10 +1328,7 @@
                 ]
               }
             }
-          ]
-        },
-        {
-          "name": "Registro - Contraseña corta",
+          ],
           "request": {
             "auth": {
               "type": "noauth"
@@ -1130,10 +1392,15 @@
               },
               "status": "Bad Request",
               "code": 400,
+              "_postman_previewlanguage": "Text",
               "header": [],
+              "cookie": [],
               "body": "{\n  \"success\": false,\n  \"message\": \"La contraseña debe tener al menos 8 caracteres\"\n}"
             }
-          ],
+          ]
+        },
+        {
+          "name": "Registro-Correo Invalido",
           "event": [
             {
               "listen": "test",
@@ -1146,10 +1413,7 @@
                 ]
               }
             }
-          ]
-        },
-        {
-          "name": "Registro-Correo Invalido",
+          ],
           "request": {
             "auth": {
               "type": "noauth"
@@ -1213,26 +1477,28 @@
               },
               "status": "Bad Request",
               "code": 400,
+              "_postman_previewlanguage": "Text",
               "header": [],
+              "cookie": [],
               "body": "{\n  \"success\": false,\n  \"message\": \"El formato del correo electrónico no es válido\"\n}"
             }
-          ],
+          ]
+        },
+        {
+          "name": "Registro - Exitoso con perfil estudiante (201)",
           "event": [
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\"HTTP 400\", function () {",
-                  "    pm.response.to.have.status(400);",
+                  "pm.test(\"HTTP 201\", function () {",
+                  "    pm.response.to.have.status(201);",
                   "});"
                 ]
               }
             }
-          ]
-        },
-        {
-          "name": "Registro - Exitoso con perfil estudiante (201)",
+          ],
           "request": {
             "auth": {
               "type": "noauth"
@@ -1296,26 +1562,28 @@
               },
               "status": "Created",
               "code": 201,
+              "_postman_previewlanguage": "Text",
               "header": [],
+              "cookie": [],
               "body": "{\n  \"success\": true,\n  \"message\": \"Usuario registrado correctamente\",\n  \"data\": {\n    \"id\": \"2\",\n    \"name\": \"Pedro\",\n    \"surname\": \"López\",\n    \"username\": \"pedrolopez\",\n    \"email\": \"pedro@ejemplo.com\",\n    \"country\": \"Argentina\",\n    \"role\": \"Student\"\n  }\n}"
             }
-          ],
+          ]
+        },
+        {
+          "name": "Registro-nombre de usuario con espacios",
           "event": [
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\"HTTP 201\", function () {",
-                  "    pm.response.to.have.status(201);",
+                  "pm.test(\"HTTP 400\", function () {",
+                  "    pm.response.to.have.status(400);",
                   "});"
                 ]
               }
             }
-          ]
-        },
-        {
-          "name": "Registro-nombre de usuario con espacios",
+          ],
           "request": {
             "auth": {
               "type": "noauth"
@@ -1379,10 +1647,15 @@
               },
               "status": "Bad Request",
               "code": 400,
+              "_postman_previewlanguage": "Text",
               "header": [],
+              "cookie": [],
               "body": "{\n  \"success\": false,\n  \"message\": \"El nombre de usuario solo puede contener letras, números, puntos, guiones y guiones bajos, sin espacios\"\n}"
             }
-          ],
+          ]
+        },
+        {
+          "name": "Registro-país demasiado largo",
           "event": [
             {
               "listen": "test",
@@ -1395,10 +1668,7 @@
                 ]
               }
             }
-          ]
-        },
-        {
-          "name": "Registro-país demasiado largo",
+          ],
           "request": {
             "auth": {
               "type": "noauth"
@@ -1462,28 +1732,16 @@
               },
               "status": "Bad Request",
               "code": 400,
+              "_postman_previewlanguage": "Text",
               "header": [],
+              "cookie": [],
               "body": "{\n  \"success\": false,\n  \"message\": \"El campo country no puede superar los 50 caracteres\"\n}"
-            }
-          ],
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\"HTTP 400\", function () {",
-                  "    pm.response.to.have.status(400);",
-                  "});"
-                ]
-              }
             }
           ]
         }
       ]
     }
   ],
-  "event": [],
   "variable": [
     {
       "key": "baseUrl",
