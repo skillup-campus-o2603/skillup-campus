@@ -26,7 +26,7 @@ export default function Footer() {
                 <div className="footer-column">
                     <h2>Tu cuenta</h2>
                     <Link to="/login">Iniciar sesión</Link>
-                    <Link to="/admins">Administración</Link>
+                    <Link to="/controlPanelAdmin">Administración</Link>
                     <Link to="/register">Registro -estudiante-</Link>
                 </div>
 

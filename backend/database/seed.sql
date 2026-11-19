@@ -10,6 +10,97 @@ INSERT INTO public.roles (name)
 VALUES ('Administrator'), ('Teacher'), ('Student')
 ON CONFLICT (name) DO NOTHING;
 
+-- Usuario de ejemplo y también se crea administrador
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+WITH nuevo_usuario AS (
+  INSERT INTO public.users (
+    name,
+    surname,
+    email,
+    username,
+    password,
+    country,
+    address,
+    telephone,
+    role_id
+  ) VALUES
+  (
+    'Carlos',
+    'Admin',
+    'carlos.admin@ejemplo.com',
+    'carlosadmin',
+    crypt('AdminSeguro123', gen_salt('bf', 10)),
+    'Argentina',
+    'Av. Corrientes 450',
+    '+54 11 4567890',
+    1 -- Verifica que el ID 1 corresponda al rol 'administrator'
+  )
+  RETURNING id
+)
+INSERT INTO public.admins (user_id)
+SELECT id
+FROM nuevo_usuario;
+
+-- Usuario de ejemplo y también se crea profesor.
+WITH nuevo_usuario AS (
+  INSERT INTO public.users (
+    name,
+    surname,
+    email,
+    username,
+    password,
+    country,
+    address,
+    telephone,
+    role_id
+  ) VALUES
+  (
+    'Laura',
+    'Profe',
+    'laura.profe@ejemplo.com',
+    'lauraprofe',
+    crypt('ProfeSegura123', gen_salt('bf', 10)),
+    'Argentina',
+    'San Martín 890',
+    '+54 351 7654321',
+    2 -- Verifica que el ID 2 corresponda al rol 'teacher'
+  )
+  RETURNING id
+)
+INSERT INTO public.teachers (user_id)
+SELECT id
+FROM nuevo_usuario;
+
+-- Usuario de ejemplo y también se crea estudiante.
+WITH nuevo_usuario AS (
+  INSERT INTO public.users (
+    name,
+    surname,
+    email,
+    username,
+    password,
+    country,
+    address,
+    telephone,
+    role_id
+  ) VALUES
+  (
+    'María',
+    'Marta',
+    'maria.marta@ejemplo.com',
+    'mariamarta',
+    crypt('mariaMARTA123', gen_salt('bf', 10)),
+    'Argentina',
+    'Libertad 123',
+    '+54 11 9876543',
+    3 -- Verifica que el ID 3 corresponda al rol 'student'
+  )
+  RETURNING id
+)
+INSERT INTO public.students (user_id, average_grade)
+SELECT id, NULL
+FROM nuevo_usuario;
+
 -- Categorias disponibles para el catalogo.
 INSERT INTO public.categories (name, description)
 VALUES

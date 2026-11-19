@@ -1,12 +1,59 @@
-import { Link } from 'react-router';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router';
+import { getCourseById, updateCourse } from '../api/courses.js';
+import CourseForm from '../components/courses/CourseForm.jsx';
+import { useAuth } from '../context/AuthContext.jsx';
 
 export default function EditCourse() {
+    const { id } = useParams();
+    const { token } = useAuth();
+    const navigate = useNavigate();
+    const [course, setCourse] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isSaving, setIsSaving] = useState(false);
+    const [error, setError] = useState('');
+
+    useEffect(() => {
+        const controller = new AbortController();
+        getCourseById(id, { signal: controller.signal })
+            .then(setCourse)
+            .catch((requestError) => {
+                if (requestError.name !== 'AbortError') setError(requestError.message);
+            })
+            .finally(() => {
+                if (!controller.signal.aborted) setIsLoading(false);
+            });
+        return () => controller.abort();
+    }, [id]);
+
+    async function handleUpdate(payload) {
+        setIsSaving(true);
+        try {
+            const response = await updateCourse(id, payload, token);
+            navigate('/controlPanelAdmin', { replace: true, state: { message: response.message || 'Curso actualizado correctamente.' } });
+        } finally {
+            setIsSaving(false);
+        }
+    }
+
     return (
-        <section className="container not-found">
-            <span className="eyebrow">ERROR</span>
-            <h1>Página en construcción.</h1>
-            <p>Esta página está en desarrollo, consulte más tarde.</p>
-            <Link className="button button-primary" to="/">Volver al inicio</Link>
+        <section className="container page-section admin-course-form-page">
+            <Link className="back-link" to="/controlPanelAdmin">← Volver a administración</Link>
+            <div className="page-heading">
+                <span className="eyebrow">ADMINISTRACIÓN</span>
+                <h1>Editar curso</h1>
+                <p>Actualizá la información del curso seleccionado.</p>
+            </div>
+            {isLoading && <p className="api-state-message">Cargando curso…</p>}
+            {error &&
+                <div className="api-state api-state-error" role="alert"><p>{error}</p>
+                    <Link className="button button-outline" to="/controlPanelAdmin">Volver</Link>
+                </div>}
+            {!isLoading && !error && course && (
+                <div className="admin-form-card">
+                    <CourseForm initialCourse={course} onSubmit={handleUpdate} submitLabel="Guardar cambios" isSaving={isSaving} />
+                </div>
+            )}
         </section>
     );
 }

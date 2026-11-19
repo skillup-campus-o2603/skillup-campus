@@ -1,12 +1,125 @@
-import { Link } from 'react-router';
+import { useCallback, useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router';
+import { deleteCourse, getCourses } from '../api/courses.js';
+import { useAuth } from '../context/AuthContext.jsx';
+
+function formatDuration(minutes) {
+    const hours = Number(minutes) / 60;
+    if (!Number.isFinite(hours) || hours <= 0) return '—';
+    return hours < 1 ? `${minutes} min` : `${Number.isInteger(hours) ? hours : hours.toFixed(1)} h`;
+}
 
 export default function ControlPanelAdmin() {
+    const { token, user } = useAuth();
+    const location = useLocation();
+    const [courses, setCourses] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState('');
+    const [notice, setNotice] = useState(location.state?.message || '');
+    const [deletingId, setDeletingId] = useState(null);
+
+    const loadCourses = useCallback(async (signal) => {
+        setError('');
+        const result = await getCourses({ signal });
+        setCourses(result);
+    }, []);
+
+    useEffect(() => {
+        const controller = new AbortController();
+        loadCourses(controller.signal)
+            .catch((requestError) => {
+                if (requestError.name !== 'AbortError') setError(requestError.message);
+            })
+            .finally(() => {
+                if (!controller.signal.aborted) setIsLoading(false);
+            });
+        return () => controller.abort();
+    }, [loadCourses]);
+
+    async function handleDelete(course) {
+        const confirmed = window.confirm(`¿Seguro que querés eliminar el curso “${course.title}”? Esta acción no se puede deshacer.`);
+        if (!confirmed) return;
+
+        setDeletingId(course.id);
+        setNotice('');
+        setError('');
+        try {
+            const response = await deleteCourse(course.id, token);
+            setCourses((current) => current.filter((item) => item.id !== course.id));
+            setNotice(response.message || 'Curso eliminado correctamente.');
+        } catch (requestError) {
+            setError(requestError.message || 'No se pudo eliminar el curso.');
+        } finally {
+            setDeletingId(null);
+        }
+    }
+
     return (
-        <section className="container not-found">
-            <span className="eyebrow">ERROR</span>
-            <h1>Página en construcción.</h1>
-            <p>Esta página está en desarrollo, consulte más tarde.</p>
-            <Link className="button button-primary" to="/">Volver al inicio</Link>
+        <section className="container page-section admin-page">
+            <div className="page-heading">
+                <span className="eyebrow">GESTIÓN DE LA PLATAFORMA</span>
+                <h1>Administración de cursos</h1>
+                <p>Hola, {user?.name || 'administrador'}. Desde acá podés crear, editar y eliminar cursos.</p>
+            </div>
+
+            <div className="admin-toolbar">
+                <div>
+                    <strong>{courses.length} {courses.length === 1 ? 'curso' : 'cursos'}</strong>
+                    <span> registrados en el catálogo</span>
+                </div>
+                <Link className="button button-accent" to="/createCourse">+ Crear curso</Link>
+            </div>
+
+            {notice && <p className="form-notice form-notice-success" role="status">{notice}</p>}
+            {error &&
+                <div className="api-state api-state-error" role="alert"><strong>No se pudo completar la operación.</strong><p>{error}</p>
+                    <button className="button button-outline button-small" type="button" onClick={() => window.location.reload()}>Reintentar</button>
+                </div>}
+            {isLoading && <p className="api-state-message">Cargando cursos…</p>}
+
+            {!isLoading && !error && courses.length === 0 && (
+                <div className="api-state">
+                    <h2>Todavía no hay cursos.</h2>
+                    <p>Creá el primero para que aparezca en el catálogo público.</p>
+                    <Link className="button button-primary" to="/createCourse">Crear primer curso</Link>
+                </div>
+            )}
+
+            {!isLoading && courses.length > 0 && (
+                <div className="admin-table-wrap">
+                    <table className="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Curso</th>
+                                <th>Categoría</th>
+                                <th>Nivel</th>
+                                <th>Duración</th>
+                                <th>Precio</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {courses.map((course) => (
+                                <tr key={course.id}>
+                                    <td data-label="Curso"><strong>{course.title}</strong><small>#{course.id}</small></td>
+                                    <td data-label="Categoría">{course.category?.name || '—'}</td>
+                                    <td data-label="Nivel">{course.level || '—'}</td>
+                                    <td data-label="Duración">{formatDuration(course.durationMinutes)}</td>
+                                    <td data-label="Precio">{Number(course.price) === 0 ? 'Gratis' : Number(course.price).toLocaleString('es-AR', { minimumFractionDigits: 2 })}</td>
+                                    <td data-label="Acciones">
+                                        <div className="admin-table-actions">
+                                            <Link className="button button-outline button-small" to={`/editCourse/${course.id}`}>Editar</Link>
+                                            <button className="button button-danger button-small" type="button" onClick={() => handleDelete(course)} disabled={deletingId === course.id}>
+                                                {deletingId === course.id ? 'Eliminando…' : 'Eliminar'}
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            )}
         </section>
     );
 }

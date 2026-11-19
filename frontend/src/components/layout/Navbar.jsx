@@ -1,10 +1,19 @@
-import { Link, NavLink } from 'react-router';
+import { Link, NavLink, useNavigate } from 'react-router';
+import { useAuth } from '../../context/AuthContext.jsx';
 
 function navLinkClass({ isActive }) {
     return isActive ? 'nav-link nav-link-active' : 'nav-link';
 }
 
 export default function Navbar() {
+    const { user, isAuthenticated, signOut } = useAuth();
+    const navigate = useNavigate();
+
+    function handleSignOut() {
+        signOut();
+        navigate('/', { replace: true });
+    }
+
     return (
         <header className="site-header">
             <div className="announcement-bar">
@@ -32,9 +41,21 @@ export default function Navbar() {
                     <Link className="nav-link" to="/#testimonios">Testimonios</Link>
                 </nav>
 
-                <div className="nav-actions">
-                    <Link className="button button-outline button-small" to="/login">Iniciar sesión</Link>
-                    <Link className="button button-accent button-small" to="/courses">Explorar cursos</Link>
+                <div className={`nav-actions ${isAuthenticated ? 'nav-actions-authenticated' : ''}`}>
+                    {isAuthenticated ? (
+                        <>
+                            {user?.role === 'Administrator' && (
+                                <Link className="button button-outline button-small nav-admin-link" to="/controlPanelAdmin">Administrar</Link>
+                            )}
+                            <span className="nav-user-name">Hola, {user?.name || 'usuario'}</span>
+                            <button className="button button-accent button-small" type="button" onClick={handleSignOut}>Cerrar sesión</button>
+                        </>
+                    ) : (
+                        <>
+                            <Link className="button button-outline button-small" to="/login">Iniciar sesión</Link>
+                            <Link className="button button-accent button-small" to="/register">Crear cuenta</Link>
+                        </>
+                    )}
                 </div>
             </div>
         </header>

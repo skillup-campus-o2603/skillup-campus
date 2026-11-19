@@ -1,5 +1,6 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router';
+import { getCourses } from '../api/courses.js';
 
 const benefits = [
     {
@@ -31,75 +32,30 @@ const benefits = [
     },
 ];
 
-// Estos cuatro cursos coinciden con los datos mock publicados por GET /api/courses.
-const featuredCourses = [
-    {
-        category: 'INTELIGENCIA ARTIFICIAL',
-        title: 'Inteligencia Artificial Aplicada',
-        description: 'Creá prompts y automatizaciones para optimizar tus tareas cotidianas.',
-        level: 'Principiante',
-        duration: '24 h',
-        image:
-            'https://images.pexels.com/photos/3776180/pexels-photo-3776180.jpeg?auto=compress&cs=tinysrgb&w=1000',
-        imageAlt: 'Estudiante aprendiendo con una computadora portátil',
-        tone: 'course-ai',
-    },
-    {
-        category: 'ANÁLISIS DE DATOS',
-        title: 'Excel Práctico',
-        description: 'Construí dashboards e informes para transformar datos en decisiones.',
-        level: 'Intermedio',
-        duration: '24 h',
-        image:
-            'https://images.pexels.com/photos/12969403/pexels-photo-12969403.jpeg?auto=compress&cs=tinysrgb&w=1000',
-        imageAlt: 'Pantalla de computadora mostrando un dashboard de análisis',
-        tone: 'course-data',
-    },
-    {
-        category: 'DESARROLLO WEB',
-        title: 'Desarrollo Web desde Cero',
-        description: 'Aprendé las bases para construir tu primer sitio web interactivo.',
-        level: 'Principiante',
-        duration: '24 h',
-        image:
-            'https://images.pexels.com/photos/36496927/pexels-photo-36496927.jpeg?auto=compress&cs=tinysrgb&w=1000',
-        imageAlt: 'Persona trabajando con código en una computadora',
-        tone: 'course-development',
-    },
-    {
-        category: 'DISEÑO UX/UI',
-        title: 'Prototipado UX/UI',
-        description: 'Diseñá y testeá tu primera aplicación con herramientas digitales.',
-        level: 'Principiante',
-        duration: '24 h',
-        image:
-            'https://images.pexels.com/photos/9414025/pexels-photo-9414025.jpeg?auto=compress&cs=tinysrgb&w=1000',
-        imageAlt: 'Persona utilizando una tableta gráfica junto a una computadora portátil',
-        tone: 'course-design',
-    },
-];
-
-// Contenido de muestra para maquetar la sección: reemplazar por opiniones reales antes de publicar.
-const testimonials = [
-    {
-        quote:
-            'Me gustaría contar cómo SkillUp me ayudó a descubrir nuevas herramientas y avanzar en mis objetivos.',
-        label: 'Texto de ejemplo · Estudiante',
-    },
-    {
-        quote:
-            'Este espacio va a mostrar experiencias reales de personas que forman parte de la comunidad.',
-        label: 'Texto de ejemplo · Estudiante',
-    },
-    {
-        quote:
-            'Una opinión auténtica puede ayudar a otras personas a dar el primer paso en su aprendizaje.',
-        label: 'Texto de ejemplo · Estudiante',
-    },
-];
+function formatCourseDuration(minutes) {
+    const hours = Number(minutes) / 60;
+    if (!Number.isFinite(hours) || hours <= 0) return 'Duración no definida';
+    return hours < 1 ? `${minutes} min` : `${Number.isInteger(hours) ? hours : hours.toFixed(1)} h`;
+}
 
 export default function Home() {
     const { pathname, hash, key } = useLocation();
+    const [featuredCourses, setFeaturedCourses] = useState([]);
+    const [coursesLoading, setCoursesLoading] = useState(true);
+    const [coursesError, setCoursesError] = useState('');
+
+    useEffect(() => {
+        const controller = new AbortController();
+        getCourses({ signal: controller.signal })
+            .then((courses) => setFeaturedCourses(courses.slice(0, 4)))
+            .catch((requestError) => {
+                if (requestError.name !== 'AbortError') setCoursesError(requestError.message);
+            })
+            .finally(() => {
+                if (!controller.signal.aborted) setCoursesLoading(false);
+            });
+        return () => controller.abort();
+    }, []);
 
     // React Router actualiza el hash, pero no desplaza automáticamente la página.
     // Este efecto también cubre los enlaces que llegan desde otras rutas.
@@ -212,31 +168,40 @@ export default function Home() {
                         </Link>
                     </div>
 
-                    <div className="landing-course-grid">
-                        {featuredCourses.map((course) => (
-                            <Link className="landing-course-card" to="/courses" key={course.title}>
-                                <div className={`landing-course-image ${course.tone}`}>
-                                    <img src={course.image} alt={course.imageAlt} loading="lazy" />
-                                    <span className="landing-course-category">{course.category}</span>
-                                </div>
-                                <div className="landing-course-copy">
-                                    <div className="landing-course-meta">
-                                        <span>{course.level}</span>
-                                        <span>{course.duration} de contenido</span>
+                    {coursesLoading && <p className="api-state-message" role="status">Cargando cursos…</p>}
+                    {coursesError && <p className="landing-courses-message" role="alert">No pudimos cargar los cursos: {coursesError}</p>}
+                    {!coursesLoading && !coursesError && featuredCourses.length === 0 && (
+                        <div className="landing-courses-empty">
+                            <h3>Próximamente vas a encontrar cursos acá.</h3>
+                            <p>El catálogo todavía no tiene cursos publicados.</p>
+                        </div>
+                    )}
+                    {!coursesLoading && !coursesError && featuredCourses.length > 0 && (
+                        <div className="landing-course-grid">
+                            {featuredCourses.map((course, index) => (
+                                <Link className="landing-course-card" to={`/courses/${course.id}`} key={course.id}>
+                                    <div className={`landing-course-image ${['course-ai', 'course-data', 'course-development', 'course-design'][index % 4]}`}>
+                                        {course.imageUrl
+                                            ? <img src={course.imageUrl} alt={`Imagen del curso ${course.title}`} loading="lazy" />
+                                            : <span className="landing-course-image-fallback" aria-hidden="true">{course.title?.slice(0, 1)?.toUpperCase() || 'S'}</span>}
+
+                                        <span className="landing-course-category">{course.category?.name || 'CURSO'}</span>
                                     </div>
-                                    <h3>{course.title}</h3>
-                                    <p>{course.description}</p>
-                                    <span className="landing-course-link">
-                                        Conocer curso <span aria-hidden="true">↗</span>
-                                    </span>
-                                </div>
-                            </Link>
-                        ))}
-                    </div>
-                    <p className="landing-course-note">
-                        La oferta mostrada utiliza los cuatro cursos de ejemplo publicados actualmente
-                        por la API del proyecto.
-                    </p>
+                                    <div className="landing-course-copy">
+                                        <div className="landing-course-meta">
+                                            <span>{course.level || 'Nivel no definido'}</span>
+                                            <span>{formatCourseDuration(course.durationMinutes)}</span>
+                                        </div>
+                                        <h3>{course.title}</h3>
+                                        <p>{course.description}</p>
+                                        <span className="landing-course-link">
+                                            Conocer curso <span aria-hidden="true">↗</span>
+                                        </span>
+                                    </div>
+                                </Link>
+                            ))}
+                        </div>
+                    )}
                 </div>
             </section>
 
@@ -248,20 +213,10 @@ export default function Home() {
                         <p>Las experiencias de quienes aprenden pueden inspirar nuevos comienzos.</p>
                     </div>
 
-                    <div className="testimonial-grid">
-                        {testimonials.map((testimonial, index) => (
-                            <article className="testimonial-card" key={testimonial.label + index}>
-                                <span className="testimonial-quote-mark" aria-hidden="true">“</span>
-                                <blockquote>{testimonial.quote}</blockquote>
-                                <div className="testimonial-author">
-                                    <span className="testimonial-avatar" aria-hidden="true">S</span>
-                                    <span>
-                                        <strong>{testimonial.label}</strong>
-                                        <small>Contenido ilustrativo</small>
-                                    </span>
-                                </div>
-                            </article>
-                        ))}
+                    <div className="landing-testimonials-empty">
+                        <span className="landing-testimonials-icon" aria-hidden="true">✦</span>
+                        <h3>Las experiencias reales de nuestra comunidad pronto van a estar acá.</h3>
+                        <p>Cuando tengamos opiniones publicadas, las vas a poder conocer en esta sección.</p>
                     </div>
                 </div>
             </section>
