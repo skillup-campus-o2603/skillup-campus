@@ -12,6 +12,9 @@ const courseRoutes = require('./routes/courseRoutes');
 const authRoutes = require('./routes/authRoutes');
 const authMiddleware = require('./middlewares/authMiddleware');
 const roleMiddleware = require('./middlewares/roleMiddleware');
+const categoryRoutes = require('./routes/categoryRoutes');
+const levelRoutes = require('./routes/levelRoutes');
+const enrollmentRoutes = require('./routes/enrollmentRoutes');
 
 app.use(cors());
 app.use(express.json());
@@ -20,6 +23,12 @@ app.use(express.json());
 app.use('/api/courses', courseRoutes);
 // Rutas de autenticación
 app.use('/api/auth', authRoutes);
+// Rutas de categorías
+app.use('/api/categories', categoryRoutes);
+// Rutas de niveles
+app.use('/api/levels', levelRoutes);
+// Rutas de inscripciones
+app.use('/api/enrollments', enrollmentRoutes);
 
 // Ruta inicial
 app.get('/', (req, res) => {

@@ -2,24 +2,21 @@
 
 ## 1. Información general
 
-La API REST de SkillUp Campus está desarrollada con **Node.js y Express**, utilizando **Sequelize como ORM** y **PostgreSQL como base de datos**.
+La API REST de **SkillUp Campus** está desarrollada con **Node.js y Express**, utiliza **Sequelize** para acceder a **PostgreSQL** y devuelve respuestas en formato JSON.
 
 **URL base local:** `http://localhost:3001`
 
-**Formato de intercambio:** JSON
-
-Los endpoints de autenticación y gestión de cursos están implementados y conectados a PostgreSQL.
-
 ### Convenciones
 
-- Los campos de las respuestas públicas utilizan `camelCase`.
-- Los campos enviados para crear o actualizar cursos utilizan `snake_case`, de acuerdo con la estructura de la base de datos.
 - Las respuestas exitosas incluyen `success`, `message` y, cuando corresponde, `data`.
 - Los errores incluyen `success: false` y un mensaje descriptivo.
-- Los identificadores de cursos, categorías y niveles son numéricos. Los identificadores de usuarios pueden serializarse como cadenas.
-- Las fechas, cuando se devuelvan, utilizan formato ISO 8601.
-- Los endpoints protegidos utilizan JWT mediante el encabezado `Authorization: Bearer <token>`.
-- Los roles disponibles son `Administrator`, `Teacher` y `Student`.
+- Los campos de entrada para cursos e inscripciones utilizan `snake_case` (por ejemplo, `course_id`, `category_id`).
+- Los campos de salida compuestos utilizan `camelCase` (por ejemplo, `durationMinutes`, `enrolledAt`).
+- Los identificadores de cursos, categorías y niveles son numéricos; los identificadores de usuarios pueden serializarse como cadenas.
+- Las fechas devueltas por la API se expresan en formato ISO 8601.
+- Los endpoints protegidos requieren `Authorization: Bearer <token>`.
+- Los roles contemplados son `Administrator`, `Teacher` y `Student`.
+- Las rutas públicas no requieren token JWT.
 
 ---
 
@@ -29,7 +26,7 @@ Los endpoints de autenticación y gestión de cursos están implementados y cone
 
 Comprueba que el servidor Express está disponible.
 
-**Autenticación:** No requerida.
+**Autenticación:** no requerida.
 
 **Respuesta — 200 OK**
 
@@ -43,9 +40,7 @@ Comprueba que el servidor Express está disponible.
 
 ## 3. Catálogo y gestión de cursos
 
-Los cursos se almacenan en la tabla `courses` de PostgreSQL.
-
-Cada curso pertenece a una categoría y tiene un nivel de dificultad. Las categorías y niveles deben existir previamente en sus respectivas tablas.
+Los cursos se almacenan en la tabla `courses`. Cada curso pertenece a una categoría y tiene un nivel de dificultad. Las categorías y niveles deben existir previamente en sus respectivas tablas.
 
 ### Formato de respuesta de un curso
 
@@ -65,20 +60,13 @@ Cada curso pertenece a una categoría y tiene un nivel de dificultad. Las catego
 }
 ```
 
-**Observaciones:**
-
-- `category` contiene el identificador y nombre de la categoría.
-- `level` representa el nivel de dificultad.
-- `durationMinutes` expresa la duración en minutos.
-- `imageUrl` puede ser `null`.
-- `price` es numérico y puede ser `0` para cursos gratuitos.
-- Los módulos y las lecciones se gestionarán posteriormente y no son obligatorios para crear un curso.
+**Observaciones:** `category` incluye identificador y nombre; `level` es actualmente una cadena con el nombre del nivel; `durationMinutes` expresa minutos; `imageUrl` puede ser `null`; `price` es numérico y puede valer `0`. Los módulos y lecciones se gestionarán posteriormente.
 
 ### GET /api/courses
 
 Obtiene el listado público de cursos almacenados en PostgreSQL.
 
-**Autenticación:** No requerida.
+**Autenticación:** no requerida.
 
 **Respuesta — 200 OK**
 
@@ -91,10 +79,7 @@ Obtiene el listado público de cursos almacenados en PostgreSQL.
       "id": 1,
       "title": "Python desde Cero: Fundamentos de Programación",
       "description": "Aprendé Python desde cero con ejercicios prácticos.",
-      "category": {
-        "id": 1,
-        "name": "Programación"
-      },
+      "category": { "id": 1, "name": "Programación" },
       "level": "Principiante",
       "durationMinutes": 1500,
       "imageUrl": null,
@@ -104,49 +89,31 @@ Obtiene el listado público de cursos almacenados en PostgreSQL.
 }
 ```
 
-Cuando no existen cursos, `data` es un arreglo vacío.
+Cuando no existen cursos, `data` es `[]`.
 
-**Errores posibles:**
-
-- `500 Internal Server Error`: error al consultar la base de datos.
+**Errores posibles:** `500 Internal Server Error`.
 
 ### GET /api/courses/:id
 
-Obtiene la información de un curso específico.
+Obtiene un curso específico.
 
-**Autenticación:** No requerida.
+**Autenticación:** no requerida.
 
 **Parámetro:** `id`, identificador numérico positivo del curso.
 
-**Respuesta — 200 OK:** devuelve un objeto de curso en `data`.
+**Respuesta — 200 OK:** devuelve un objeto con el formato de curso descrito anteriormente en `data`.
 
-**Respuesta — 400 Bad Request**
+**Errores posibles:**
 
-```json
-{
-  "success": false,
-  "message": "ID de curso inválido"
-}
-```
-
-**Respuesta — 404 Not Found**
-
-```json
-{
-  "success": false,
-  "message": "Curso no encontrado"
-}
-```
-
-**Otros errores:** `500 Internal Server Error`.
+- `400 Bad Request`: `ID de curso inválido`.
+- `404 Not Found`: `Curso no encontrado`.
+- `500 Internal Server Error`: error interno.
 
 ### POST /api/courses
 
-Permite crear un curso.
+Crea un curso.
 
-**Autenticación:** JWT obligatorio.
-
-**Rol requerido:** `Administrator`.
+**Autenticación:** JWT obligatorio. **Rol:** `Administrator`.
 
 **Body — JSON**
 
@@ -162,18 +129,9 @@ Permite crear un curso.
 }
 ```
 
-**Campos obligatorios:**
+**Campos obligatorios:** `title` (texto no vacío, máximo 150 caracteres), `description` (texto no vacío), `category_id` (entero positivo existente), `duration_minutes` (entero positivo), `level_id` (entero positivo existente).
 
-- `title`: texto no vacío, máximo 150 caracteres.
-- `description`: texto no vacío.
-- `category_id`: entero positivo que identifique una categoría existente.
-- `duration_minutes`: entero positivo.
-- `level_id`: entero positivo que identifique un nivel existente.
-
-**Campos opcionales:**
-
-- `image_url`: URL HTTP/HTTPS o `null`.
-- `price`: número mayor o igual a cero, con hasta dos decimales. Por defecto, `0`.
+**Campos opcionales:** `image_url` (URL HTTP/HTTPS o `null`) y `price` (número no negativo, hasta dos decimales; por defecto `0`).
 
 **Respuesta — 201 Created**
 
@@ -185,10 +143,7 @@ Permite crear un curso.
     "id": 1,
     "title": "Introducción a la Programación con Python",
     "description": "Aprendé los fundamentos de Python.",
-    "category": {
-      "id": 1,
-      "name": "Programación"
-    },
+    "category": { "id": 1, "name": "Programación" },
     "level": "Principiante",
     "durationMinutes": 1200,
     "imageUrl": null,
@@ -197,24 +152,15 @@ Permite crear un curso.
 }
 ```
 
-**Errores posibles:**
-
-- `400 Bad Request`: campos inválidos, categoría o nivel inexistente.
-- `401 Unauthorized`: token ausente, inválido o expirado.
-- `403 Forbidden`: usuario sin rol `Administrator`.
-- `500 Internal Server Error`: error interno.
+**Errores posibles:** `400` (campos inválidos o referencias inexistentes), `401` (JWT ausente o inválido), `403` (rol no autorizado), `500` (error interno).
 
 ### PUT /api/courses/:id
 
-Permite actualizar un curso existente.
+Actualiza un curso existente. Permite enviar solo los campos que se desean modificar.
 
-**Autenticación:** JWT obligatorio.
-
-**Rol requerido:** `Administrator`.
+**Autenticación:** JWT obligatorio. **Rol:** `Administrator`.
 
 **Parámetro:** `id`, identificador del curso.
-
-El endpoint permite actualizaciones parciales: solamente se modifican los campos enviados.
 
 **Body — JSON de ejemplo**
 
@@ -226,13 +172,9 @@ El endpoint permite actualizaciones parciales: solamente se modifican los campos
 }
 ```
 
-**Campos editables:**
+**Campos editables:** `title`, `description`, `category_id`, `duration_minutes`, `image_url`, `price`, `level_id`.
 
-`title`, `description`, `category_id`, `duration_minutes`, `image_url`, `price`, `level_id`.
-
-Los campos no enviados conservan sus valores anteriores.
-
-El backend valida los datos, verifica la existencia de categorías y niveles cuando se modifican y actualiza la columna `updated_at`.
+Los campos omitidos conservan su valor. Se validan las referencias de categoría y nivel y se actualiza `updated_at`.
 
 **Respuesta — 200 OK**
 
@@ -243,11 +185,8 @@ El backend valida los datos, verifica la existencia de categorías y niveles cua
   "data": {
     "id": 1,
     "title": "Python desde Cero: Fundamentos de Programación",
-    "description": "Aprendé los fundamentos de Python.",
-    "category": {
-      "id": 1,
-      "name": "Programación"
-    },
+    "description": "Aprendé Python desde cero con ejercicios prácticos.",
+    "category": { "id": 1, "name": "Programación" },
     "level": "Principiante",
     "durationMinutes": 1500,
     "imageUrl": null,
@@ -256,34 +195,17 @@ El backend valida los datos, verifica la existencia de categorías y niveles cua
 }
 ```
 
-**Errores posibles:**
-
-- `400 Bad Request`: ID inválido, campos inválidos, JSON vacío o referencias inexistentes.
-- `401 Unauthorized`: token ausente, inválido o expirado.
-- `403 Forbidden`: permisos insuficientes.
-- `404 Not Found`: curso inexistente.
-- `500 Internal Server Error`: error interno.
+**Errores posibles:** `400` (datos inválidos o body vacío), `401`, `403`, `404` (curso inexistente), `500`.
 
 ### DELETE /api/courses/:id
 
-Permite eliminar un curso existente.
+Elimina un curso sin registros relacionados.
 
-**Autenticación:** JWT obligatorio.
+**Autenticación:** JWT obligatorio. **Rol:** `Administrator`.
 
-**Rol requerido:** `Administrator`.
+**Parámetro:** `id`, identificador del curso. **Body:** no requerido.
 
-**Parámetro:** `id`, identificador del curso.
-
-No requiere Body.
-
-Antes de eliminar, el backend comprueba si existen registros asociados en:
-
-- `enrollments`
-- `modules`
-- `course_teachers`
-- `course_reviews`
-
-Si existen relaciones, la eliminación se rechaza para proteger la integridad de los datos.
+Antes de eliminar, el backend verifica relaciones en `enrollments`, `modules`, `course_teachers` y `course_reviews`.
 
 **Respuesta — 200 OK**
 
@@ -294,7 +216,7 @@ Si existen relaciones, la eliminación se rechaza para proteger la integridad de
 }
 ```
 
-**Respuesta — 409 Conflict**
+**Respuesta — 409 Conflict**, cuando el curso tiene registros asociados:
 
 ```json
 {
@@ -303,23 +225,178 @@ Si existen relaciones, la eliminación se rechaza para proteger la integridad de
 }
 ```
 
-**Otros errores posibles:**
-
-- `400 Bad Request`: ID inválido.
-- `401 Unauthorized`: token ausente, inválido o expirado.
-- `403 Forbidden`: permisos insuficientes.
-- `404 Not Found`: curso inexistente.
-- `500 Internal Server Error`: error interno.
+**Otros errores posibles:** `400`, `401`, `403`, `404`, `500`.
 
 ---
 
-## 4. Autenticación y autorización
+## 4. Catálogos de categorías y niveles
+
+Estos endpoints permiten cargar las opciones de los formularios de creación y edición de cursos sin depender de los cursos ya existentes. Ambos son públicos y consultan PostgreSQL.
+
+### GET /api/categories
+
+Devuelve todas las categorías disponibles, ordenadas alfabéticamente por nombre.
+
+**Autenticación:** no requerida. **Body:** no requerido.
+
+**Respuesta — 200 OK**
+
+```json
+{
+  "success": true,
+  "message": "Categorías obtenidas correctamente",
+  "data": [
+    { "id": 4, "name": "Datos", "description": "Cursos de análisis de datos y bases de datos" },
+    { "id": 2, "name": "Diseño", "description": "Cursos de diseño gráfico, UX y UI" },
+    { "id": 3, "name": "Marketing", "description": "Cursos de marketing digital y estrategias comerciales" },
+    { "id": 5, "name": "Negocios", "description": "Cursos de administración, emprendimiento y gestión" },
+    { "id": 1, "name": "Programación", "description": "Cursos de desarrollo de software y programación" }
+  ]
+}
+```
+
+**Errores posibles:** `500 Internal Server Error`. Si no hay categorías, `data` es `[]`.
+
+### GET /api/levels
+
+Devuelve los niveles disponibles, ordenados por identificador.
+
+**Autenticación:** no requerida. **Body:** no requerido.
+
+**Respuesta — 200 OK**
+
+```json
+{
+  "success": true,
+  "message": "Niveles obtenidos correctamente",
+  "data": [
+    { "id": 1, "name": "Principiante" },
+    { "id": 2, "name": "Intermedio" },
+    { "id": 3, "name": "Avanzado" }
+  ]
+}
+```
+
+**Errores posibles:** `500 Internal Server Error`. Si no hay niveles, `data` es `[]`.
+
+---
+
+## 5. Inscripciones de estudiantes
+
+La tabla `enrollments` relaciona `user_id` con `course_id` y contiene una restricción única para evitar inscripciones repetidas al mismo curso. Los endpoints están protegidos con JWT y rol `Student`.
+
+**Importante:** el identificador del estudiante se obtiene de `req.user.id`, después de verificar el JWT. El frontend **no debe enviar `user_id`**.
+
+### POST /api/enrollments
+
+Inscribirse en un curso existente.
+
+**Autenticación:** JWT obligatorio. **Rol:** `Student`.
+
+**Encabezados:**
+
+```http
+Authorization: Bearer <token>
+Content-Type: application/json
+```
+
+**Body — JSON**
+
+```json
+{
+  "course_id": 1
+}
+```
+
+**Validaciones:** `course_id` debe ser un entero positivo, el curso debe existir y el usuario no debe tener una inscripción previa al mismo curso. La restricción única de PostgreSQL también protege ante solicitudes simultáneas.
+
+**Respuesta — 201 Created**
+
+```json
+{
+  "success": true,
+  "message": "Inscripción realizada correctamente",
+  "data": {
+    "id": 1,
+    "userId": 3,
+    "courseId": 1,
+    "createdAt": "2026-11-20T02:00:00.000Z"
+  }
+}
+```
+
+*Los IDs y la fecha del ejemplo son ilustrativos.*
+
+**Errores posibles:**
+
+| Código | Situación |
+|---|---|
+| `400 Bad Request` | `course_id` inválido. |
+| `401 Unauthorized` | JWT ausente, inválido o expirado. |
+| `403 Forbidden` | El usuario autenticado no tiene rol `Student`. |
+| `404 Not Found` | El curso no existe. |
+| `409 Conflict` | El estudiante ya está inscrito en el curso; también puede ocurrir ante conflictos de integridad referencial. |
+| `500 Internal Server Error` | Error interno al registrar la inscripción. |
+
+**Ejemplo de inscripción duplicada — 409 Conflict**
+
+```json
+{
+  "success": false,
+  "message": "Ya estás inscrito en este curso"
+}
+```
+
+### GET /api/enrollments/me
+
+Devuelve las inscripciones del estudiante autenticado junto con los datos de sus cursos.
+
+**Autenticación:** JWT obligatorio. **Rol:** `Student`. **Body:** no requerido.
+
+**Encabezado:** `Authorization: Bearer <token>`.
+
+**Respuesta — 200 OK**
+
+```json
+{
+  "success": true,
+  "message": "Inscripciones obtenidas correctamente",
+  "data": [
+    {
+      "id": 1,
+      "enrolledAt": "2026-11-20T02:00:00.000Z",
+      "course": {
+        "id": 1,
+        "title": "Python desde Cero: Fundamentos de Programación",
+        "description": "Aprendé Python desde cero con ejercicios prácticos.",
+        "category": { "id": 1, "name": "Programación" },
+        "level": { "id": 1, "name": "Principiante" },
+        "durationMinutes": 1500,
+        "imageUrl": null,
+        "price": 0
+      }
+    }
+  ]
+}
+```
+
+*Los IDs y la fecha del ejemplo son ilustrativos. En esta respuesta, `course.level` es un objeto con `id` y `name`; en `GET /api/courses`, `level` es actualmente una cadena. Conviene unificar ambos formatos antes de integrar el frontend.*
+
+Si el estudiante no tiene inscripciones, `data` es `[]`.
+
+**Errores posibles:** `401 Unauthorized`, `403 Forbidden`, `500 Internal Server Error`.
+
+**Privacidad:** la consulta utiliza exclusivamente el identificador obtenido del JWT; no acepta un `user_id` arbitrario para consultar inscripciones de terceros.
+
+---
+
+## 6. Autenticación y autorización
 
 ### POST /api/auth/register
 
-Registra un nuevo usuario con rol `Student` y crea automáticamente su perfil de estudiante.
+Registra un usuario con rol `Student` y crea su perfil de estudiante.
 
-**Autenticación:** No requerida.
+**Autenticación:** no requerida.
 
 **Body — JSON**
 
@@ -336,21 +413,11 @@ Registra un nuevo usuario con rol `Student` y crea automáticamente su perfil de
 }
 ```
 
-**Campos obligatorios:**
+**Obligatorios:** `name`, `surname`, `username`, `email`, `password`, `country`.
 
-`name`, `surname`, `username`, `email`, `password`, `country`.
+**Opcionales:** `address`, `telephone`.
 
-**Campos opcionales:**
-
-`address`, `telephone`.
-
-**Validaciones principales:**
-
-- Correo electrónico con formato válido.
-- Nombre de usuario con formato permitido.
-- Contraseña de al menos ocho caracteres.
-- Correo y nombre de usuario no duplicados.
-- Validaciones de tipos, longitudes y campos requeridos.
+**Validaciones principales:** correo válido, nombre de usuario con formato permitido, contraseña de al menos ocho caracteres, correo y usuario únicos, tipos y longitudes correctos.
 
 **Respuesta — 201 Created**
 
@@ -370,24 +437,15 @@ Registra un nuevo usuario con rol `Student` y crea automáticamente su perfil de
 }
 ```
 
-**Errores posibles:**
+**Errores posibles:** `400` (datos inválidos), `409` (correo o usuario duplicados), `500`.
 
-- `400 Bad Request`: datos incompletos o inválidos.
-- `409 Conflict`: correo o nombre de usuario duplicado.
-- `500 Internal Server Error`: error interno.
-
-**Seguridad:**
-
-- La contraseña se almacena mediante bcrypt.
-- El rol `Student` se asigna automáticamente.
-- El usuario y su perfil se crean mediante una transacción.
-- La contraseña no se incluye en la respuesta.
+**Seguridad:** contraseña almacenada con bcrypt; rol `Student` asignado automáticamente; usuario y perfil creados en una transacción; contraseña excluida de la respuesta.
 
 ### POST /api/auth/login
 
 Permite iniciar sesión con correo electrónico y contraseña.
 
-**Autenticación:** No requerida.
+**Autenticación:** no requerida.
 
 **Body — JSON**
 
@@ -418,78 +476,66 @@ Permite iniciar sesión con correo electrónico y contraseña.
 }
 ```
 
-**Errores posibles:**
+**Errores posibles:** `400` (datos ausentes), `401` (credenciales inválidas), `500`.
 
-- `400 Bad Request`: email o contraseña ausentes.
-- `401 Unauthorized`: credenciales inválidas.
-- `500 Internal Server Error`: error interno.
-
-**Seguridad:**
-
-- Las contraseñas se verifican mediante `bcrypt.compare()`.
-- Los tokens JWT se firman con el algoritmo `HS256`.
-- La clave de firma se configura mediante `JWT_SECRET`.
-- Los tokens expiran después de 24 horas.
-- El payload contiene `id` y `role`, además de los campos estándar de emisión y expiración.
+**Seguridad:** `bcrypt.compare()` para contraseñas, JWT firmado con `HS256` mediante `JWT_SECRET`, vencimiento de 24 horas, payload con `id` y `role` más datos estándar del token.
 
 ### Middlewares de seguridad
 
-**authMiddleware**
+- `authMiddleware`: valida el encabezado `Authorization`, verifica el JWT y establece `req.user = { id, role }`.
+- `roleMiddleware`: verifica que el rol del usuario autenticado esté autorizado.
 
-Verifica el encabezado `Authorization`, valida el JWT y agrega los datos del usuario autenticado a `req.user`.
-
-**roleMiddleware**
-
-Verifica que el usuario autenticado tenga un rol autorizado.
-
-Para las operaciones administrativas de cursos se utiliza:
+**Ejemplo de acceso administrativo:**
 
 ```javascript
 authMiddleware,
 roleMiddleware('Administrator')
 ```
 
-**Códigos de seguridad:**
+**Ejemplo de acceso de estudiante:**
 
-- `401 Unauthorized`: autenticación ausente o inválida.
-- `403 Forbidden`: usuario autenticado sin permisos suficientes.
+```javascript
+authMiddleware,
+roleMiddleware('Student')
+```
 
-Los endpoints públicos de consulta de cursos no requieren JWT.
+**Códigos:** `401 Unauthorized` para autenticación ausente o inválida; `403 Forbidden` para rol no autorizado.
 
 ---
 
-## 5. Integración con Frontend
+## 7. Integración con frontend
 
-El frontend de SkillUp Campus está desarrollado con **React y Vite**.
-
-Los contratos de respuesta mantienen la estructura JSON definida inicialmente para facilitar la integración.
+El frontend utiliza **React y Vite**. Durante el desarrollo local, las peticiones pueden dirigirse a `http://localhost:3001` o utilizar el proxy `/api` configurado en Vite.
 
 ### Endpoints disponibles
 
-| Método | Endpoint | Acceso |
-|---|---|---|
-| GET | `/health` | Público |
-| POST | `/api/auth/register` | Público |
-| POST | `/api/auth/login` | Público |
-| GET | `/api/courses` | Público |
-| GET | `/api/courses/:id` | Público |
-| POST | `/api/courses` | Administrator |
-| PUT | `/api/courses/:id` | Administrator |
-| DELETE | `/api/courses/:id` | Administrator |
+| Método | Endpoint | Acceso | Uso |
+|---|---|---|---|
+| GET | `/health` | Público | Estado del servidor |
+| POST | `/api/auth/register` | Público | Registro de estudiantes |
+| POST | `/api/auth/login` | Público | Inicio de sesión |
+| GET | `/api/courses` | Público | Catálogo de cursos |
+| GET | `/api/courses/:id` | Público | Detalle de curso |
+| POST | `/api/courses` | Administrator | Crear curso |
+| PUT | `/api/courses/:id` | Administrator | Editar curso |
+| DELETE | `/api/courses/:id` | Administrator | Eliminar curso |
+| GET | `/api/categories` | Público | Opciones de categorías |
+| GET | `/api/levels` | Público | Opciones de niveles |
+| POST | `/api/enrollments` | Student | Inscribirse en un curso |
+| GET | `/api/enrollments/me` | Student | Consultar mis inscripciones |
 
 ### Consideraciones de integración
 
-- El frontend debe enviar las solicitudes a `http://localhost:3001`.
-- Las peticiones con Body JSON deben utilizar `Content-Type: application/json`.
-- Después del login, el frontend debe utilizar el JWT en las peticiones protegidas.
-- Las rutas administrativas deben restringirse también en la interfaz, pero la autorización real se realiza en el backend.
-- Las respuestas de cursos mantienen `category`, `level`, `durationMinutes`, `imageUrl` y `price`.
-- Los formularios de creación y edición deben enviar `category_id`, `level_id`, `duration_minutes` e `image_url`.
-- Los módulos, lecciones e inscripciones se implementarán en etapas posteriores.
+- Para peticiones con JSON, enviar `Content-Type: application/json`.
+- Tras el login, enviar el JWT en las rutas protegidas.
+- Las rutas administrativas deben restringirse en la interfaz, pero la autorización efectiva se realiza en el backend.
+- Los formularios de cursos deben consultar `/api/categories` y `/api/levels` y enviar los IDs seleccionados mediante `category_id` y `level_id`.
+- El frontend envía únicamente `course_id` para inscribirse; el backend determina `user_id` desde el JWT.
+- La vista «Mis cursos» puede consumir `GET /api/enrollments/me`.
 
 ---
 
-## 6. Estado de implementación
+## 8. Estado de implementación
 
 | Endpoint | Estado |
 |---|---|
@@ -501,39 +547,30 @@ Los contratos de respuesta mantienen la estructura JSON definida inicialmente pa
 | POST `/api/courses` | Implementado y probado |
 | PUT `/api/courses/:id` | Implementado y probado |
 | DELETE `/api/courses/:id` | Implementado y probado |
+| GET `/api/categories` | Implementado y probado |
+| GET `/api/levels` | Implementado y probado |
+| POST `/api/enrollments` | Implementado y probado |
+| GET `/api/enrollments/me` | Implementado y probado |
 
-### Pruebas realizadas
-
-Las funcionalidades fueron verificadas utilizando Postman.
-
-Se comprobaron:
+### Pruebas realizadas con Postman
 
 - Registro de usuarios y validación de duplicados.
 - Login con credenciales válidas e inválidas.
 - Generación y expiración de JWT.
-- Acceso permitido para administradores.
-- Acceso denegado para estudiantes en rutas administrativas.
+- Acceso permitido para administradores y denegado para estudiantes en rutas administrativas.
 - Consulta de cursos desde PostgreSQL.
-- Creación de cursos y validación de campos.
-- Actualización de cursos.
-- Eliminación de cursos y comprobación posterior mediante GET.
+- Creación, actualización y eliminación de cursos.
+- Consulta de categorías (5 registros) y niveles (3 registros).
+- Inscripción de estudiante a curso existente: `201 Created`.
+- Inscripción repetida al mismo curso: `409 Conflict`.
+- Curso inexistente: `404 Not Found`.
+- Identificador de curso inválido: `400 Bad Request`.
+- Inscripción sin JWT: `401 Unauthorized`.
+- Inscripción con JWT de administrador: `403 Forbidden`.
+- Consulta de inscripciones propias: `200 OK`.
 
-**Pendiente de verificación:** eliminación de cursos con registros asociados (`409 Conflict`), que podrá comprobarse cuando se implementen inscripciones o módulos.
+**Prueba adicional recomendada:** verificar `DELETE /api/courses/:id` sobre un curso que ya tenga inscripciones para confirmar `409 Conflict`. No se registra como probada hasta ejecutarla.
 
 ### Tecnologías utilizadas
 
-- Node.js
-- Express
-- PostgreSQL
-- Sequelize
-- bcryptjs
-- jsonwebtoken
-- dotenv
-- Postman
-
-### Próximas funcionalidades
-
-- Gestión de inscripciones de alumnos.
-- Consulta de inscripciones del usuario autenticado.
-- Consulta administrativa de usuarios.
-- Gestión posterior de módulos y lecciones, según el alcance del MVP.
+Node.js, Express, PostgreSQL, Sequelize, bcryptjs, jsonwebtoken, dotenv y Postman.
