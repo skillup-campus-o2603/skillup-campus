@@ -123,7 +123,7 @@
               },
               "status": "OK",
               "code": 200,
-              "_postman_previewlanguage": null,
+              "_postman_previewlanguage": "Text",
               "header": [
                 {
                   "key": "X-Powered-By",
@@ -203,7 +203,7 @@
               },
               "status": "OK",
               "code": 200,
-              "_postman_previewlanguage": null,
+              "_postman_previewlanguage": "Text",
               "header": [
                 {
                   "key": "X-Powered-By",
@@ -309,12 +309,14 @@
             {
               "listen": "test",
               "script": {
-                "type": "text/javascript",
                 "exec": [
                   "pm.test(\"HTTP 201\", function () {",
                   "    pm.response.to.have.status(201);",
                   "});"
-                ]
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
               }
             },
             {
@@ -336,7 +338,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "{{adminToken}}",
+                  "value": "",
                   "type": "string"
                 }
               ]
@@ -401,7 +403,7 @@
               },
               "status": "Created",
               "code": 201,
-              "_postman_previewlanguage": null,
+              "_postman_previewlanguage": "Text",
               "header": [
                 {
                   "key": "X-Powered-By",
@@ -447,12 +449,14 @@
             {
               "listen": "test",
               "script": {
-                "type": "text/javascript",
                 "exec": [
                   "pm.test(\"HTTP 403\", function () {",
                   "    pm.response.to.have.status(403);",
                   "});"
-                ]
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
               }
             }
           ],
@@ -462,7 +466,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "{{studentToken}}",
+                  "value": "",
                   "type": "string"
                 }
               ]
@@ -535,12 +539,14 @@
             {
               "listen": "test",
               "script": {
-                "type": "text/javascript",
                 "exec": [
                   "pm.test(\"HTTP 200\", function () {",
                   "    pm.response.to.have.status(200);",
                   "});"
-                ]
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
               }
             }
           ],
@@ -550,7 +556,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "{{adminToken}}",
+                  "value": "",
                   "type": "string"
                 }
               ]
@@ -564,7 +570,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"title\": \"Python desde Cero: Fundamentos de Programación\",\r\n  \"description\": \"Aprendé Python desde cero con ejercicios prácticos, funciones y estructuras de datos.\",\r\n  \"duration_minutes\": 1500,\r\n  \"price\": 0\r\n}",
+              "raw": "{\r\n  \"title\": \"Python desde Cero: Fundamentos de Programación\",\r\n  \"description\": \"Aprendé Python desde cero con ejercicios prácticos, funciones y estructuras de datos.\",\r\n  \"duration_minutes\": 2500,\r\n  \"price\": 0\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -617,7 +623,7 @@
               },
               "status": "OK",
               "code": 200,
-              "_postman_previewlanguage": null,
+              "_postman_previewlanguage": "Text",
               "header": [
                 {
                   "key": "X-Powered-By",
@@ -663,12 +669,14 @@
             {
               "listen": "test",
               "script": {
-                "type": "text/javascript",
                 "exec": [
                   "pm.test(\"HTTP 200\", function () {",
                   "    pm.response.to.have.status(200);",
                   "});"
-                ]
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
               }
             }
           ],
@@ -678,7 +686,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "{{adminToken}}",
+                  "value": "",
                   "type": "string"
                 }
               ]
@@ -717,7 +725,7 @@
               },
               "status": "OK",
               "code": 200,
-              "_postman_previewlanguage": null,
+              "_postman_previewlanguage": "Text",
               "header": [
                 {
                   "key": "X-Powered-By",
@@ -754,6 +762,156 @@
               ],
               "cookie": [],
               "body": "{\n    \"success\": true,\n    \"message\": \"Curso eliminado correctamente\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Categorias",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/categories",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "categories"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Categorias",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/categories",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "categories"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "528"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"210-m6th1IClNSyG0//XbY/2iVxLn98\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Fri, 20 Nov 2026 02:23:17 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Categorías obtenidas correctamente\",\n    \"data\": [\n        {\n            \"id\": 4,\n            \"name\": \"Datos\",\n            \"description\": \"Cursos de análisis de datos y bases de datos\"\n        },\n        {\n            \"id\": 2,\n            \"name\": \"Diseño\",\n            \"description\": \"Cursos de diseño gráfico, UX y UI\"\n        },\n        {\n            \"id\": 3,\n            \"name\": \"Marketing\",\n            \"description\": \"Cursos de marketing digital y estrategias comerciales\"\n        },\n        {\n            \"id\": 5,\n            \"name\": \"Negocios\",\n            \"description\": \"Cursos de administración, emprendimiento y gestión\"\n        },\n        {\n            \"id\": 1,\n            \"name\": \"Programación\",\n            \"description\": \"Cursos de desarrollo de software y programación\"\n        }\n    ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "levels",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/levels",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "levels"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "levels",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/levels",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "levels"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "156"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"9c-PaJ42qm90Y/ufcoKdeztKLo8ah4\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Fri, 20 Nov 2026 02:25:31 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Niveles obtenidos correctamente\",\n    \"data\": [\n        {\n            \"id\": 1,\n            \"name\": \"Principiante\"\n        },\n        {\n            \"id\": 2,\n            \"name\": \"Intermedio\"\n        },\n        {\n            \"id\": 3,\n            \"name\": \"Avanzado\"\n        }\n    ]\n}"
             }
           ]
         }
@@ -1736,6 +1894,631 @@
               "header": [],
               "cookie": [],
               "body": "{\n  \"success\": false,\n  \"message\": \"El campo country no puede superar los 50 caracteres\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Enrollments",
+      "item": [
+        {
+          "name": "Inscripcion",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"course_id\": 4\r\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/enrollments",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "enrollments"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Inscripcion exitosa",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"course_id\": 4\r\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/enrollments",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "enrollments"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "146"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"92-j6dMHWzk3Ma6CxvS3wCwkB5mVkA\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Fri, 20 Nov 2026 02:42:56 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Inscripción realizada correctamente\",\n    \"data\": {\n        \"id\": 2,\n        \"userId\": \"2\",\n        \"courseId\": 4,\n        \"createdAt\": \"2026-11-20T02:42:56.648Z\"\n    }\n}"
+            },
+            {
+              "name": "Inscripcion al mismo curso - 409",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"course_id\": 4\r\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/enrollments",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "enrollments"
+                  ]
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "62"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"3e-dUczBkRvqpDh94Df9qDji17Rwno\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Fri, 20 Nov 2026 02:44:25 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": false,\n    \"message\": \"Ya estás inscrito en este curso\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Inscripcion sin autenticarse",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"course_id\": 4\r\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/enrollments",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "enrollments"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Inscripcion sin autenticarse",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"course_id\": 4\r\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/enrollments",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "enrollments"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "63"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"3f-wwqnN4VEAMjlhDc+rX0/FZfKfJY\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Fri, 20 Nov 2026 03:13:19 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": false,\n    \"message\": \"Token de autenticación requerido\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Consultar cusos inscriptos - Estudiante",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/enrollments/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "enrollments",
+                "me"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Consultar cusos inscriptos - Estudiante",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/enrollments/me",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "enrollments",
+                    "me"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "435"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"1b3-J7K4RyXh1a1i7OfO09lCh51MgXc\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Fri, 20 Nov 2026 02:38:58 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Inscripciones obtenidas correctamente\",\n    \"data\": [\n        {\n            \"id\": 1,\n            \"enrolledAt\": \"2026-11-20T02:33:19.369Z\",\n            \"course\": {\n                \"id\": 1,\n                \"title\": \"Python desde Cero: Fundamentos de Programación\",\n                \"description\": \"Aprendé Python desde cero con ejercicios prácticos, funciones y estructuras de datos.\",\n                \"category\": {\n                    \"id\": 1,\n                    \"name\": \"Programación\"\n                },\n                \"level\": {\n                    \"id\": 1,\n                    \"name\": \"Principiante\"\n                },\n                \"durationMinutes\": 1500,\n                \"imageUrl\": null,\n                \"price\": 0\n            }\n        }\n    ]\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Dashboard",
+      "item": [
+        {
+          "name": "Dashboard estudiante autenticado",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/dashboard",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "dashboard"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Dashboard estudiante autenticado",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/dashboard",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "dashboard"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "1030"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"406-q3uHysfW9ccCgBIWfTIXnCiPECc\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sat, 21 Nov 2026 01:37:33 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Dashboard del estudiante obtenido correctamente\",\n    \"data\": {\n        \"summary\": {\n            \"totalCourses\": 2,\n            \"inProgressCourses\": 0,\n            \"completedCourses\": 0,\n            \"overallProgress\": null\n        },\n        \"courses\": [\n            {\n                \"enrollmentId\": 2,\n                \"courseId\": 4,\n                \"title\": \"Python desde Cero: Fundamentos de Programación\",\n                \"description\": \"Aprendé Python desde cero con ejercicios prácticos, funciones y estructuras de datos.\",\n                \"imageUrl\": null,\n                \"durationMinutes\": 2500,\n                \"price\": 0,\n                \"enrolledAt\": \"2026-11-20T02:42:56.648Z\",\n                \"category\": {\n                    \"id\": 1,\n                    \"name\": \"Programación\"\n                },\n                \"level\": {\n                    \"id\": 1,\n                    \"name\": \"Principiante\"\n                },\n                \"totalLessons\": 0,\n                \"completedLessons\": 0,\n                \"progress\": null\n            },\n            {\n                \"enrollmentId\": 1,\n                \"courseId\": 1,\n                \"title\": \"Python desde Cero: Fundamentos de Programación\",\n                \"description\": \"Aprendé Python desde cero con ejercicios prácticos, funciones y estructuras de datos.\",\n                \"imageUrl\": null,\n                \"durationMinutes\": 1500,\n                \"price\": 0,\n                \"enrolledAt\": \"2026-11-20T02:33:19.369Z\",\n                \"category\": {\n                    \"id\": 1,\n                    \"name\": \"Programación\"\n                },\n                \"level\": {\n                    \"id\": 1,\n                    \"name\": \"Principiante\"\n                },\n                \"totalLessons\": 0,\n                \"completedLessons\": 0,\n                \"progress\": null\n            }\n        ]\n    }\n}"
+            },
+            {
+              "name": "Dashboard estudiante  sin cursos",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/dashboard",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "dashboard"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "193"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"c1-oAoAcJTD2XPYAe08EJutGfLUMrI\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sat, 21 Nov 2026 01:42:29 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Dashboard del estudiante obtenido correctamente\",\n    \"data\": {\n        \"summary\": {\n            \"totalCourses\": 0,\n            \"inProgressCourses\": 0,\n            \"completedCourses\": 0,\n            \"overallProgress\": null\n        },\n        \"courses\": []\n    }\n}"
+            },
+            {
+              "name": "Dashboard estudiante sin autorizacion",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/dashboard",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "dashboard"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "63"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"3f-wwqnN4VEAMjlhDc+rX0/FZfKfJY\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sat, 21 Nov 2026 01:49:20 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": false,\n    \"message\": \"Token de autenticación requerido\"\n}"
             }
           ]
         }
