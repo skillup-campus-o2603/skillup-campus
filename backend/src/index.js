@@ -15,6 +15,7 @@ const roleMiddleware = require('./middlewares/roleMiddleware');
 const categoryRoutes = require('./routes/categoryRoutes');
 const levelRoutes = require('./routes/levelRoutes');
 const enrollmentRoutes = require('./routes/enrollmentRoutes');
+const dashboardRoutes = require('./routes/dashboardRoutes');
 
 app.use(cors());
 app.use(express.json());
@@ -29,6 +30,8 @@ app.use('/api/categories', categoryRoutes);
 app.use('/api/levels', levelRoutes);
 // Rutas de inscripciones
 app.use('/api/enrollments', enrollmentRoutes);
+// Dashboard del estudiante
+app.use('/api/dashboard', dashboardRoutes);
 
 // Ruta inicial
 app.get('/', (req, res) => {

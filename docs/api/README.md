@@ -390,7 +390,90 @@ Si el estudiante no tiene inscripciones, `data` es `[]`.
 
 ---
 
-## 6. Autenticación y autorización
+## 6. Dashboard del estudiante
+
+Permite obtener un resumen de la actividad académica del estudiante autenticado, incluyendo sus cursos inscriptos y el progreso de cada uno.
+
+### GET /api/dashboard
+
+Obtiene el dashboard del estudiante autenticado.
+
+**Autenticación:** JWT obligatorio. **Rol:** `Student`. **Body:** no requerido.
+
+**Encabezado:**
+
+```http
+Authorization: Bearer <token>
+```
+
+**Respuesta — 200 OK**
+
+```json
+{
+  "success": true,
+  "message": "Dashboard del estudiante obtenido correctamente",
+  "data": {
+    "summary": {
+      "totalCourses": 2,
+      "inProgressCourses": 0,
+      "completedCourses": 0,
+      "overallProgress": null
+    },
+    "courses": [
+      {
+        "enrollmentId": 2,
+        "courseId": 4,
+        "title": "Python desde Cero: Fundamentos de Programación",
+        "description": "Aprendé Python desde cero con ejercicios prácticos, funciones y estructuras de datos.",
+        "imageUrl": null,
+        "durationMinutes": 2500,
+        "price": 0,
+        "enrolledAt": "2026-11-20T02:42:56.648Z",
+        "category": {
+          "id": 1,
+          "name": "Programación"
+        },
+        "level": {
+          "id": 1,
+          "name": "Principiante"
+        },
+        "totalLessons": 0,
+        "completedLessons": 0,
+        "progress": null
+      }
+    ]
+  }
+}
+```
+
+**Descripción de los datos:**
+
+- `summary.totalCourses`: cantidad total de cursos en los que está inscripto el estudiante.
+- `summary.inProgressCourses`: cantidad de cursos con contenido cuyo progreso es menor al 100 %.
+- `summary.completedCourses`: cantidad de cursos completados.
+- `summary.overallProgress`: porcentaje general de avance.
+- `courses`: listado de cursos inscriptos con sus datos y progreso individual.
+- `totalLessons`: cantidad total de lecciones del curso.
+- `completedLessons`: cantidad de lecciones completadas.
+- `progress`: porcentaje de avance del curso.
+
+**Importante:** cuando un curso todavía no tiene lecciones, su progreso devuelve `null`. Si ningún curso tiene lecciones, `overallProgress` también devuelve `null`.
+
+Cuando el estudiante no tiene inscripciones, la API devuelve `200 OK`, con las estadísticas en cero, `overallProgress: null` y `courses: []`.
+
+**Errores posibles:**
+
+| Código | Situación |
+|---|---|
+| `401 Unauthorized` | JWT ausente, inválido o expirado. |
+| `403 Forbidden` | El usuario autenticado no tiene rol `Student`. |
+| `500 Internal Server Error` | Error interno al obtener los datos del dashboard. |
+
+**Privacidad:** el identificador del estudiante se obtiene exclusivamente del JWT validado por el middleware. El frontend no debe enviar `user_id`.
+
+---
+
+## 7. Autenticación y autorización
 
 ### POST /api/auth/register
 
@@ -503,7 +586,7 @@ roleMiddleware('Student')
 
 ---
 
-## 7. Integración con frontend
+## 8. Integración con frontend
 
 El frontend utiliza **React y Vite**. Durante el desarrollo local, las peticiones pueden dirigirse a `http://localhost:3001` o utilizar el proxy `/api` configurado en Vite.
 
@@ -523,6 +606,7 @@ El frontend utiliza **React y Vite**. Durante el desarrollo local, las peticione
 | GET | `/api/levels` | Público | Opciones de niveles |
 | POST | `/api/enrollments` | Student | Inscribirse en un curso |
 | GET | `/api/enrollments/me` | Student | Consultar mis inscripciones |
+| GET | `/api/dashboard` | Student | Dashboard del estudiante |
 
 ### Consideraciones de integración
 
@@ -535,7 +619,7 @@ El frontend utiliza **React y Vite**. Durante el desarrollo local, las peticione
 
 ---
 
-## 8. Estado de implementación
+## 9. Estado de implementación
 
 | Endpoint | Estado |
 |---|---|
@@ -551,6 +635,7 @@ El frontend utiliza **React y Vite**. Durante el desarrollo local, las peticione
 | GET `/api/levels` | Implementado y probado |
 | POST `/api/enrollments` | Implementado y probado |
 | GET `/api/enrollments/me` | Implementado y probado |
+| GET `/api/dashboard` | Implementado y probado |
 
 ### Pruebas realizadas con Postman
 
@@ -568,6 +653,11 @@ El frontend utiliza **React y Vite**. Durante el desarrollo local, las peticione
 - Inscripción sin JWT: `401 Unauthorized`.
 - Inscripción con JWT de administrador: `403 Forbidden`.
 - Consulta de inscripciones propias: `200 OK`.
+- Consulta del dashboard con JWT válido de estudiante: `200 OK`.
+- Consulta del dashboard de estudiante sin inscripciones: `200 OK`, lista vacía.
+- Consulta del dashboard sin JWT: `401 Unauthorized`.
+- Acceso al dashboard con JWT de Administrator: `403 Forbidden`.
+- Acceso al dashboard con JWT de Teacher: `403 Forbidden`.
 
 **Prueba adicional recomendada:** verificar `DELETE /api/courses/:id` sobre un curso que ya tenga inscripciones para confirmar `409 Conflict`. No se registra como probada hasta ejecutarla.
 
