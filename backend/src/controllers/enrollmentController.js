@@ -1,5 +1,6 @@
-const { QueryTypes, UniqueConstraintError } = require('sequelize');
-const sequelize = require('../config/database');
+const { UniqueConstraintError } = require('sequelize');
+const Enrollment = require('../models/Enrollment');
+const Course = require('../models/Course');
 
 // POST /api/enrollments
 const createEnrollment = async (req, res) => {
@@ -16,17 +17,11 @@ const createEnrollment = async (req, res) => {
     }
 
     // Verificar que el curso exista
-    const courses = await sequelize.query(
-      `SELECT id, title
-       FROM public.courses
-       WHERE id = :courseId`,
-      {
-        replacements: { courseId: course_id },
-        type: QueryTypes.SELECT
-      }
-    );
+    const course = await Course.findByPk(course_id, {
+      attributes: ['id', 'title']
+    });
 
-    if (courses.length === 0) {
+    if (!course) {
       return res.status(404).json({
         success: false,
         message: 'Curso no encontrado'
@@ -34,21 +29,15 @@ const createEnrollment = async (req, res) => {
     }
 
     // Verificar si ya existe la inscripción
-    const existingEnrollments = await sequelize.query(
-      `SELECT id
-       FROM public.enrollments
-       WHERE user_id = :userId
-         AND course_id = :courseId`,
-      {
-        replacements: {
-          userId,
-          courseId: course_id
-        },
-        type: QueryTypes.SELECT
-      }
-    );
+    const existingEnrollment = await Enrollment.findOne({
+      where: {
+        user_id: userId,
+        course_id
+      },
+      attributes: ['id']
+    });
 
-    if (existingEnrollments.length > 0) {
+    if (existingEnrollment) {
       return res.status(409).json({
         success: false,
         message: 'Ya estás inscrito en este curso'
@@ -56,27 +45,19 @@ const createEnrollment = async (req, res) => {
     }
 
     // Registrar la inscripción
-    const [enrollment] = await sequelize.query(
-      `INSERT INTO public.enrollments (user_id, course_id)
-       VALUES (:userId, :courseId)
-       RETURNING id, user_id, course_id, created_at`,
-      {
-        replacements: {
-          userId,
-          courseId: course_id
-        },
-        type: QueryTypes.INSERT
-      }
-    );
+    const enrollment = await Enrollment.create({
+      user_id: userId,
+      course_id
+    });
 
     return res.status(201).json({
       success: true,
       message: 'Inscripción realizada correctamente',
       data: {
-        id: enrollment[0].id,
-        userId: enrollment[0].user_id,
-        courseId: enrollment[0].course_id,
-        createdAt: enrollment[0].created_at
+        id: enrollment.id,
+        userId: enrollment.user_id,
+        courseId: enrollment.course_id,
+        createdAt: enrollment.created_at
       }
     });
 
@@ -113,31 +94,7 @@ const getMyEnrollments = async (req, res) => {
   try {
     const userId = req.user.id;
 
-    const enrollments = await sequelize.query(
-      `SELECT
-         e.id,
-         e.created_at,
-         c.id AS course_id,
-         c.title,
-         c.description,
-         c.duration_minutes,
-         c.image_url,
-         c.price,
-         cat.id AS category_id,
-         cat.name AS category_name,
-         l.id AS level_id,
-         l.name AS level_name
-       FROM public.enrollments e
-       INNER JOIN public.courses c ON e.course_id = c.id
-       INNER JOIN public.categories cat ON c.category_id = cat.id
-       INNER JOIN public.levels l ON c.level_id = l.id
-       WHERE e.user_id = :userId
-       ORDER BY e.created_at DESC, e.id DESC`,
-      {
-        replacements: { userId },
-        type: QueryTypes.SELECT
-      }
-    );
+    const enrollments = await Enrollment.getByUserId(userId);
 
     const formattedEnrollments = enrollments.map((enrollment) => ({
       id: enrollment.id,
