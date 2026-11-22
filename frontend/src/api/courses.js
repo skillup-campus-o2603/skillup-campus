@@ -6,17 +6,20 @@ import { apiRequest } from './client.js';
 function normalizeCourse(course) {
     if (!course || typeof course !== 'object') return course;
 
-    const level = course.level;
-    const normalizedLevel =
-        typeof level === 'string'
-            ? level
-            : level && typeof level === 'object' && typeof level.name === 'string'
-                ? level.name
-                : '';
+    const rawLevel = course.level;
+    const levelName = typeof rawLevel === 'string'
+        ? rawLevel
+        : rawLevel && typeof rawLevel === 'object'
+            ? rawLevel.name || ''
+            : '';
+    const levelId = rawLevel && typeof rawLevel === 'object'
+        ? rawLevel.id ?? course.levelId ?? course.level_id ?? null
+        : course.levelId ?? course.level_id ?? null;
 
     return {
         ...course,
-        level: normalizedLevel,
+        level: levelName,
+        levelId,
     };
 }
 

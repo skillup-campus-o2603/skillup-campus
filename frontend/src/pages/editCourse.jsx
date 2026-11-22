@@ -3,6 +3,9 @@ import { Link, useNavigate, useParams } from 'react-router';
 import { getCourseById, updateCourse } from '../api/courses.js';
 import CourseForm from '../components/courses/CourseForm.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
+import FeedbackMessage from '../components/feedback/FeedbackMessage.jsx';
+import LoadingSpinner from '../components/feedback/LoadingSpinner.jsx';
+import { getFriendlyApiMessage, marketingMessages } from '../utils/apiMessages.js';
 
 export default function EditCourse() {
     const { id } = useParams();
@@ -18,7 +21,7 @@ export default function EditCourse() {
         getCourseById(id, { signal: controller.signal })
             .then(setCourse)
             .catch((requestError) => {
-                if (requestError.name !== 'AbortError') setError(requestError.message);
+                if (requestError.name !== 'AbortError') setError(getFriendlyApiMessage(requestError, 'courseDetails'));
             })
             .finally(() => {
                 if (!controller.signal.aborted) setIsLoading(false);
@@ -29,8 +32,8 @@ export default function EditCourse() {
     async function handleUpdate(payload) {
         setIsSaving(true);
         try {
-            const response = await updateCourse(id, payload, token);
-            navigate('/controlPanelAdmin', { replace: true, state: { message: response.message || 'Curso actualizado correctamente.' } });
+            await updateCourse(id, payload, token);
+            navigate('/controlPanelAdmin', { replace: true, state: { message: marketingMessages.courseUpdated } });
         } finally {
             setIsSaving(false);
         }
@@ -44,9 +47,10 @@ export default function EditCourse() {
                 <h1>Editar curso</h1>
                 <p>Actualizá la información del curso seleccionado.</p>
             </div>
-            {isLoading && <p className="api-state-message">Cargando curso…</p>}
+            {isLoading && <div className="loading-state"><LoadingSpinner label="Cargando curso" /> Cargando curso…</div>}
             {error &&
-                <div className="api-state api-state-error" role="alert"><p>{error}</p>
+                <div className="api-state">
+                    <FeedbackMessage type="error">{error}</FeedbackMessage>
                     <Link className="button button-outline" to="/controlPanelAdmin">Volver</Link>
                 </div>}
             {!isLoading && !error && course && (

@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router';
 import { createCourse } from '../api/courses.js';
 import CourseForm from '../components/courses/CourseForm.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
+import { marketingMessages } from '../utils/apiMessages.js';
 
 export default function CreateCourse() {
     const { token } = useAuth();
@@ -12,8 +13,8 @@ export default function CreateCourse() {
     async function handleCreate(payload) {
         setIsSaving(true);
         try {
-            const response = await createCourse(payload, token);
-            navigate('/controlPanelAdmin', { replace: true, state: { message: response.message || 'Curso creado correctamente.' } });
+            await createCourse(payload, token);
+            navigate('/controlPanelAdmin', { replace: true, state: { message: marketingMessages.courseCreated } });
         } finally {
             setIsSaving(false);
         }

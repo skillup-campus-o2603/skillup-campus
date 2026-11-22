@@ -1,6 +1,12 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router';
 import { useAuth } from '../context/AuthContext.jsx';
+import FeedbackMessage from '../components/feedback/FeedbackMessage.jsx';
+import LoadingSpinner from '../components/feedback/LoadingSpinner.jsx';
+import { landingCopy } from '../content/marketingCopy.js';
+import { getFriendlyApiMessage } from '../utils/apiMessages.js';
+
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function Login() {
     const [error, setError] = useState('');
@@ -12,22 +18,34 @@ export default function Login() {
 
     async function handleSubmit(event) {
         event.preventDefault();
+        if (isSubmitting) return;
         setError('');
-        setIsSubmitting(true);
 
         const formData = new FormData(event.currentTarget);
-        const credentials = {
-            email: String(formData.get('email') || '').trim().toLowerCase(),
-            password: String(formData.get('password') || ''),
-        };
+        const email = String(formData.get('email') || '').trim().toLowerCase();
+        const password = String(formData.get('password') || '');
 
+        if (!email || !password) {
+            setError('¡Un pequeño paso antes de continuar! Completá los campos para ingresar.');
+            return;
+        }
+        if (!EMAIL_PATTERN.test(email)) {
+            setError('El correo parece estar incompleto. Revisá que esté bien escrito.');
+            return;
+        }
+
+        setIsSubmitting(true);
         try {
-            const user = await signIn(credentials);
+            const user = await signIn({ email, password });
             const requestedPath = location.state?.from?.pathname;
-            const fallbackPath = user.role === 'Administrator' ? '/controlPanelAdmin' : '/courses';
-            navigate(requestedPath && requestedPath !== '/login' ? requestedPath : fallbackPath, { replace: true });
+            const homeByRole = {
+                Administrator: '/controlPanelAdmin',
+                Teacher: '/controlPanel',
+                Student: '/courses',
+            };
+            navigate(requestedPath && requestedPath !== '/login' ? requestedPath : homeByRole[user.role] || '/courses', { replace: true });
         } catch (requestError) {
-            setError(requestError.message || 'No se pudo iniciar sesión. Intentá nuevamente.');
+            setError(getFriendlyApiMessage(requestError, 'login'));
         } finally {
             setIsSubmitting(false);
         }
@@ -38,8 +56,8 @@ export default function Login() {
             <div className="auth-layout">
                 <aside className="auth-aside">
                     <span className="auth-aside-kicker">SKILLUP CAMPUS</span>
-                    <h1>Tu próximo paso empieza acá.</h1>
-                    <p>Volvé a tu espacio de aprendizaje y seguí construyendo tu camino.</p>
+                    <h1>{landingCopy.loginTitle}</h1>
+                    <p>{landingCopy.loginSubtitle}</p>
                     <div className="auth-aside-decoration" aria-hidden="true">
                         <span className="auth-orbit orbit-a" />
                         <span className="auth-orbit orbit-b" />
@@ -50,30 +68,31 @@ export default function Login() {
 
                 <div className="auth-card">
                     <div className="auth-heading">
-                        <span className="eyebrow">QUÉ BUENO VERTE DE NUEVO</span>
-                        <h2>Iniciá sesión</h2>
-                        <p>Ingresá tu correo electrónico y contraseña para continuar.</p>
+                        <span className="eyebrow">SKILLUP CAMPUS</span>
+                        <h2>{landingCopy.loginTitle}</h2>
+                        <p>{landingCopy.loginSubtitle}</p>
                     </div>
 
                     {registered && (
-                        <p className="form-notice form-notice-success" role="status">
-                            ¡Tu cuenta se creó correctamente! Ahora podés iniciar sesión.
-                        </p>
+                        <FeedbackMessage type="success" title="¡Tu cuenta ya está lista!">
+                            Ahora podés iniciar sesión y seguir aprendiendo.
+                        </FeedbackMessage>
                     )}
 
-                    <form className="auth-form" onSubmit={handleSubmit}>
+                    <form className="auth-form" onSubmit={handleSubmit} noValidate>
                         <label htmlFor="email">Correo electrónico</label>
                         <input
                             id="email"
                             name="email"
                             type="email"
-                            placeholder="nombre@correo.com"
+                            placeholder="Ingresá tu correo electrónico"
                             autoComplete="email"
                             minLength={3}
                             maxLength={100}
                             pattern="^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$"
                             title="Ingresa un correo válido (ej. usuario@dominio.com)."
                             required
+                            aria-invalid={Boolean(error)}
                         />
                         <label htmlFor="password">Contraseña</label>
                         <input
@@ -83,20 +102,22 @@ export default function Login() {
                             placeholder="Ingresá tu contraseña"
                             autoComplete="current-password"
                             minLength={8}
+                            maxLength={255}
                             pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,255}$"
                             title="Mínimo 8 caracteres, una mayúscula, una minúscula y un número."
                             required
                         />
+                        <Link className="auth-link-forgot" to="/lostPassword">¿Olvidaste tu contraseña?</Link>
 
-                        {error && <p className="form-notice form-notice-error" role="alert">{error}</p>}
+                        {error && <FeedbackMessage type="error">{error}</FeedbackMessage>}
 
                         <button className="button button-primary button-full" type="submit" disabled={isSubmitting}>
-                            {isSubmitting ? 'Ingresando…' : 'Ingresar'} <span aria-hidden="true">→</span>
+                            {isSubmitting ? <><LoadingSpinner label="Ingresando" /> Ingresando…</> : 'Ingresar y seguir aprendiendo'}
                         </button>
                     </form>
 
                     <p className="auth-footnote">
-                        ¿Todavía no tenés una cuenta? <Link to="/register">Registrate acá -estudiante-.</Link>
+                        ¿Todavía no tenés cuenta? <Link to="/register">Empezá hoy</Link>
                     </p>
                     <Link className="back-link" to="/">← Volver al inicio</Link>
                 </div>

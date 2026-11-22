@@ -1,6 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router';
 import { getCourses } from '../api/courses.js';
+import CourseThumbnail from '../components/courses/CourseThumbnail.jsx';
+import FeedbackMessage from '../components/feedback/FeedbackMessage.jsx';
+import LoadingSpinner from '../components/feedback/LoadingSpinner.jsx';
+import { getCourseDescription, getCourseDurationLabel, getCourseLevelLabel, getCourseTitle } from '../content/marketingCopy.js';
+import { getFriendlyApiMessage } from '../utils/apiMessages.js';
 
 function formatDuration(minutes) {
     if (!Number.isFinite(Number(minutes)) || Number(minutes) <= 0) return 'Duración no definida';
@@ -9,17 +14,11 @@ function formatDuration(minutes) {
     return `${Number.isInteger(hours) ? hours : hours.toFixed(1)} h`;
 }
 
-function CourseImage({ course }) {
-    if (course.imageUrl) {
-        return <img src={course.imageUrl} alt={`Imagen del curso ${course.title}`} loading="lazy" />;
-    }
-
-    return (
-        <div className="course-api-placeholder" aria-hidden="true">
-            <span>SKILLUP</span>
-            <strong>{course.title?.slice(0, 1)?.toUpperCase() || 'S'}</strong>
-        </div>
-    );
+function formatPrice(price) {
+    const amount = Number(price);
+    return !Number.isFinite(amount) || amount === 0
+        ? 'Gratuito'
+        : `$ ${amount.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
 
 export default function Courses() {
@@ -27,18 +26,23 @@ export default function Courses() {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState('');
 
+    const loadCourses = useCallback(async (signal) => {
+        setError('');
+        const result = await getCourses({ signal });
+        setCourses(result);
+    }, []);
+
     useEffect(() => {
         const controller = new AbortController();
-        getCourses({ signal: controller.signal })
-            .then(setCourses)
+        loadCourses(controller.signal)
             .catch((requestError) => {
-                if (requestError.name !== 'AbortError') setError(requestError.message);
+                if (requestError.name !== 'AbortError') setError(getFriendlyApiMessage(requestError, 'courseList'));
             })
             .finally(() => {
                 if (!controller.signal.aborted) setIsLoading(false);
             });
         return () => controller.abort();
-    }, []);
+    }, [loadCourses]);
 
     return (
         <section className="container page-section">
@@ -56,11 +60,10 @@ export default function Courses() {
                 <span className="api-status-label">Datos actualizados desde SkillUp</span>
             </div>
 
-            {isLoading && <p className="api-state-message" role="status">Cargando cursos…</p>}
+            {isLoading && <div className="loading-state"><LoadingSpinner label="Cargando catálogo" /> Cargando cursos…</div>}
             {error && (
-                <div className="api-state api-state-error" role="alert">
-                    <strong>No pudimos cargar el catálogo.</strong>
-                    <p>{error}</p>
+                <div className="api-state api-state-error">
+                    <FeedbackMessage type="error" title="No pudimos cargar el catálogo">{error}</FeedbackMessage>
                     <button className="button button-outline button-small" type="button" onClick={() => window.location.reload()}>Reintentar</button>
                 </div>
             )}
@@ -75,22 +78,17 @@ export default function Courses() {
                 <div className="course-grid">
                     {courses.map((course) => (
                         <article className="course-card" key={course.id}>
-                            <div className="course-api-image">
-                                <CourseImage course={course} />
-                                <span className="course-category">{course.category?.name || 'Curso'}</span>
-                            </div>
+                            <CourseThumbnail course={course} className="course-card-art" />
                             <div className="course-card-body">
                                 <div className="course-meta">
-                                    <span>{course.level || 'Nivel no definido'}</span>
-                                    <span>{formatDuration(course.durationMinutes)}</span>
+                                    <span>{getCourseLevelLabel(course)}</span>
+                                    <span>{getCourseDurationLabel(course, formatDuration)}</span>
                                 </div>
-                                <h2>{course.title}</h2>
-                                <p>{course.description}</p>
+                                <h2>{getCourseTitle(course)}</h2>
+                                <p>{getCourseDescription(course)}</p>
                                 <div className="course-card-bottom">
-                                    <strong>{Number(course.price) === 0 ? 'Gratuito' : `$ ${Number(course.price).toLocaleString('es-AR', { minimumFractionDigits: 2 })}`}</strong>
-                                    <Link className="text-button" to={`/courses/${course.id}`}>
-                                        Ver más <span aria-hidden="true">→</span>
-                                    </Link>
+                                    <strong>{formatPrice(course.price)}</strong>
+                                    <Link className="text-button" to={`/courses/${course.id}`}>Ver más <span aria-hidden="true">→</span></Link>
                                 </div>
                             </div>
                         </article>

@@ -1,17 +1,18 @@
 import { Link } from 'react-router';
+import logo from '../../assets/brand/skillup-logo-footer.svg';
 
 export default function Footer() {
     return (
         <footer className="site-footer landing-footer" id="contacto">
             <div className="container footer-main">
                 <div className="footer-about">
-                    <Link className="footer-brand" to="/">
-                        <span className="footer-brand-mark">S</span>
-                        <span>SkillUp Campus</span>
+                    <Link className="footer-brand" to="/" aria-label="SkillUp Campus, ir al inicio">
+                        <img className="footer-brand-logo" src={logo} alt="SkillUp" />
+                        <span style={{ transform: 'translateY(18%)' }} className="footer-brand-campus">Campus</span>
                     </Link>
-                    <p>Aprendé hoy. Construí lo que sigue.</p>
+                    <p>Potenciá tu futuro.</p>
                     <span className="footer-about-note">
-                        Una plataforma para explorar conocimientos y desarrollar nuevas habilidades.
+                        Una plataforma para seguir aprendiendo y desarrollar nuevas habilidades.
                     </span>
                 </div>
 
@@ -25,15 +26,28 @@ export default function Footer() {
 
                 <div className="footer-column">
                     <h2>Tu cuenta</h2>
-                    <Link to="/login">Iniciar sesión</Link>
+                    <Link to="/login">Inicio de sesión</Link>
                     <Link to="/controlPanelAdmin">Administración</Link>
-                    <Link to="/register">Registro -estudiante-</Link>
+                    <Link to="/register">Registro de estudiante</Link>
                 </div>
 
                 <div className="footer-column footer-contact-column">
                     <h2>Contacto y comunidad</h2>
-                    <p>Los canales oficiales de contacto y redes sociales se publicarán cuando estén definidos por el equipo.</p>
-                    <span className="footer-coming-soon">Canales en preparación</span>
+                    <p>Conectate con SkillUp Campus. Los canales oficiales se publicarán cuando estén definidos por el equipo.</p>
+                    <div className="footer-socials-wrap">
+                        <span className="footer-socials-title">Canales Oficiales</span>
+                        <div className="footer-socials-list">
+                            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn de SkillUp Campus">
+                                <img src="/src/assets/icons/socials/linkedin.svg" alt="LinkedIn" />
+                            </a>
+                            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram de SkillUp Campus">
+                                <img src="/src/assets/icons/socials/instagram.svg" alt="Instagram" />
+                            </a>
+                            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" aria-label="YouTube de SkillUp Campus">
+                                <img src="/src/assets/icons/socials/github.svg" alt="YouTube" />
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -41,7 +55,7 @@ export default function Footer() {
                 <div className="container footer-bottom-inner">
                     <span>© {new Date().getFullYear()} SkillUp Campus. Todos los derechos reservados.</span>
                     <span>Políticas y condiciones · Próximamente</span>
-                    <span className="footer-project-status">Proyecto MVP en desarrollo</span>
+                    <span className="footer-project-status">Potenciá tu futuro.</span>
                 </div>
             </div>
         </footer>

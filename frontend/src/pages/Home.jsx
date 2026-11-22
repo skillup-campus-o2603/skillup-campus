@@ -1,41 +1,73 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router';
 import { getCourses } from '../api/courses.js';
+import CourseThumbnail from '../components/courses/CourseThumbnail.jsx';
+import FeedbackMessage from '../components/feedback/FeedbackMessage.jsx';
+import LoadingSpinner from '../components/feedback/LoadingSpinner.jsx';
+import { benefitCopy, getCourseDescription, getCourseDurationLabel, getCourseLevelLabel, getCourseTitle, landingCopy } from '../content/marketingCopy.js';
+import { getFriendlyApiMessage } from '../utils/apiMessages.js';
 
-const benefits = [
+import circularEmblem from '../assets/testimonials/circular-emblem.svg';
+import studentLucas from '../assets/testimonials/student-lucas.svg';
+import studentMartin from '../assets/testimonials/student-martin.svg';
+import studentKyoco from '../assets/testimonials/student-kyoco.svg';
+import studentCarlos from '../assets/testimonials/student-carlos.svg';
+import cardLogo from '../assets/testimonials/card-logo.svg';
+import studentValeria from '../assets/testimonials/student-valeria.svg';
+
+const TESTIMONIALS = [
     {
-        number: '01',
-        title: 'Clases en vivo',
-        description: 'Compartí el aprendizaje, resolvé dudas y conectá con docentes y compañeros.',
-        image:
-            'https://images.pexels.com/photos/6266990/pexels-photo-6266990.jpeg?auto=compress&cs=tinysrgb&w=1000',
-        imageAlt: 'Estudiante participando en una clase online desde su computadora',
-        tone: 'benefit-blue',
+        id: 'lucas',
+        name: 'Lucas Benítez',
+        course: 'Egresado de Inteligencia Artificial Aplicada',
+        image: studentLucas,
+        quote: 'Aplicar herramientas de inteligencia artificial generativa en mis tareas diarias transformó mi forma de trabajar y multiplicó mi productividad. Las clases prácticas y los proyectos basados en situaciones reales me brindaron conocimientos y habilidades alineados con las demandas del mercado actual.'
     },
     {
-        number: '02',
-        title: 'Acompañamiento y mentorías',
-        description: 'Encontrá orientación para avanzar con confianza y llevar tus ideas a la práctica.',
-        image:
-            'https://images.pexels.com/photos/37809798/pexels-photo-37809798.jpeg?auto=compress&cs=tinysrgb&w=1000',
-        imageAlt: 'Estudiante trabajando concentrada en una computadora dentro de un aula',
-        tone: 'benefit-orange',
+        id: 'martin',
+        name: 'Martín Souta',
+        course: 'Prototipado UX/UI',
+        image: studentMartin,
+        quote: 'Cursar Prototipado UX/UI me permitió estructurar un mindset verdaderamente centrado en el usuario. Profundizamos en metodologías de investigación cualitativa, arquitectura de información y la construcción de sistemas de diseño escalables.'
     },
     {
-        number: '03',
-        title: 'Certificá tus logros',
-        description: 'Dale visibilidad a las habilidades que desarrollás en tu recorrido de aprendizaje.',
-        image:
-            'https://images.pexels.com/photos/7713379/pexels-photo-7713379.jpeg?auto=compress&cs=tinysrgb&w=1000',
-        imageAlt: 'Mano sosteniendo un diploma de graduación',
-        tone: 'benefit-purple',
+        id: 'kyoco',
+        name: 'Kyoco Lin',
+        course: 'Desarrollo Web',
+        image: studentKyoco,
+        quote: 'Construir proyectos interactivos desde las bases me permitió dominar HTML, CSS y JavaScript con total soltura. ¡Una formación súper práctica y enfocada en lo que pide la industria para crear sitios funcionales!'
     },
+    {
+        id: 'carlos',
+        name: 'Carlos Wolf',
+        course: 'Desarrollo Web desde Cero',
+        image: studentCarlos,
+        quote: 'Construir proyectos interactivos desde las bases me permitió dominar HTML, CSS y JavaScript con total soltura. ¡Una formación súper práctica y enfocada en lo que pide la industria para crear sitios funcionales!'
+    },
+    // Este ítem representa el logo central de la segunda fila en desktop
+    {
+        id: 'brand-mark',
+        isBrandLogo: true
+    },
+    {
+        id: 'valeria',
+        name: 'Valeria García',
+        course: 'Excel (Aplicado a Negocios / Datos)',
+        image: studentValeria,
+        quote: 'Dominar desde fórmulas avanzadas y tablas dinámicas hasta macros y automatización cambió por completo mi forma de analizar información. ¡Herramientas clave y súper aplicables al mundo laboral diario!'
+    }
 ];
 
 function formatCourseDuration(minutes) {
     const hours = Number(minutes) / 60;
     if (!Number.isFinite(hours) || hours <= 0) return 'Duración no definida';
     return hours < 1 ? `${minutes} min` : `${Number.isInteger(hours) ? hours : hours.toFixed(1)} h`;
+}
+
+function formatPrice(price) {
+    const amount = Number(price);
+    if (!Number.isFinite(amount) || amount === 0) return 'Gratuito';
+    return `$ ${amount.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
 
 export default function Home() {
@@ -47,9 +79,9 @@ export default function Home() {
     useEffect(() => {
         const controller = new AbortController();
         getCourses({ signal: controller.signal })
-            .then((courses) => setFeaturedCourses(courses.slice(0, 4)))
+            .then((courses) => setFeaturedCourses(courses.slice(0, 6)))
             .catch((requestError) => {
-                if (requestError.name !== 'AbortError') setCoursesError(requestError.message);
+                if (requestError.name !== 'AbortError') setCoursesError(getFriendlyApiMessage(requestError, 'courseList'));
             })
             .finally(() => {
                 if (!controller.signal.aborted) setCoursesLoading(false);
@@ -57,72 +89,56 @@ export default function Home() {
         return () => controller.abort();
     }, []);
 
-    // React Router actualiza el hash, pero no desplaza automáticamente la página.
-    // Este efecto también cubre los enlaces que llegan desde otras rutas.
     useEffect(() => {
         if (pathname !== '/' || !hash) return;
 
         const sectionId = decodeURIComponent(hash.slice(1));
         const section = document.getElementById(sectionId);
 
-        if (section) {
-            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
+        if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
     }, [pathname, hash, key]);
 
     return (
         <div className="landing-page">
             <section className="landing-hero" aria-labelledby="landing-title">
                 <div className="container landing-hero-grid">
+                    <div className="landing-hero-visual">
+                        <div className="landing-hero-photo-wrap">
+                            <img
+                                className="landing-hero-photo"
+                                src="../src/assets/landing/hero-landing.svg"
+                                alt="Estudiantes usando una computadora portátil"
+                                fetchPriority="high"
+                            />
+                            <div className="landing-hero-photo-caption">
+                                <span>SKILLUP CAMPUS</span>
+                                <strong>Potenciá tu futuro.</strong>
+                            </div>
+                        </div>
+                        <div className="landing-hero-floating-card" aria-hidden="true">
+                            <span className="floating-card-icon">✦</span>
+                            <span><strong>Potenciá tu futuro</strong><small>Aprendé a tu ritmo.</small></span>
+                        </div>
+                        <span className="landing-hero-orbit landing-orbit-one" aria-hidden="true" />
+                        <span className="landing-hero-orbit landing-orbit-two" aria-hidden="true" />
+                    </div>
+
                     <div className="landing-hero-copy">
                         <span className="landing-eyebrow">
                             <span className="landing-eyebrow-dot" aria-hidden="true" />
                             APRENDIZAJE PARA LO QUE VIENE
                         </span>
-                        <h1 id="landing-title">
-                            Aprendé sin límites.
-                            <span>Impulsá tu futuro.</span>
-                        </h1>
-                        <p>
-                            Explorá nuevas ideas, desarrollá habilidades y encontrá herramientas para
-                            alcanzar tus objetivos. Tu próximo paso empieza acá.
-                        </p>
+                        <h1 id="landing-title">{landingCopy.heroTitle}</h1>
+                        <p>{landingCopy.heroSubtitle}</p>
                         <div className="landing-hero-actions">
-                            <Link className="button button-accent" to="/courses">
-                                Explorar cursos <span aria-hidden="true">↗</span>
-                            </Link>
-                            <Link className="landing-secondary-link" to="/#beneficios">
-                                Conocé SkillUp <span aria-hidden="true">→</span>
-                            </Link>
+                            <Link className="button button-primary" to="/courses">{landingCopy.heroCta} <span aria-hidden="true">↗</span></Link>
+                            <Link className="landing-secondary-link" to="/#beneficios">Conocé nuestros diferenciales <span aria-hidden="true">→</span></Link>
                         </div>
                         <div className="landing-hero-note">
                             <span aria-hidden="true">✓</span>
-                            Un espacio para aprender, compartir y crecer.
+                            Una plataforma adaptada a tus tiempos.
                         </div>
-                    </div>
-
-                    <div className="landing-hero-visual">
-                        <div className="landing-hero-photo-wrap">
-                            <img
-                                className="landing-hero-photo"
-                                src="https://images.pexels.com/photos/7550308/pexels-photo-7550308.jpeg?auto=compress&cs=tinysrgb&w=1400"
-                                alt="Tres jóvenes colaborando alrededor de una computadora portátil"
-                                fetchPriority="high"
-                            />
-                            <div className="landing-hero-photo-caption">
-                                <span>SKILLUP CAMPUS</span>
-                                <strong>Aprender también es compartir.</strong>
-                            </div>
-                        </div>
-                        <div className="landing-hero-floating-card" aria-hidden="true">
-                            <span className="floating-card-icon">✦</span>
-                            <span>
-                                <strong>Tu próximo paso</strong>
-                                <small>Empieza con una idea.</small>
-                            </span>
-                        </div>
-                        <span className="landing-hero-orbit landing-orbit-one" aria-hidden="true" />
-                        <span className="landing-hero-orbit landing-orbit-two" aria-hidden="true" />
                     </div>
                 </div>
             </section>
@@ -130,20 +146,17 @@ export default function Home() {
             <section className="landing-benefits section-space" id="beneficios" aria-labelledby="benefits-title">
                 <div className="container">
                     <div className="landing-section-heading landing-section-heading-centered">
-                        <span className="eyebrow">SELECCIÓN DE BENEFICIOS</span>
-                        <h2 id="benefits-title">Una experiencia pensada para crecer.</h2>
-                        <p>
-                            Más herramientas, acompañamiento y oportunidades para construir tu propio
-                            camino de aprendizaje.
-                        </p>
+                        {/* <span className="eyebrow">NUESTROS DIFERENCIALES</span> */}
+                        <h2 id="benefits-title">{landingCopy.benefitsTitle}</h2>
+                        <p>Recursos y acompañamiento para que puedas avanzar a tu ritmo.</p>
                     </div>
 
                     <div className="benefit-feature-grid">
-                        {benefits.map((benefit) => (
-                            <article className={`benefit-feature-card ${benefit.tone}`} key={benefit.number}>
+                        {benefitCopy.map((benefit, index) => (
+                            <article className={`benefit-feature-card ${benefit.tone}`} key={benefit.title}>
                                 <div className="benefit-feature-image">
                                     <img src={benefit.image} alt={benefit.imageAlt} loading="lazy" />
-                                    <span className="benefit-feature-number">{benefit.number}</span>
+                                    <span className="benefit-feature-number">0{index + 1}</span>
                                 </div>
                                 <div className="benefit-feature-copy">
                                     <h3>{benefit.title}</h3>
@@ -160,16 +173,16 @@ export default function Home() {
                     <div className="landing-section-heading landing-course-heading">
                         <div>
                             <span className="eyebrow">EMPEZÁ A EXPLORAR</span>
-                            <h2 id="courses-title">Catálogo de cursos</h2>
-                            <p>Conocé algunas de las propuestas disponibles y elegí por dónde empezar.</p>
+                            <h2 id="courses-title">{landingCopy.coursesTitle}</h2>
+                            <p>Encontrá una propuesta que acompañe tus intereses y objetivos.</p>
                         </div>
                         <Link className="button button-primary landing-course-cta" to="/courses">
                             Ver catálogo completo <span aria-hidden="true">→</span>
                         </Link>
                     </div>
 
-                    {coursesLoading && <p className="api-state-message" role="status">Cargando cursos…</p>}
-                    {coursesError && <p className="landing-courses-message" role="alert">No pudimos cargar los cursos: {coursesError}</p>}
+                    {coursesLoading && <div className="loading-state"><LoadingSpinner label="Cargando cursos" /> Cargando cursos…</div>}
+                    {coursesError && <FeedbackMessage type="error" title="No pudimos cargar los cursos">{coursesError}</FeedbackMessage>}
                     {!coursesLoading && !coursesError && featuredCourses.length === 0 && (
                         <div className="landing-courses-empty">
                             <h3>Próximamente vas a encontrar cursos acá.</h3>
@@ -178,25 +191,20 @@ export default function Home() {
                     )}
                     {!coursesLoading && !coursesError && featuredCourses.length > 0 && (
                         <div className="landing-course-grid">
-                            {featuredCourses.map((course, index) => (
+                            {featuredCourses.map((course) => (
                                 <Link className="landing-course-card" to={`/courses/${course.id}`} key={course.id}>
-                                    <div className={`landing-course-image ${['course-ai', 'course-data', 'course-development', 'course-design'][index % 4]}`}>
-                                        {course.imageUrl
-                                            ? <img src={course.imageUrl} alt={`Imagen del curso ${course.title}`} loading="lazy" />
-                                            : <span className="landing-course-image-fallback" aria-hidden="true">{course.title?.slice(0, 1)?.toUpperCase() || 'S'}</span>}
-
-                                        <span className="landing-course-category">{course.category?.name || 'CURSO'}</span>
-                                    </div>
+                                    <CourseThumbnail course={course} className="landing-course-art" />
                                     <div className="landing-course-copy">
                                         <div className="landing-course-meta">
-                                            <span>{course.level || 'Nivel no definido'}</span>
-                                            <span>{formatCourseDuration(course.durationMinutes)}</span>
+                                            <span>{getCourseLevelLabel(course)}</span>
+                                            <span>{getCourseDurationLabel(course, formatCourseDuration)}</span>
                                         </div>
-                                        <h3>{course.title}</h3>
-                                        <p>{course.description}</p>
-                                        <span className="landing-course-link">
-                                            Conocer curso <span aria-hidden="true">↗</span>
-                                        </span>
+                                        <h3>{getCourseTitle(course)}</h3>
+                                        <p>{getCourseDescription(course)}</p>
+                                        <div className="landing-course-footer">
+                                            <strong>{formatPrice(course.price)}</strong>
+                                            <span className="landing-course-link">Ver más <span aria-hidden="true">↗</span></span>
+                                        </div>
                                     </div>
                                 </Link>
                             ))}
@@ -207,16 +215,34 @@ export default function Home() {
 
             <section className="landing-testimonials section-space" id="testimonios" aria-labelledby="testimonials-title">
                 <div className="container">
-                    <div className="landing-section-heading landing-section-heading-centered">
-                        <span className="eyebrow">COMUNIDAD SKILLUP</span>
-                        <h2 id="testimonials-title">Lo que dicen nuestros estudiantes</h2>
-                        <p>Las experiencias de quienes aprenden pueden inspirar nuevos comienzos.</p>
+                    <div className="testimonials-banner">
+                        {/* El translate es para bajar un poquito la imagen, ya que por defecto el svg definido, tenía más sobrante abajo que arriba*/}
+                        <span className="testimonials-banner-mark" aria-hidden="true"><img style={{ transform: 'translateY(6%)' }} src={circularEmblem} alt="" /></span>
+                        <h2 id="testimonials-title">{landingCopy.testimonialsTitle}</h2>
+                        <span className="testimonials-banner-mark" aria-hidden="true"><img style={{ transform: 'translateY(6%)' }} src={circularEmblem} alt="" /></span>
                     </div>
 
-                    <div className="landing-testimonials-empty">
-                        <span className="landing-testimonials-icon" aria-hidden="true">✦</span>
-                        <h3>Las experiencias reales de nuestra comunidad pronto van a estar acá.</h3>
-                        <p>Cuando tengamos opiniones publicadas, las vas a poder conocer en esta sección.</p>
+                    <div className="testimonials-grid">
+                        {TESTIMONIALS.map((item) => {
+                            if (item.isBrandLogo) {
+                                return (
+                                    <div className="testimonial-brand-slot" key={item.id} aria-hidden="true">
+                                        <img src={cardLogo} alt="Logotipo de SkillUp Campus" loading="lazy" />
+                                    </div>
+                                );
+                            }
+
+                            return (
+                                <article className="testimonial-card" key={item.id}>
+                                    <img
+                                        className="testimonial-card-image"
+                                        src={item.image}
+                                        alt={`${item.name}. ${item.course}. ${item.quote}`}
+                                        loading="lazy"
+                                    />
+                                </article>
+                            );
+                        })}
                     </div>
                 </div>
             </section>

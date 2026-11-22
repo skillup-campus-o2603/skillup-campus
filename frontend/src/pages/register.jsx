@@ -1,24 +1,53 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import { registerRequest } from '../api/auth.js';
+import FeedbackMessage from '../components/feedback/FeedbackMessage.jsx';
+import LoadingSpinner from '../components/feedback/LoadingSpinner.jsx';
+import { landingCopy } from '../content/marketingCopy.js';
+import { getFriendlyApiMessage } from '../utils/apiMessages.js';
+
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function Register() {
     const [error, setError] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const navigate = useNavigate();
 
-    // Al llegar desde el enlace del Footer, la página comienza desde arriba.
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
 
     async function handleSubmit(event) {
         event.preventDefault();
+        if (isSubmitting) return;
         setError('');
 
         const formData = new FormData(event.currentTarget);
         const password = String(formData.get('password') || '');
         const confirmPassword = String(formData.get('confirmPassword') || '');
+        const email = String(formData.get('email') || '').trim().toLowerCase();
+
+        const requiredValues = ['name', 'surname', 'username', 'email', 'password', 'confirmPassword', 'country'];
+        if (requiredValues.some((field) => !String(formData.get(field) || '').trim())) {
+            setError('¡Un pequeño paso antes de continuar! Completá los campos para ingresar.');
+            return;
+        }
+        if (!EMAIL_PATTERN.test(email)) {
+            setError('El correo parece estar incompleto. Revisá que esté bien escrito.');
+            return;
+        }
+        if (password.length < 8) {
+            setError('Tu contraseña necesita al menos 8 caracteres. ¡Probá con una un poco más larga!');
+            return;
+        }
+        if (String(formData.get('username') || '').trim().length < 3 || !/^[a-zA-Z0-9._-]+$/.test(String(formData.get('username') || '').trim())) {
+            setError('El nombre de usuario debe tener al menos 3 caracteres y no incluir espacios.');
+            return;
+        }
+        if (String(formData.get('name') || '').trim().length < 2 || String(formData.get('surname') || '').trim().length < 2 || String(formData.get('country') || '').trim().length < 2) {
+            setError('Revisá tu nombre, apellido y país. Necesitamos al menos 2 caracteres en cada campo.');
+            return;
+        }
 
         if (password !== confirmPassword) {
             setError('Las contraseñas no coinciden. Revisá ambos campos.');
@@ -30,7 +59,7 @@ export default function Register() {
             name: String(formData.get('name') || '').trim(),
             surname: String(formData.get('surname') || '').trim(),
             username: String(formData.get('username') || '').trim(),
-            email: String(formData.get('email') || '').trim().toLowerCase(),
+            email,
             password,
             country: String(formData.get('country') || '').trim(),
             address: String(formData.get('address') || '').trim() || null,
@@ -42,7 +71,7 @@ export default function Register() {
             await registerRequest(userData);
             navigate('/login', { replace: true, state: { registered: true } });
         } catch (requestError) {
-            setError(requestError.message || 'No se pudo crear la cuenta. Revisá los datos e intentá nuevamente.');
+            setError(getFriendlyApiMessage(requestError, 'register'));
         } finally {
             setIsSubmitting(false);
         }
@@ -53,11 +82,8 @@ export default function Register() {
             <div className="auth-layout auth-register-layout">
                 <aside className="auth-aside auth-register-aside">
                     <span className="auth-aside-kicker">SKILLUP CAMPUS</span>
-                    <h1>Tu próximo paso empieza con una cuenta.</h1>
-                    <p>
-                        Sumate a la comunidad, descubrí nuevas habilidades y empezá a construir
-                        el camino que querés para tu futuro.
-                    </p>
+                    <h1>{landingCopy.registerTitle}</h1>
+                    <p>{landingCopy.registerSubtitle}</p>
                     <div className="auth-aside-decoration" aria-hidden="true">
                         <span className="auth-orbit orbit-a" />
                         <span className="auth-orbit orbit-b" />
@@ -68,12 +94,12 @@ export default function Register() {
 
                 <div className="auth-card auth-register-card">
                     <div className="auth-heading">
-                        <span className="eyebrow">TU HISTORIA EN SKILLUP</span>
-                        <h2>Creá tu cuenta</h2>
-                        <p>Completá tus datos para registrarte como estudiante.</p>
+                        <span className="eyebrow">CREÁ TU CUENTA</span>
+                        <h2>{landingCopy.registerTitle}</h2>
+                        <p>{landingCopy.registerSubtitle}</p>
                     </div>
 
-                    <form className="auth-form auth-register-form" onSubmit={handleSubmit}>
+                    <form className="auth-form auth-register-form" onSubmit={handleSubmit} noValidate>
                         <div className="auth-register-fields">
                             <div className="auth-field">
                                 <label htmlFor="register-name">Nombre</label>
@@ -81,7 +107,7 @@ export default function Register() {
                                     id="register-name"
                                     name="name"
                                     type="text"
-                                    placeholder="Tu nombre"
+                                    placeholder="¿Cómo te llamás?"
                                     autoComplete="given-name"
                                     minLength={2}
                                     maxLength={100}
@@ -107,13 +133,13 @@ export default function Register() {
                                 />
                             </div>
 
-                            <div className="auth-field">
+                            <div className="auth-field auth-field-full">
                                 <label htmlFor="register-email">Correo electrónico</label>
                                 <input
                                     id="register-email"
                                     name="email"
                                     type="email"
-                                    placeholder="nombre@correo.com"
+                                    placeholder="Ingresá tu correo electrónico"
                                     autoComplete="email"
                                     minLength={3}
                                     maxLength={100}
@@ -123,13 +149,13 @@ export default function Register() {
                                 />
                             </div>
 
-                            <div className="auth-field">
+                            <div className="auth-field auth-field-full">
                                 <label htmlFor="register-username">Nombre de usuario</label>
                                 <input
                                     id="register-username"
                                     name="username"
                                     type="text"
-                                    placeholder="Ej. lucas_123"
+                                    placeholder="Elegí un nombre de usuario"
                                     autoComplete="username"
                                     minLength={3}
                                     maxLength={100}
@@ -145,9 +171,10 @@ export default function Register() {
                                     id="register-password"
                                     name="password"
                                     type="password"
-                                    placeholder="Mínimo 8 caracteres"
+                                    placeholder="Creá una contraseña segura"
                                     autoComplete="new-password"
                                     minLength={8}
+                                    maxLength={255}
                                     pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,255}$"
                                     title="Mínimo 8 caracteres, una mayúscula, una minúscula y un número."
                                     required
@@ -163,6 +190,7 @@ export default function Register() {
                                     placeholder="Volvé a ingresarla"
                                     autoComplete="new-password"
                                     minLength={8}
+                                    maxLength={255}
                                     pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,255}$"
                                     title="Mínimo 8 caracteres, una mayúscula, una minúscula y un número."
                                     required
@@ -177,7 +205,7 @@ export default function Register() {
                                     type="text"
                                     placeholder="Ej. Argentina"
                                     autoComplete="country-name"
-                                    minLength={3}
+                                    minLength={2}
                                     maxLength={50}
                                     pattern="^[a-zA-ZÀ-ÿ\u00f1\u00d1'\s]+$"
                                     title="Solo se permiten letras y espacios."
@@ -191,7 +219,7 @@ export default function Register() {
                                     id="register-address"
                                     name="address"
                                     type="text"
-                                    placeholder="Calle, número, ciudad"
+                                    placeholder="Tu dirección"
                                     autoComplete="street-address"
                                     minLength={3}
                                     maxLength={100}
@@ -206,7 +234,7 @@ export default function Register() {
                                     id="register-telephone"
                                     name="telephone"
                                     type="tel"
-                                    placeholder="Ej. +54 3564 123456"
+                                    placeholder="Tu teléfono"
                                     autoComplete="tel"
                                     minLength={3}
                                     maxLength={25}
@@ -216,16 +244,16 @@ export default function Register() {
                             </div>
                         </div>
 
-                        {error && <p className="form-notice form-notice-error" role="alert">{error}</p>}
+                        {error && <FeedbackMessage type="error">{error}</FeedbackMessage>}
 
                         <button className="button button-primary button-full" type="submit" disabled={isSubmitting}>
-                            {isSubmitting ? 'Creando cuenta…' : 'Crear cuenta'} <span aria-hidden="true">→</span>
+                            {isSubmitting ? <><LoadingSpinner label="Creando cuenta" /> Creando cuenta…</> : 'Crear mi cuenta y empezar a aprender'}
                         </button>
                     </form>
 
-                    <p className="auth-footnote">
-                        ¿Ya tenés una cuenta? <Link to="/login">Iniciá sesión</Link>
-                    </p>
+                    <p className="auth-register-terms">Al crear tu cuenta, aceptás nuestros términos y condiciones.</p>
+                    <p className="auth-footnote">¿Ya tenés cuenta? <Link to="/login">Iniciá sesión</Link>.</p>
+
                     <Link className="back-link" to="/">← Volver al inicio</Link>
                 </div>
             </div>

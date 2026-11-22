@@ -2,11 +2,19 @@ import { useCallback, useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router';
 import { deleteCourse, getCourses } from '../api/courses.js';
 import { useAuth } from '../context/AuthContext.jsx';
+import FeedbackMessage from '../components/feedback/FeedbackMessage.jsx';
+import LoadingSpinner from '../components/feedback/LoadingSpinner.jsx';
+import { getFriendlyApiMessage, marketingMessages } from '../utils/apiMessages.js';
 
 function formatDuration(minutes) {
     const hours = Number(minutes) / 60;
     if (!Number.isFinite(hours) || hours <= 0) return '—';
     return hours < 1 ? `${minutes} min` : `${Number.isInteger(hours) ? hours : hours.toFixed(1)} h`;
+}
+
+function formatPrice(price) {
+    const amount = Number(price);
+    return !Number.isFinite(amount) || amount === 0 ? 'Gratis' : amount.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
 export default function ControlPanelAdmin() {
@@ -28,7 +36,7 @@ export default function ControlPanelAdmin() {
         const controller = new AbortController();
         loadCourses(controller.signal)
             .catch((requestError) => {
-                if (requestError.name !== 'AbortError') setError(requestError.message);
+                if (requestError.name !== 'AbortError') setError(getFriendlyApiMessage(requestError, 'courseList'));
             })
             .finally(() => {
                 if (!controller.signal.aborted) setIsLoading(false);
@@ -44,11 +52,11 @@ export default function ControlPanelAdmin() {
         setNotice('');
         setError('');
         try {
-            const response = await deleteCourse(course.id, token);
+            await deleteCourse(course.id, token);
             setCourses((current) => current.filter((item) => item.id !== course.id));
-            setNotice(response.message || 'Curso eliminado correctamente.');
+            setNotice(marketingMessages.courseDeleted);
         } catch (requestError) {
-            setError(requestError.message || 'No se pudo eliminar el curso.');
+            setError(getFriendlyApiMessage(requestError, 'courseDelete'));
         } finally {
             setDeletingId(null);
         }
@@ -70,12 +78,13 @@ export default function ControlPanelAdmin() {
                 <Link className="button button-accent" to="/createCourse">+ Crear curso</Link>
             </div>
 
-            {notice && <p className="form-notice form-notice-success" role="status">{notice}</p>}
+            {notice && <FeedbackMessage type="success">{notice}</FeedbackMessage>}
             {error &&
-                <div className="api-state api-state-error" role="alert"><strong>No se pudo completar la operación.</strong><p>{error}</p>
+                <div className="api-state">
+                    <FeedbackMessage type="error" title="No se pudo completar la operación">{error}</FeedbackMessage>
                     <button className="button button-outline button-small" type="button" onClick={() => window.location.reload()}>Reintentar</button>
                 </div>}
-            {isLoading && <p className="api-state-message">Cargando cursos…</p>}
+            {isLoading && <div className="loading-state"><LoadingSpinner label="Cargando cursos" /> Cargando cursos…</div>}
 
             {!isLoading && !error && courses.length === 0 && (
                 <div className="api-state">
@@ -105,12 +114,12 @@ export default function ControlPanelAdmin() {
                                     <td data-label="Categoría">{course.category?.name || '—'}</td>
                                     <td data-label="Nivel">{course.level || '—'}</td>
                                     <td data-label="Duración">{formatDuration(course.durationMinutes)}</td>
-                                    <td data-label="Precio">{Number(course.price) === 0 ? 'Gratis' : Number(course.price).toLocaleString('es-AR', { minimumFractionDigits: 2 })}</td>
+                                    <td data-label="Precio">{formatPrice(course.price)}</td>
                                     <td data-label="Acciones">
                                         <div className="admin-table-actions">
                                             <Link className="button button-outline button-small" to={`/editCourse/${course.id}`}>Editar</Link>
                                             <button className="button button-danger button-small" type="button" onClick={() => handleDelete(course)} disabled={deletingId === course.id}>
-                                                {deletingId === course.id ? 'Eliminando…' : 'Eliminar'}
+                                                {deletingId === course.id ? <><LoadingSpinner label="Eliminando curso" /> Eliminando…</> : 'Eliminar'}
                                             </button>
                                         </div>
                                     </td>

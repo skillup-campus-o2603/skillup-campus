@@ -1,5 +1,8 @@
-import { useEffect, useMemo, useState } from 'react';
-import { getCourses } from '../../api/courses.js';
+import { useEffect, useState } from 'react';
+import { getCategories, getLevels } from '../../api/referenceData.js';
+import FeedbackMessage from '../feedback/FeedbackMessage.jsx';
+import LoadingSpinner from '../feedback/LoadingSpinner.jsx';
+import { getFriendlyApiMessage } from '../../utils/apiMessages.js';
 
 const EMPTY_COURSE = {
     title: '',
@@ -15,9 +18,33 @@ export default function CourseForm({ initialCourse = null, onSubmit, submitLabel
     const [form, setForm] = useState(EMPTY_COURSE);
     const [formError, setFormError] = useState('');
     const [catalogOptions, setCatalogOptions] = useState({ categories: [], levels: [] });
+    const [isLoadingOptions, setIsLoadingOptions] = useState(true);
+    const [optionsError, setOptionsError] = useState('');
+
+    useEffect(() => {
+        const controller = new AbortController();
+        Promise.all([
+            getCategories({ signal: controller.signal }),
+            getLevels({ signal: controller.signal }),
+        ])
+            .then(([categories, levels]) => {
+                if (!controller.signal.aborted) setCatalogOptions({ categories, levels });
+            })
+            .catch((error) => {
+                if (error.name !== 'AbortError') setOptionsError(getFriendlyApiMessage(error, 'courseOptions'));
+            })
+            .finally(() => {
+                if (!controller.signal.aborted) setIsLoadingOptions(false);
+            });
+
+        return () => controller.abort();
+    }, []);
 
     useEffect(() => {
         if (!initialCourse) return;
+        const matchingLevel = catalogOptions.levels.find(
+            (level) => level.name?.toLowerCase() === initialCourse.level?.toLowerCase(),
+        );
         setForm({
             title: initialCourse.title || '',
             description: initialCourse.description || '',
@@ -25,33 +52,14 @@ export default function CourseForm({ initialCourse = null, onSubmit, submitLabel
             duration_minutes: String(initialCourse.durationMinutes ?? ''),
             image_url: initialCourse.imageUrl || '',
             price: String(initialCourse.price ?? 0),
-            level_id: '',
+            level_id: String(initialCourse.levelId ?? matchingLevel?.id ?? ''),
         });
-    }, [initialCourse]);
-
-    useEffect(() => {
-        const controller = new AbortController();
-        getCourses({ signal: controller.signal })
-            .then((courses) => {
-                const categoriesById = new Map();
-                courses.forEach((course) => {
-                    if (course.category?.id) categoriesById.set(course.category.id, course.category.name);
-                });
-                setCatalogOptions({
-                    categories: [...categoriesById].map(([id, name]) => ({ id, name })),
-                });
-            })
-            .catch(() => {
-                // Se pueden ingresar los IDs manualmente aunque el catálogo no esté disponible.
-            });
-        return () => controller.abort();
-    }, []);
-
-    const categoryOptions = useMemo(() => catalogOptions.categories, [catalogOptions.categories]);
+    }, [initialCourse, catalogOptions.levels]);
 
     function updateField(event) {
         const { name, value } = event.target;
         setForm((current) => ({ ...current, [name]: value }));
+        if (formError) setFormError('');
     }
 
     async function handleSubmit(event) {
@@ -65,21 +73,19 @@ export default function CourseForm({ initialCourse = null, onSubmit, submitLabel
             duration_minutes: Number(form.duration_minutes),
             image_url: form.image_url.trim() || null,
             price: Number(form.price),
+            level_id: Number(form.level_id),
         };
 
-        if (!Number.isSafeInteger(payload.category_id) || payload.category_id <= 0) {
-            setFormError('Ingresá un ID de categoría válido.');
+        if (!payload.title || !payload.description) {
+            setFormError('¡Un pequeño paso antes de continuar! Completá los campos obligatorios.');
             return;
         }
-        if (form.level_id.trim()) {
-            const levelId = Number(form.level_id);
-            if (!Number.isSafeInteger(levelId) || levelId <= 0) {
-                setFormError('Ingresá un ID de nivel válido.');
-                return;
-            }
-            payload.level_id = levelId;
-        } else if (!initialCourse) {
-            setFormError('Ingresá un ID de nivel válido.');
+        if (!Number.isSafeInteger(payload.category_id) || payload.category_id <= 0) {
+            setFormError('Elegí una categoría de la lista para continuar.');
+            return;
+        }
+        if (!Number.isSafeInteger(payload.level_id) || payload.level_id <= 0) {
+            setFormError('Elegí un nivel de la lista para continuar.');
             return;
         }
         if (!Number.isSafeInteger(payload.duration_minutes) || payload.duration_minutes <= 0) {
@@ -98,12 +104,12 @@ export default function CourseForm({ initialCourse = null, onSubmit, submitLabel
         try {
             await onSubmit(payload);
         } catch (error) {
-            setFormError(error.message || 'No se pudo guardar el curso.');
+            setFormError(getFriendlyApiMessage(error, 'courseSave'));
         }
     }
 
     return (
-        <form className="admin-form" onSubmit={handleSubmit}>
+        <form className="admin-form" onSubmit={handleSubmit} noValidate>
             <div className="admin-form-grid">
                 <div className="admin-field admin-field-full">
                     <label htmlFor="course-title">Título</label>
@@ -116,38 +122,23 @@ export default function CourseForm({ initialCourse = null, onSubmit, submitLabel
                 </div>
 
                 <div className="admin-field">
-                    <label htmlFor="course-category-id">ID de categoría</label>
-                    <input
-                        id="course-category-id"
-                        name="category_id"
-                        type="number"
-                        min="1"
-                        step="1"
-                        list="course-category-options"
-                        value={form.category_id}
-                        onChange={updateField}
-                        required
-                    />
-                    <datalist id="course-category-options">
-                        {categoryOptions.map((option) => <option key={option.id} value={option.id} label={option.name} />)}
-                    </datalist>
-                    <small>{categoryOptions.length ? `IDs conocidos: ${categoryOptions.map((option) => `${option.id} · ${option.name}`).join(' / ')}` : 'Ingresá un ID existente en la tabla categories.'}</small>
+                    <label htmlFor="course-category-id">Categoría</label>
+                    <select id="course-category-id" name="category_id" value={form.category_id} onChange={updateField} required disabled={isLoadingOptions || !catalogOptions.categories.length}>
+                        <option value="">Seleccioná una categoría</option>
+                        {catalogOptions.categories.map((category) => (
+                            <option key={category.id} value={category.id}>{category.name}</option>
+                        ))}
+                    </select>
                 </div>
 
                 <div className="admin-field">
-                    <label htmlFor="course-level-id">ID de nivel {initialCourse ? '(opcional)' : ''}</label>
-                    <input
-                        id="course-level-id"
-                        name="level_id"
-                        type="number"
-                        min="1"
-                        step="1"
-                        value={form.level_id}
-                        onChange={updateField}
-                        required={!initialCourse}
-                        placeholder={initialCourse ? 'Dejar vacío para conservar el nivel actual' : 'ID numérico de la tabla levels'}
-                    />
-                    <small>{initialCourse ? `Nivel actual: ${initialCourse.level}. Dejalo vacío si no querés modificarlo.` : 'Ingresá un ID existente en la tabla levels.'}</small>
+                    <label htmlFor="course-level-id">Nivel</label>
+                    <select id="course-level-id" name="level_id" value={form.level_id} onChange={updateField} required disabled={isLoadingOptions || !catalogOptions.levels.length}>
+                        <option value="">Seleccioná un nivel</option>
+                        {catalogOptions.levels.map((level) => (
+                            <option key={level.id} value={level.id}>{level.name}</option>
+                        ))}
+                    </select>
                 </div>
 
                 <div className="admin-field">
@@ -166,15 +157,17 @@ export default function CourseForm({ initialCourse = null, onSubmit, submitLabel
                 </div>
             </div>
 
+            {isLoadingOptions && <div className="loading-state"><LoadingSpinner label="Cargando categorías y niveles" /> Cargando categorías y niveles…</div>}
+            {optionsError && <><FeedbackMessage type="error" title="No pudimos cargar las opciones">{optionsError}</FeedbackMessage><button className="button button-outline button-small" type="button" onClick={() => window.location.reload()}>Volver a intentar</button></>}
+            {formError && <FeedbackMessage type="error">{formError}</FeedbackMessage>}
+
             <p className="admin-form-hint">
-                La API no ofrece endpoints para consultar categorías y niveles por separado. Se sugieren los IDs de categoría que aparecen en los cursos existentes. Para el nivel, consultá el ID existente en la tabla levels; al editar, dejalo vacío para conservar el nivel actual.
+                Las categorías y los niveles se cargan desde el catálogo de SkillUp. La duración se expresa en minutos.
             </p>
 
-            {formError && <p className="form-notice form-notice-error" role="alert">{formError}</p>}
-
             <div className="admin-form-actions">
-                <button className="button button-primary" type="submit" disabled={isSaving}>
-                    {isSaving ? 'Guardando…' : submitLabel}
+                <button className="button button-primary" type="submit" disabled={isSaving || isLoadingOptions || !catalogOptions.categories.length || !catalogOptions.levels.length}>
+                    {isSaving ? <><LoadingSpinner label="Guardando curso" /> Guardando…</> : submitLabel}
                 </button>
             </div>
         </form>

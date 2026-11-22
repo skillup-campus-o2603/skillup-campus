@@ -1,11 +1,21 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router';
 import { getCourseById } from '../api/courses.js';
+import CourseThumbnail from '../components/courses/CourseThumbnail.jsx';
+import FeedbackMessage from '../components/feedback/FeedbackMessage.jsx';
+import LoadingSpinner from '../components/feedback/LoadingSpinner.jsx';
+import { getCourseDescription, getCourseDurationLabel, getCourseLevelLabel, getCourseTitle } from '../content/marketingCopy.js';
+import { getFriendlyApiMessage } from '../utils/apiMessages.js';
 
 function formatDuration(minutes) {
     const hours = Number(minutes) / 60;
     if (!Number.isFinite(hours) || hours <= 0) return 'No especificada';
     return hours < 1 ? `${minutes} minutos` : `${Number.isInteger(hours) ? hours : hours.toFixed(1)} horas`;
+}
+
+function formatPrice(price) {
+    const amount = Number(price);
+    return !Number.isFinite(amount) || amount === 0 ? 'Gratuito' : `$ ${amount.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
 
 export default function DetailsCourse() {
@@ -17,10 +27,11 @@ export default function DetailsCourse() {
     useEffect(() => {
         const controller = new AbortController();
         setIsLoading(true);
+        setError('');
         getCourseById(id, { signal: controller.signal })
             .then(setCourse)
             .catch((requestError) => {
-                if (requestError.name !== 'AbortError') setError(requestError.message);
+                if (requestError.name !== 'AbortError') setError(getFriendlyApiMessage(requestError, 'courseDetails'));
             })
             .finally(() => {
                 if (!controller.signal.aborted) setIsLoading(false);
@@ -28,27 +39,26 @@ export default function DetailsCourse() {
         return () => controller.abort();
     }, [id]);
 
-    if (isLoading) return <section className="container page-section"><p className="api-state-message">Cargando información del curso…</p></section>;
-    if (error) return <section className="container page-section"><div className="api-state api-state-error" role="alert"><h1>No pudimos abrir el curso.</h1><p>{error}</p><Link className="button button-primary" to="/courses">Volver al catálogo</Link></div></section>;
+    if (isLoading) return <section className="container page-section"><div className="loading-state"><LoadingSpinner label="Cargando curso" /> Cargando información del curso…</div></section>;
+    if (error) return <section className="container page-section"><div className="api-state"><FeedbackMessage type="error" title="No pudimos abrir el curso">{error}</FeedbackMessage><Link className="button button-primary" to="/courses">Volver al catálogo</Link></div></section>;
+
     if (!course) return null;
 
     return (
         <section className="container page-section course-detail-page">
             <Link className="back-link" to="/courses">← Volver al catálogo</Link>
             <div className="course-detail-card">
-                <div className="course-detail-visual">
-                    {course.imageUrl ? <img src={course.imageUrl} alt={`Imagen del curso ${course.title}`} /> : <div className="course-api-placeholder"><span>SKILLUP</span><strong>{course.title?.slice(0, 1)?.toUpperCase() || 'S'}</strong></div>}
-                </div>
+                <div className="course-detail-visual"><CourseThumbnail course={course} /></div>
                 <div className="course-detail-content">
                     <span className="eyebrow">{course.category?.name || 'CURSO SKILLUP'}</span>
-                    <h1>{course.title}</h1>
-                    <p>{course.description}</p>
+                    <h1>{getCourseTitle(course)}</h1>
+                    <p>{getCourseDescription(course)}</p>
                     <dl className="course-detail-meta">
-                        <div><dt>Nivel</dt><dd>{course.level || 'No especificado'}</dd></div>
-                        <div><dt>Duración</dt><dd>{formatDuration(course.durationMinutes)}</dd></div>
-                        <div><dt>Precio</dt><dd>{Number(course.price) === 0 ? 'Gratuito' : `$ ${Number(course.price).toLocaleString('es-AR', { minimumFractionDigits: 2 })}`}</dd></div>
+                        <div><dt>Nivel</dt><dd>{getCourseLevelLabel(course)}</dd></div>
+                        <div><dt>Duración</dt><dd>{getCourseDurationLabel(course, formatDuration)}</dd></div>
+                        <div><dt>Precio</dt><dd>{formatPrice(course.price)}</dd></div>
                     </dl>
-                    <p className="course-enrollment-note">La inscripción a cursos todavía no cuenta con un endpoint en la API.</p>
+                    <p className="course-enrollment-note">La inscripción a este curso todavía no está disponible desde esta vista.</p>
                 </div>
             </div>
         </section>

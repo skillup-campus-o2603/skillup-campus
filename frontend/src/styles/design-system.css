@@ -1,0 +1,894 @@
+/* SkillUp Campus — UI Kit aplicado a la interfaz. */
+:root {
+    color-scheme: light;
+}
+
+html {
+    scroll-padding-top: 24px;
+}
+
+.container {
+    width: min(var(--container-width), calc(100% - 3rem));
+}
+
+/* Grilla de 12 columnas y gutter de 20px del handoff UX/UI. */
+.grid-12 {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: var(--grid-gutter);
+}
+
+/* Header global, en el tono durazno definido para el navbar. */
+.site-header {
+    background: var(--secondary-100);
+    border-bottom-color: rgb(9 14 149 / 10%);
+}
+
+.announcement-bar {
+    background: var(--color-primary);
+}
+
+.announcement-content {
+    min-height: 36px;
+    font-size: 0.78rem;
+    letter-spacing: 0.01em;
+}
+
+.announcement-content p {
+    justify-content: center;
+    text-align: center;
+}
+
+.announcement-icon {
+    color: var(--color-accent);
+}
+
+.landing-navbar {
+    min-height: 76px;
+    gap: clamp(0.8rem, 1.6vw, 1.5rem);
+}
+
+.brand-logo {
+    display: block;
+    width: clamp(132px, 12vw, 168px);
+    height: auto;
+    max-height: 52px;
+    object-fit: contain;
+}
+
+.main-nav {
+    gap: clamp(0.75rem, 1.6vw, 1.65rem);
+}
+
+.nav-link {
+    color: var(--color-primary);
+    font-size: 0.83rem;
+    font-weight: 700;
+}
+
+.nav-link:hover,
+.nav-link-active {
+    color: var(--color-accent-dark);
+}
+
+.nav-link-active::after {
+    height: 2px;
+    background: var(--color-accent);
+}
+
+.nav-actions {
+    gap: 0.55rem;
+}
+
+/* Variantes de botón del UI Kit: azul primario y naranja secundario. */
+.button {
+    min-height: 42px;
+    border-radius: var(--radius-control);
+    padding: 0.68rem 1.2rem;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.005em;
+    box-shadow: none;
+}
+
+.button-primary {
+    background: var(--primary-500);
+    color: #fff;
+}
+
+.button-primary:hover:not(:disabled) {
+    background: var(--primary-700);
+}
+
+.button-primary:active:not(:disabled) {
+    background: var(--primary-800);
+    transform: translateY(0);
+}
+
+.button-accent,
+.button-secondary {
+    background: var(--secondary-500);
+    color: #fff;
+}
+
+.button-accent:hover:not(:disabled),
+.button-secondary:hover:not(:disabled) {
+    background: var(--secondary-600);
+}
+
+.button-accent:active:not(:disabled),
+.button-secondary:active:not(:disabled) {
+    background: var(--secondary-700);
+    transform: translateY(0);
+}
+
+.button-outline {
+    border-color: var(--primary-500);
+    background: transparent;
+    color: var(--primary-500);
+}
+
+.button-outline:hover:not(:disabled) {
+    background: var(--primary-100);
+}
+
+.button:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+    filter: saturate(0.65);
+}
+
+.button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 3px solid rgb(239 97 17 / 35%);
+    outline-offset: 2px;
+}
+
+/* Inputs consistentes para auth, cursos y pantallas administrativas. */
+.auth-form input,
+.admin-field input,
+.admin-field textarea,
+.admin-field select {
+    min-height: 46px;
+    border: 1px solid #d7d9e6;
+    border-radius: 8px;
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-family: var(--font-family);
+    font-size: 0.88rem;
+    transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.auth-form input:focus,
+.admin-field input:focus,
+.admin-field textarea:focus,
+.admin-field select:focus {
+    border-color: var(--color-primary);
+    outline: none;
+    box-shadow: 0 0 0 3px rgb(9 14 149 / 10%);
+}
+
+.auth-form input::placeholder,
+.admin-field input::placeholder,
+.admin-field textarea::placeholder {
+    color: #777b91;
+}
+
+.auth-form label,
+.admin-field label {
+    color: var(--color-primary-900, #020333);
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+
+/* Formularios de acceso: tarjeta clara, inputs y acciones del mismo sistema. */
+.auth-page {
+    background:
+        radial-gradient(circle at 12% 10%, rgb(204 255 255 / 60%), transparent 25rem),
+        linear-gradient(135deg, #fff 0%, #fff9f5 100%);
+}
+
+.auth-layout {
+    border-color: rgb(9 14 149 / 12%);
+    border-radius: 20px;
+    box-shadow: 0 18px 48px rgb(9 14 149 / 10%);
+}
+
+.auth-aside {
+    background: linear-gradient(145deg, var(--primary-900), var(--primary-500));
+}
+
+.auth-heading h2 {
+    font-size: clamp(1.65rem, 3vw, 2.05rem);
+    font-weight: 700;
+}
+
+.auth-form {
+    gap: 0.7rem;
+}
+
+.auth-form .button {
+    min-height: 48px;
+    margin-top: 0.6rem;
+}
+
+.auth-footnote a,
+.auth-footnote span {
+    color: var(--color-accent-dark);
+}
+
+.auth-link-forgot {
+    justify-self: end;
+    margin-top: 0.15rem;
+    color: var(--color-primary);
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+.auth-register-terms {
+    margin: 0.7rem 0 0;
+    color: var(--color-text-muted);
+    font-size: 0.76rem;
+    line-height: 1.55;
+}
+
+/* Tarjetas, tablas y superficies de administración. */
+.course-card,
+.landing-course-card,
+.admin-form-card,
+.api-state,
+.admin-table-wrap {
+    border-color: rgb(9 14 149 / 12%);
+    box-shadow: 0 10px 28px rgb(9 14 149 / 6%);
+}
+
+.course-card,
+.landing-course-card {
+    border-radius: 16px;
+}
+
+.admin-form-card {
+    border-radius: 18px;
+}
+
+.admin-field select {
+    width: 100%;
+    padding: 0.72rem 0.85rem;
+}
+
+/* Feedback semántico con íconos SVG. Los SVG de Semana 4 todavía no llegaron. */
+.feedback-message {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+    margin: 0.85rem 0;
+    padding: 0.85rem 1rem;
+    border: 1px solid transparent;
+    border-left-width: 4px;
+    border-radius: 10px;
+    font-size: 0.82rem;
+    line-height: 1.55;
+}
+
+.feedback-icon {
+    flex: 0 0 22px;
+    width: 22px;
+    height: 22px;
+    margin-top: 1px;
+}
+
+.feedback-content {
+    min-width: 0;
+}
+
+.feedback-content strong {
+    display: block;
+    margin-bottom: 0.15rem;
+}
+
+.feedback-success {
+    border-color: #c9ead9;
+    border-left-color: var(--success-500);
+    background: var(--success-100);
+    color: var(--success-700);
+}
+
+.feedback-error {
+    border-color: var(--error-200);
+    border-left-color: var(--error-500);
+    background: var(--error-100);
+    color: var(--error-700);
+}
+
+.feedback-warning {
+    border-color: #f5e1a8;
+    border-left-color: var(--caution-600);
+    background: var(--caution-100);
+    color: var(--caution-900);
+}
+
+.feedback-info {
+    border-color: #c9e9f6;
+    border-left-color: var(--info-600);
+    background: var(--info-100);
+    color: var(--info-900);
+}
+
+.form-notice {
+    border-left-width: 4px;
+}
+
+.form-notice-error {
+    border-left-color: var(--error-500);
+    background: var(--error-100);
+    color: var(--error-700);
+}
+
+.form-notice-success {
+    border-left-color: var(--success-500);
+    background: var(--success-100);
+    color: var(--success-700);
+}
+
+/* Loading spinner CSS provisional: el GIF definitivo aún figura en producción. */
+.loading-spinner {
+    display: inline-grid;
+    flex: 0 0 auto;
+    place-items: center;
+    vertical-align: middle;
+    color: currentColor;
+}
+
+.loading-spinner-ring {
+    display: block;
+    width: 18px;
+    height: 18px;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: skillup-spin 700ms linear infinite;
+}
+
+.loading-spinner-medium .loading-spinner-ring {
+    width: 30px;
+    height: 30px;
+    border-width: 3px;
+}
+
+.loading-spinner-large .loading-spinner-ring {
+    width: 42px;
+    height: 42px;
+    border-width: 4px;
+}
+
+.loading-state {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 1.1rem 0;
+    color: var(--color-text-muted);
+    font-size: 0.88rem;
+}
+
+.button .loading-spinner {
+    color: currentColor;
+}
+
+.visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+@keyframes skillup-spin {
+    to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Header y footer presentes en todas las pantallas mediante AppLayout. */
+.landing-footer {
+    background: var(--color-primary);
+}
+
+.footer-main {
+    grid-template-columns: 1.4fr 0.8fr 0.9fr 1.25fr;
+}
+
+.footer-brand-logo {
+    width: 142px;
+    height: auto;
+    max-height: 42px;
+    object-fit: contain;
+}
+
+.footer-brand-campus {
+    margin-left: 0.45rem;
+    color: #fff;
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+.footer-bottom {
+    border-top-color: rgb(255 255 255 / 22%);
+    background: rgb(0 0 0 / 8%);
+}
+
+/* El menú conserva acciones de sesión visibles en tablet y móvil. */
+@media (max-width: 980px) {
+    .landing-navbar {
+        flex-wrap: wrap;
+        padding-block: 0.75rem;
+    }
+
+    .landing-navbar .main-nav {
+        order: 3;
+        width: 100%;
+        min-height: 40px;
+        justify-content: space-between;
+        overflow-x: auto;
+        scrollbar-width: none;
+        border-top: 1px solid rgb(9 14 149 / 10%);
+    }
+
+    .landing-navbar .main-nav::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+@media (max-width: 720px) {
+    .container {
+        width: min(var(--container-width), calc(100% - 2rem));
+    }
+
+    .landing-navbar .nav-actions {
+        margin-left: auto;
+    }
+
+    .landing-navbar .nav-actions .button-outline,
+    .landing-navbar .nav-actions .button-accent,
+    .landing-navbar .nav-actions .button-primary {
+        display: inline-flex;
+        min-height: 36px;
+        padding: 0.48rem 0.68rem;
+        font-size: 0.72rem;
+    }
+
+    .landing-navbar .nav-link {
+        flex: 0 0 auto;
+        padding: 0.4rem 0.15rem;
+        font-size: 0.72rem;
+    }
+
+    .brand-logo {
+        width: 126px;
+    }
+
+    .landing-hero-grid {
+        grid-template-columns: 1fr;
+        gap: 1.8rem;
+    }
+
+    .landing-hero-visual,
+    .landing-hero-copy {
+        grid-column: auto !important;
+        grid-row: auto !important;
+    }
+
+    .landing-hero-visual {
+        min-height: min(72vw, 370px);
+    }
+
+    .landing-hero h1 {
+        font-size: clamp(2.35rem, 9vw, 3.4rem);
+    }
+
+    .footer-main {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 2rem 1.4rem;
+    }
+
+    .footer-about,
+    .footer-contact-column {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 420px) {
+    .announcement-content {
+        min-height: 34px;
+        font-size: 0.68rem;
+    }
+
+    .announcement-content p {
+        flex-wrap: wrap;
+        justify-content: center;
+        line-height: 1.35;
+    }
+
+    .brand-logo {
+        width: 108px;
+    }
+
+    .landing-navbar .nav-actions {
+        gap: 0.35rem;
+    }
+
+    .landing-navbar .nav-actions .button-outline,
+    .landing-navbar .nav-actions .button-accent,
+    .landing-navbar .nav-actions .button-primary {
+        min-height: 34px;
+        padding-inline: 0.55rem;
+        font-size: 0.68rem;
+    }
+}
+
+/* Ajustes finales del prototipo Hi-Fi y assets visuales originales. */
+.site-header {
+    background: var(--secondary-100);
+}
+
+.landing-hero-grid {
+    grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+    gap: clamp(2rem, 4vw, 4rem);
+}
+
+.landing-hero-visual {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.landing-hero-copy {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+.landing-hero h1 {
+    color: var(--secondary-600);
+    font-size: clamp(2.45rem, 4.15vw, 3.8rem);
+    letter-spacing: -0.045em;
+    line-height: 1.08;
+}
+
+.landing-hero h1 span {
+    color: var(--secondary-600);
+}
+
+.landing-hero-copy > p {
+    color: var(--primary-900);
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+.landing-hero-photo-wrap {
+    inset: 0 1rem 0 0;
+    /* border-radius: 50% 42% 46% 40% / 46% 45% 55% 54%; */
+    background: var(--tertiary-100);
+    box-shadow: none;
+}
+
+.landing-hero-photo-wrap::after {
+    background: linear-gradient(180deg, transparent 55%, rgb(9 14 149 / 60%));
+}
+
+.landing-hero-floating-card {
+    top: auto;
+    right: 0;
+    bottom: 1.1rem;
+    left: auto;
+    border-color: var(--tertiary-200);
+}
+
+.landing-benefits,
+.landing-courses,
+.landing-testimonials {
+    scroll-margin-top: 28px;
+}
+
+.landing-section-heading h2,
+.landing-course-heading h2 {
+    color: var(--primary-500);
+}
+
+.benefit-feature-card {
+    border: 1px solid rgb(9 14 149 / 22%);
+    border-radius: 14px;
+    background: #fff;
+    box-shadow: 0 8px 22px rgb(9 14 149 / 6%);
+}
+
+.benefit-feature-image {
+    height: 164px;
+    padding: 1rem;
+    background: var(--primary-100);
+}
+
+.benefit-feature-image img {
+    border-radius: 8px;
+}
+
+.benefit-feature-number {
+    background: var(--primary-500);
+    color: #fff;
+}
+
+.benefit-feature-copy {
+    padding: 1.1rem 1.15rem 1.25rem;
+}
+
+.benefit-feature-copy h3 {
+    color: var(--primary-500);
+}
+
+.landing-courses {
+    background: #fff9f5;
+}
+
+.landing-course-grid {
+    gap: 1.1rem;
+}
+
+.landing-course-card {
+    border-color: rgb(9 14 149 / 16%);
+    border-radius: 14px;
+    background: #fff;
+}
+
+.landing-course-card:nth-child(3n + 2) {
+    border-color: rgb(239 97 17 / 28%);
+}
+
+.landing-course-card:last-child:nth-child(3n + 1) {
+    grid-column: auto;
+}
+
+.landing-course-copy {
+    padding: 1rem 1rem 1.15rem;
+}
+
+.landing-course-copy h3 {
+    min-height: 2.65em;
+    color: var(--primary-500);
+    font-size: 1.02rem;
+    line-height: 1.3;
+}
+
+.landing-course-copy p {
+    color: var(--color-text-muted);
+    font-size: 0.79rem;
+    line-height: 1.55;
+}
+
+.landing-course-meta {
+    color: var(--primary-700);
+}
+
+.landing-course-footer {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
+    margin-top: auto;
+    padding-top: 0.7rem;
+    border-top: 1px solid var(--secondary-100);
+}
+
+.landing-course-footer > strong {
+    color: var(--primary-500);
+    font-size: 0.9rem;
+}
+
+.landing-course-link {
+    color: var(--secondary-600);
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+.testimonials-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.4rem;
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    background: var(--primary-500);
+    color: #fff;
+    text-align: center;
+}
+
+.testimonials-banner h2 {
+    margin: 0;
+    color: #fff;
+    font-size: clamp(1rem, 2vw, 1.4rem);
+}
+
+.testimonials-banner-mark {
+    color: var(--secondary-400);
+    font-size: 1.45rem;
+}
+
+.landing-testimonials-empty {
+    max-width: 780px;
+    border: 1px solid rgb(9 14 149 / 18%);
+    border-radius: 14px;
+    box-shadow: 0 8px 24px rgb(9 14 149 / 5%);
+}
+
+/* Curso: miniaturas originales del kit de Diseño Gráfico (Semana 2). */
+.course-thumbnail {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 188px;
+    overflow: hidden;
+    background: var(--info-200);
+}
+
+.course-thumbnail img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.course-thumbnail-image img {
+    object-position: center;
+}
+
+.course-thumbnail-kicker {
+    position: absolute;
+    z-index: 1;
+    top: 0.8rem;
+    left: 0.9rem;
+    padding: 0.32rem 0.48rem;
+    border-radius: 4px;
+    background: rgb(9 14 149 / 88%);
+    color: #fff;
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+}
+
+.course-thumbnail-fallback {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    background: linear-gradient(120deg, var(--primary-500) 0 56%, var(--info-300) 56% 100%);
+    color: white;
+}
+
+.course-thumbnail-fallback span {
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+}
+
+.course-thumbnail-fallback strong {
+    color: var(--secondary-500);
+    font-size: 6rem;
+    line-height: 1;
+}
+
+.landing-course-art {
+    height: 164px;
+}
+
+.course-card-art {
+    height: 188px;
+}
+
+.course-detail-visual .course-thumbnail {
+    height: 100%;
+    min-height: 330px;
+}
+
+/* Estados, validaciones y campos de formularios. */
+.feedback-message {
+    align-items: center;
+}
+
+.auth-form input,
+.admin-field input,
+.admin-field select,
+.admin-field textarea {
+    border-radius: 8px;
+}
+
+.auth-register-terms {
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--primary-100);
+}
+
+.auth-link-forgot {
+    justify-self: end;
+}
+
+.auth-form .button-full {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+}
+
+.auth-form .button:disabled {
+    cursor: progress;
+}
+
+.admin-form .feedback-message {
+    margin-top: 1rem;
+}
+
+/* Recursos de navegación del estudiante para su próxima vista de panel. */
+.student-nav-icon {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+}
+
+@media (max-width: 980px) {
+    .landing-hero-grid {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 720px) {
+    .landing-hero-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .landing-hero-visual,
+    .landing-hero-copy {
+        grid-column: 1;
+        grid-row: auto;
+    }
+
+    .landing-hero-visual {
+        order: 1;
+        min-height: min(72vw, 360px);
+    }
+
+    .landing-hero-copy {
+        order: 2;
+    }
+
+    .landing-hero-photo-wrap {
+        inset: 0;
+        border-radius: 28px 28px 28px 72px;
+    }
+
+    .landing-hero-floating-card {
+        right: 0.6rem;
+        bottom: 0.6rem;
+    }
+
+    .landing-course-footer {
+        align-items: flex-start;
+    }
+
+    .testimonials-banner {
+        padding-inline: 0.9rem;
+    }
+
+    .course-detail-visual .course-thumbnail {
+        min-height: 220px;
+    }
+}
