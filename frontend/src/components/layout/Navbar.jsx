@@ -14,7 +14,7 @@ export default function Navbar() {
     function handleSignOut() {
         const confirmed = window.confirm('¿Seguro que querés cerrar sesión?');
         if (!confirmed) return;
-        
+
         signOut();
         navigate('/', { replace: true });
     }
@@ -39,6 +39,9 @@ export default function Navbar() {
                     <NavLink to="/" end className={navLinkClass}>Inicio</NavLink>
                     <Link className="nav-link" to="/#beneficios">Nosotros</Link>
                     <Link className="nav-link" to="/#cursos">Cursos</Link>
+                    {user?.role === 'Student' && (
+                        <NavLink to="/dashboard" className={navLinkClass}>Mi aprendizaje</NavLink>
+                    )}
                     <Link className="nav-link" to="/#contacto">Contacto</Link>
                     {/* <Link className="nav-link" to="/#testimonios">Testimonios</Link> */}
                 </nav>

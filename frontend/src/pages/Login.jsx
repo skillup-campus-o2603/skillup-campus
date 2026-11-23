@@ -41,7 +41,7 @@ export default function Login() {
             const homeByRole = {
                 Administrator: '/controlPanelAdmin',
                 Teacher: '/controlPanel',
-                Student: '/courses',
+                Student: '/dashboard',
             };
             navigate(requestedPath && requestedPath !== '/login' ? requestedPath : homeByRole[user.role] || '/courses', { replace: true });
         } catch (requestError) {

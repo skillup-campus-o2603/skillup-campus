@@ -130,6 +130,7 @@
     --grid-columns: 12;
     color-scheme: light;
 }
+
 /* 01. BASE, RESET Y ESTRUCTURA — Reglas del documento, contenedores, jerarquía y elementos comunes. */
 
 * {
@@ -146,15 +147,19 @@ body {
     text-rendering: optimizeLegibility;
 }
 
-button, input {
+button,
+input {
     font: inherit;
 }
 
-button, a {
+button,
+a {
     -webkit-tap-highlight-color: transparent;
 }
 
-button:focus-visible, a:focus-visible, input:focus-visible {
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
     outline: 3px solid rgb(239 97 17 / 35%);
     outline-offset: 3px;
 }
@@ -164,7 +169,8 @@ a {
     text-decoration: none;
 }
 
-#root, .app-shell {
+#root,
+.app-shell {
     min-height: 100vh;
 }
 
@@ -242,7 +248,8 @@ a {
     margin-bottom: 2.25rem;
 }
 
-.page-heading h1, .not-found h1 {
+.page-heading h1,
+.not-found h1 {
     margin: 0.75rem 0 0.7rem;
     color: var(--color-primary);
     font-size: clamp(2rem, 4vw, 3rem);
@@ -251,7 +258,8 @@ a {
     letter-spacing: -0.045em;
 }
 
-.page-heading>p, .not-found>p {
+.page-heading>p,
+.not-found>p {
     max-width: 650px;
     margin: 0;
     color: var(--color-text-muted);
@@ -343,9 +351,13 @@ html {
     white-space: nowrap !important;
     border: 0 !important;
 }
+
 /* 02. COMPONENTES COMPARTIDOS — Navegación, marca, botones y superficies reutilizables. */
 
-.navbar, .main-nav, .nav-actions, .brand {
+.navbar,
+.main-nav,
+.nav-actions,
+.brand {
     display: flex;
     align-items: center;
 }
@@ -361,7 +373,8 @@ html {
     gap: 0.7rem;
 }
 
-.brand-mark, .footer-brand-mark {
+.brand-mark,
+.footer-brand-mark {
     display: grid;
     width: 39px;
     height: 39px;
@@ -548,7 +561,8 @@ html {
     font-weight: 700;
 }
 
-.nav-link:hover, .nav-link-active {
+.nav-link:hover,
+.nav-link-active {
     color: var(--color-primary);
     color: var(--color-accent-dark);
 }
@@ -611,16 +625,19 @@ html {
     transform: translateY(0);
 }
 
-.button-accent, .button-secondary {
+.button-accent,
+.button-secondary {
     background: var(--secondary-500);
     color: #fff;
 }
 
-.button-accent:hover:not(:disabled), .button-secondary:hover:not(:disabled) {
+.button-accent:hover:not(:disabled),
+.button-secondary:hover:not(:disabled) {
     background: var(--secondary-600);
 }
 
-.button-accent:active:not(:disabled), .button-secondary:active:not(:disabled) {
+.button-accent:active:not(:disabled),
+.button-secondary:active:not(:disabled) {
     background: var(--secondary-700);
     transform: translateY(0);
 }
@@ -648,12 +665,18 @@ html {
     filter: saturate(0.65);
 }
 
-.button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+.button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
     outline: 3px solid rgb(239 97 17 / 35%);
     outline-offset: 2px;
 }
 
-.auth-form input, .admin-field input, .admin-field textarea, .admin-field select {
+.auth-form input,
+.admin-field input,
+.admin-field textarea,
+.admin-field select {
     min-height: 46px;
     border: 1px solid #d7d9e6;
     border-radius: 8px;
@@ -664,17 +687,23 @@ html {
     transition: border-color 150ms ease, box-shadow 150ms ease;
 }
 
-.auth-form input:focus, .admin-field input:focus, .admin-field textarea:focus, .admin-field select:focus {
+.auth-form input:focus,
+.admin-field input:focus,
+.admin-field textarea:focus,
+.admin-field select:focus {
     border-color: var(--color-primary);
     outline: none;
     box-shadow: 0 0 0 3px rgb(9 14 149 / 10%);
 }
 
-.auth-form input::placeholder, .admin-field input::placeholder, .admin-field textarea::placeholder {
+.auth-form input::placeholder,
+.admin-field input::placeholder,
+.admin-field textarea::placeholder {
     color: #777b91;
 }
 
-.auth-form label, .admin-field label {
+.auth-form label,
+.admin-field label {
     color: var(--color-primary-900, #020333);
     font-size: 0.82rem;
     font-weight: 700;
@@ -686,12 +715,17 @@ html {
     margin-top: 0.6rem;
 }
 
-.course-card, .landing-course-card, .admin-form-card, .api-state, .admin-table-wrap {
+.course-card,
+.landing-course-card,
+.admin-form-card,
+.api-state,
+.admin-table-wrap {
     border-color: rgb(9 14 149 / 12%);
     box-shadow: 0 10px 28px rgb(9 14 149 / 6%);
 }
 
-.course-card, .landing-course-card {
+.course-card,
+.landing-course-card {
     border-radius: 16px;
 }
 
@@ -712,7 +746,10 @@ html {
     background: var(--secondary-100);
 }
 
-.auth-form input, .admin-field input, .admin-field select, .admin-field textarea {
+.auth-form input,
+.admin-field input,
+.admin-field select,
+.admin-field textarea {
     border-radius: 8px;
 }
 
@@ -726,6 +763,7 @@ html {
 .auth-form .button:disabled {
     cursor: progress;
 }
+
 /* 03. HOME / LANDING — Hero, diferenciales, catálogo destacado, testimonios y sus elementos visuales. */
 
 .hero {
@@ -849,7 +887,8 @@ html {
     transform: rotate(-2deg);
 }
 
-.learning-card-top, .learning-card-footer {
+.learning-card-top,
+.learning-card-footer {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -1432,18 +1471,22 @@ html {
     margin-inline: auto;
 }
 
-.testimonial-card, .testimonial-brand-slot {
+.testimonial-card,
+.testimonial-brand-slot {
     min-width: 0;
     margin: 0;
 }
 
-.testimonial-card-image, .testimonial-brand-slot img {
+.testimonial-card-image,
+.testimonial-brand-slot img {
     display: block;
     width: 100%;
     height: auto;
 }
 
-.testimonial-card:nth-child(1), .testimonial-card:nth-child(3), .testimonial-brand-slot {
+.testimonial-card:nth-child(1),
+.testimonial-card:nth-child(3),
+.testimonial-brand-slot {
     margin-top: 1.4rem;
 }
 
@@ -1459,7 +1502,8 @@ html {
     font-weight: 800;
 }
 
-.landing-courses-message, .landing-courses-empty {
+.landing-courses-message,
+.landing-courses-empty {
     padding: 1.4rem;
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
@@ -1467,7 +1511,8 @@ html {
     color: var(--color-text-muted);
 }
 
-.landing-courses-empty h3, .landing-courses-empty p {
+.landing-courses-empty h3,
+.landing-courses-empty p {
     margin: 0;
 }
 
@@ -1605,11 +1650,14 @@ html {
     border-color: var(--tertiary-200);
 }
 
-.landing-benefits, .landing-courses, .landing-testimonials {
+.landing-benefits,
+.landing-courses,
+.landing-testimonials {
     scroll-margin-top: 28px;
 }
 
-.landing-section-heading h2, .landing-course-heading h2 {
+.landing-section-heading h2,
+.landing-course-heading h2 {
     color: var(--primary-500);
 }
 
@@ -1828,6 +1876,7 @@ html {
 .landing-course-art {
     height: 164px;
 }
+
 /* 04. CATÁLOGO Y DETALLE DE CURSOS — Listado, tarjetas, miniaturas y página de detalle. */
 
 .courses-toolbar {
@@ -2010,7 +2059,8 @@ html {
     color: var(--color-primary);
 }
 
-.course-api-image>img, .course-detail-visual>img {
+.course-api-image>img,
+.course-detail-visual>img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -2127,6 +2177,35 @@ html {
     font-size: 0.8rem;
 }
 
+/* Acciones de inscripción en el detalle público del curso. */
+.course-enrollment-actions {
+    display: grid;
+    width: 100%;
+    justify-items: start;
+    gap: 0.65rem;
+    margin-top: auto;
+}
+
+.course-enrollment-actions>.button {
+    min-width: min(100%, 250px);
+}
+
+.course-enrollment-actions .feedback-message {
+    width: 100%;
+    margin: 0;
+}
+
+.course-enrollment-actions .loading-state {
+    padding: 0.5rem 0;
+}
+
+.course-already-enrolled {
+    display: grid;
+    width: 100%;
+    justify-items: start;
+    gap: 0.55rem;
+}
+
 .course-thumbnail {
     position: relative;
     display: block;
@@ -2190,7 +2269,331 @@ html {
     height: 100%;
     min-height: 330px;
 }
-/* 05. LOGIN, REGISTRO Y RECUPERACIÓN — Estructura y formularios de autenticación. */
+
+/* 05. PANEL DEL ESTUDIANTE — Dashboard, cursos inscriptos, métricas y progreso. */
+
+.student-dashboard-heading {
+    max-width: 760px;
+    margin-bottom: 2rem;
+}
+
+.student-dashboard-heading h1 {
+    margin: 0.75rem 0 0.55rem;
+    color: var(--color-primary);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    letter-spacing: -0.045em;
+    line-height: 1.12;
+}
+
+.student-dashboard-heading p {
+    margin: 0;
+    color: var(--color-text-muted);
+    line-height: 1.7;
+}
+
+.student-dashboard-loading {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    max-width: 620px;
+    padding: 1.25rem 1.4rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: #fff;
+    color: var(--color-text-muted);
+}
+
+.student-dashboard-loading>div {
+    display: grid;
+    gap: 0.2rem;
+}
+
+.student-dashboard-loading strong {
+    color: var(--color-primary);
+    font-size: 0.92rem;
+}
+
+.student-dashboard-loading span {
+    font-size: 0.82rem;
+    line-height: 1.5;
+}
+
+/* Empty State de Dashboard: se muestra cuando GET /api/enrollments/me devuelve []. */
+.student-empty-state {
+    display: grid;
+    justify-items: center;
+    max-width: 760px;
+    margin: 2rem auto 0;
+    padding: clamp(2rem, 5vw, 3.5rem);
+    border: 1px solid rgb(9 14 149 / 12%);
+    border-radius: 24px;
+    background:
+        radial-gradient(circle at 50% 0%, rgb(204 255 255 / 65%), transparent 48%),
+        linear-gradient(145deg, #fff 0%, #fffaf6 100%);
+    box-shadow: 0 18px 48px rgb(9 14 149 / 7%);
+    text-align: center;
+}
+
+.student-empty-state-art {
+    position: relative;
+    display: grid;
+    width: 116px;
+    height: 116px;
+    margin-bottom: 1.6rem;
+    place-items: center;
+    border: 1px solid rgb(9 14 149 / 10%);
+    border-radius: 35px;
+    background: #fff;
+    box-shadow: 0 12px 30px rgb(9 14 149 / 9%);
+    transform: rotate(-4deg);
+}
+
+.student-empty-state-art img {
+    width: 66px;
+    height: 66px;
+    object-fit: contain;
+    filter: invert(10%) sepia(90%) saturate(4980%) hue-rotate(238deg) brightness(69%) contrast(110%);
+    transform: rotate(4deg);
+}
+
+.student-empty-spark {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 4px;
+    background: var(--color-accent);
+    transform: rotate(35deg);
+}
+
+.student-empty-spark-one {
+    top: 10px;
+    right: -8px;
+}
+
+.student-empty-spark-two {
+    bottom: 8px;
+    left: -8px;
+    width: 8px;
+    height: 8px;
+    background: var(--color-purple);
+}
+
+.student-empty-state h2 {
+    margin: 0.65rem 0 0.55rem;
+    color: var(--color-primary);
+    font-size: clamp(1.45rem, 3vw, 2rem);
+    letter-spacing: -0.035em;
+}
+
+.student-empty-state p {
+    max-width: 520px;
+    margin: 0 0 1.4rem;
+    color: var(--color-text-muted);
+    font-size: 0.92rem;
+    line-height: 1.7;
+}
+
+.student-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+    margin: 1.6rem 0 3rem;
+}
+
+.student-summary-card {
+    display: grid;
+    min-height: 140px;
+    align-content: start;
+    gap: 0.45rem;
+    padding: 1.2rem 1.25rem;
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 8px 24px rgb(9 14 149 / 5%);
+}
+
+.student-summary-label {
+    color: var(--color-text-muted);
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+.student-summary-card>strong {
+    color: var(--color-primary);
+    font-size: 2rem;
+    line-height: 1.1;
+}
+
+.student-summary-detail {
+    color: var(--color-text-muted);
+    font-size: 0.72rem;
+    line-height: 1.4;
+}
+
+.student-summary-card-highlight {
+    border-color: rgb(239 97 17 / 22%);
+    background: linear-gradient(145deg, #fff, var(--secondary-100));
+}
+
+.student-courses-heading {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.student-courses-heading h2 {
+    margin: 0.35rem 0 0;
+    color: var(--color-primary);
+    font-size: clamp(1.45rem, 3vw, 2rem);
+    letter-spacing: -0.035em;
+}
+
+.student-course-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: stretch;
+    gap: 1.15rem;
+}
+
+.student-course-card {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 10px 28px rgb(9 14 149 / 6%);
+}
+
+.student-course-art {
+    width: 100%;
+    min-height: 174px;
+    border-radius: 0;
+}
+
+.student-course-art img {
+    width: 100%;
+    height: 100%;
+    min-height: 174px;
+    object-fit: cover;
+}
+
+.student-course-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 1.15rem;
+}
+
+.student-course-meta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.4rem;
+    margin-bottom: 0.75rem;
+}
+
+.student-course-meta span {
+    display: inline-flex;
+    padding: 0.32rem 0.55rem;
+    border-radius: 999px;
+    background: var(--primary-100);
+    color: var(--primary-700);
+    font-size: 0.67rem;
+    font-weight: 700;
+}
+
+.student-course-meta span+span {
+    background: var(--secondary-100);
+    color: var(--secondary-800);
+}
+
+.student-course-body h3 {
+    margin: 0 0 0.5rem;
+    color: var(--color-primary);
+    font-size: 1.08rem;
+    line-height: 1.35;
+}
+
+.student-course-description {
+    display: -webkit-box;
+    overflow: hidden;
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 0.8rem;
+    line-height: 1.6;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+}
+
+.student-course-date {
+    margin-top: 0.85rem;
+    color: var(--color-text-muted);
+    font-size: 0.71rem;
+}
+
+.student-progress-block {
+    margin: 1.1rem 0 1.2rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--color-border);
+}
+
+.student-progress-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.7rem;
+    margin-bottom: 0.55rem;
+    color: var(--color-text-muted);
+    font-size: 0.75rem;
+}
+
+.student-progress-heading strong {
+    color: var(--color-primary);
+    font-size: 0.73rem;
+}
+
+.student-progress-track {
+    height: 9px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: var(--primary-100);
+}
+
+.student-progress-track span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+    transition: width 250ms ease;
+}
+
+.student-progress-note {
+    margin: 0;
+    padding: 0.65rem 0.75rem;
+    border-radius: 8px;
+    background: var(--info-100);
+    color: var(--info-900);
+    font-size: 0.7rem;
+    line-height: 1.5;
+}
+
+.student-lesson-count {
+    display: block;
+    margin-top: 0.45rem;
+    color: var(--color-text-muted);
+    font-size: 0.68rem;
+}
+
+.student-course-body>.button {
+    margin-top: auto;
+}
+
+/* 06. LOGIN, REGISTRO Y RECUPERACIÓN — Estructura y formularios de autenticación. */
 
 .auth-aside-kicker {
     color: var(--color-cyan);
@@ -2418,7 +2821,8 @@ html {
     gap: 0.7rem;
 }
 
-.auth-footnote a, .auth-footnote span {
+.auth-footnote a,
+.auth-footnote span {
     color: var(--color-primary);
     font-weight: 700;
     color: var(--color-accent-dark);
@@ -2441,7 +2845,8 @@ html {
     font-weight: 700;
     justify-self: end;
 }
-/* 06. ADMINISTRACIÓN Y FORMULARIOS — Tablas, campos, paneles y acciones de gestión. */
+
+/* 07. ADMINISTRACIÓN Y FORMULARIOS — Tablas, campos, paneles y acciones de gestión. */
 
 .admin-status-row {
     display: flex;
@@ -2539,7 +2944,8 @@ html {
     text-align: left;
 }
 
-.admin-table th, .admin-table td {
+.admin-table th,
+.admin-table td {
     padding: 0.95rem 1rem;
     border-bottom: 1px solid var(--color-border);
     vertical-align: middle;
@@ -2558,7 +2964,8 @@ html {
     font-size: 0.82rem;
 }
 
-.admin-table td:first-child strong, .admin-table td:first-child small {
+.admin-table td:first-child strong,
+.admin-table td:first-child small {
     display: block;
 }
 
@@ -2609,7 +3016,8 @@ html {
     font-weight: 700;
 }
 
-.admin-field input, .admin-field textarea {
+.admin-field input,
+.admin-field textarea {
     width: 100%;
     min-height: 46px;
     padding: 0.75rem 0.85rem;
@@ -2626,12 +3034,14 @@ html {
     resize: vertical;
 }
 
-.admin-field input:focus, .admin-field textarea:focus {
+.admin-field input:focus,
+.admin-field textarea:focus {
     border-color: var(--color-primary);
     outline: 3px solid rgb(9 14 149 / 10%);
 }
 
-.admin-field small, .admin-form-hint {
+.admin-field small,
+.admin-form-hint {
     color: var(--color-text-muted);
     font-size: 0.73rem;
     line-height: 1.55;
@@ -2669,7 +3079,8 @@ html {
 .admin-form .feedback-message {
     margin-top: 1rem;
 }
-/* 07. ESTADOS, MENSAJES Y UTILIDADES — Feedback, errores de API, indicadores de carga y accesibilidad. */
+
+/* 08. ESTADOS, MENSAJES Y UTILIDADES — Feedback, errores de API, indicadores de carga y accesibilidad. */
 
 .api-state-message {
     margin: 1.5rem 0;
@@ -2688,7 +3099,8 @@ html {
     background: #fff;
 }
 
-.api-state h2, .api-state p {
+.api-state h2,
+.api-state p {
     margin: 0;
 }
 
@@ -2707,7 +3119,8 @@ html {
     background: #fffafa;
 }
 
-.api-state-error strong, .api-state-error h1 {
+.api-state-error strong,
+.api-state-error h1 {
     color: #9e1b1b;
 }
 
@@ -2848,7 +3261,8 @@ html {
     height: 22px;
     object-fit: contain;
 }
-/* 08. FOOTER — Pie de página compartido y sus variantes. */
+
+/* 09. FOOTER — Pie de página compartido y sus variantes. */
 
 .footer-arrow {
     display: grid;
@@ -2889,7 +3303,8 @@ html {
     font-size: 0.86rem;
 }
 
-.footer-inner p, .footer-legal {
+.footer-inner p,
+.footer-legal {
     margin: 0;
     color: var(--color-text-muted);
     font-size: var(--font-size-footer);
@@ -2938,7 +3353,8 @@ html {
     font-weight: 700;
 }
 
-.footer-column>a, .footer-muted-link {
+.footer-column>a,
+.footer-muted-link {
     color: rgb(255 255 255 / 70%);
     font-size: 0.78rem;
     line-height: 1.45;
@@ -3048,13 +3464,26 @@ html {
     border-top-color: rgb(255 255 255 / 22%);
     background: rgb(0 0 0 / 8%);
 }
-/* 09. ANIMACIONES Y PREFERENCIAS DEL SISTEMA */
+
+/* 10. ANIMACIONES Y PREFERENCIAS DEL SISTEMA */
 
 @keyframes skillup-spin {
-    to { transform: rotate(360deg); }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
-/* 10. RESPONSIVE — ajustes agrupados por ancho de pantalla; repetir selectores aquí es intencional. */
+/* 11. RESPONSIVE — ajustes agrupados por ancho de pantalla; repetir selectores aquí es intencional. */
+
+@media (max-width: 1000px) {
+    .student-summary-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .student-course-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
 
 @media (max-width: 980px) {
 
@@ -3093,7 +3522,9 @@ html {
         row-gap: 1.5rem;
     }
 
-    .testimonial-card:nth-child(1), .testimonial-card:nth-child(3), .testimonial-brand-slot {
+    .testimonial-card:nth-child(1),
+    .testimonial-card:nth-child(3),
+    .testimonial-brand-slot {
         margin-top: 0;
     }
 
@@ -3105,7 +3536,8 @@ html {
         min-height: 370px;
     }
 
-    .benefit-feature-grid, .testimonials-grid {
+    .benefit-feature-grid,
+    .testimonials-grid {
         gap: 0.85rem;
     }
 
@@ -3247,7 +3679,8 @@ html {
         font-size: 0.68rem;
     }
 
-    .benefit-grid, .course-grid {
+    .benefit-grid,
+    .course-grid {
         grid-template-columns: 1fr;
     }
 
@@ -3370,7 +3803,8 @@ html {
         gap: 1.25rem;
     }
 
-    .testimonial-card:nth-child(1), .testimonial-card:nth-child(3) {
+    .testimonial-card:nth-child(1),
+    .testimonial-card:nth-child(3) {
         margin-top: 0;
     }
 
@@ -3408,7 +3842,8 @@ html {
         padding-block: 3.35rem;
     }
 
-    .landing-section-heading, .landing-course-heading {
+    .landing-section-heading,
+    .landing-course-heading {
         align-items: flex-start;
         flex-direction: column;
         gap: 1.25rem;
@@ -3424,7 +3859,8 @@ html {
         font-size: 1.85rem;
     }
 
-    .benefit-feature-grid, .testimonials-grid {
+    .benefit-feature-grid,
+    .testimonials-grid {
         grid-template-columns: 1fr;
         gap: 1rem;
     }
@@ -3488,7 +3924,9 @@ html {
         margin-left: auto;
     }
 
-    .landing-navbar .nav-actions .button-outline, .landing-navbar .nav-actions .button-accent, .landing-navbar .nav-actions .button-primary {
+    .landing-navbar .nav-actions .button-outline,
+    .landing-navbar .nav-actions .button-accent,
+    .landing-navbar .nav-actions .button-primary {
         display: inline-flex;
         min-height: 36px;
         padding: 0.48rem 0.68rem;
@@ -3520,7 +3958,8 @@ html {
         gap: 2rem 1.4rem;
     }
 
-    .footer-about, .footer-contact-column {
+    .footer-about,
+    .footer-contact-column {
         grid-column: 1 / -1;
         grid-column: 1 / -1;
     }
@@ -3535,7 +3974,8 @@ html {
         grid-template-columns: 1fr;
     }
 
-    .landing-hero-visual, .landing-hero-copy {
+    .landing-hero-visual,
+    .landing-hero-copy {
         grid-column: auto !important;
         grid-row: auto !important;
         grid-column: 1;
@@ -3582,6 +4022,36 @@ html {
     }
 }
 
+@media (max-width: 640px) {
+    .student-dashboard-loading {
+        align-items: flex-start;
+        padding: 1rem;
+    }
+
+    .student-summary-grid,
+    .student-course-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .student-summary-card {
+        min-height: 118px;
+    }
+
+    .student-courses-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .student-empty-state {
+        margin-top: 1.2rem;
+        padding: 2rem 1.25rem;
+    }
+
+    .course-enrollment-actions>.button {
+        width: 100%;
+    }
+}
+
 @media (max-width: 560px) {
 
     .admin-form-grid {
@@ -3596,7 +4066,10 @@ html {
         display: none;
     }
 
-    .admin-table, .admin-table tbody, .admin-table tr, .admin-table td {
+    .admin-table,
+    .admin-table tbody,
+    .admin-table tr,
+    .admin-table td {
         display: block;
         width: 100%;
     }
@@ -3624,7 +4097,8 @@ html {
         text-align: left;
     }
 
-    .admin-table td:first-child strong, .admin-table td:first-child small {
+    .admin-table td:first-child strong,
+    .admin-table td:first-child small {
         max-width: 70%;
         text-align: right;
     }
@@ -3758,7 +4232,9 @@ html {
         gap: 0.35rem;
     }
 
-    .landing-navbar .nav-actions .button-outline, .landing-navbar .nav-actions .button-accent, .landing-navbar .nav-actions .button-primary {
+    .landing-navbar .nav-actions .button-outline,
+    .landing-navbar .nav-actions .button-accent,
+    .landing-navbar .nav-actions .button-primary {
         min-height: 34px;
         padding-inline: 0.55rem;
         font-size: 0.68rem;
@@ -3767,7 +4243,9 @@ html {
 
 @media (prefers-reduced-motion: reduce) {
 
-    *, *::before, *::after {
+    *,
+    *::before,
+    *::after {
         scroll-behavior: auto !important;
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;

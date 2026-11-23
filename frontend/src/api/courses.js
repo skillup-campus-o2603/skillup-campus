@@ -3,7 +3,7 @@ import { apiRequest } from './client.js';
 // El controlador actual de backend devuelve level como { id, name },
 // aunque la documentación de la API lo describe como un string.
 // Normalizamos la respuesta para que el resto del frontend reciba siempre texto.
-function normalizeCourse(course) {
+export function normalizeCourse(course) {
     if (!course || typeof course !== 'object') return course;
 
     const rawLevel = course.level;

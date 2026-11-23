@@ -1,6 +1,6 @@
 # Frontend — SkillUp Campus
 
-Aplicación web de SkillUp Campus construida con **React, Vite y React Router**. El frontend consume los endpoints REST de Express y aplica los lineamientos de Marketing, Diseño Gráfico y UX/UI entregados en el material de las semanas 1 a 4.
+Aplicación web de SkillUp Campus construida con **React, Vite y React Router**. El frontend consume los endpoints REST de Express y aplica los lineamientos de Marketing, Diseño Gráfico y UX/UI entregados en el material de las semanas 1 a 5.
 
 ## Requisitos
 
@@ -36,6 +36,9 @@ npm run preview
 | Consultar curso | `GET /api/courses/:id` | No |
 | Listar categorías | `GET /api/categories` | No |
 | Listar niveles | `GET /api/levels` | No |
+| Inscribirse a un curso | `POST /api/enrollments` | Sí, rol `Student` |
+| Consultar mis inscripciones | `GET /api/enrollments/me` | Sí, rol `Student` |
+| Consultar dashboard del estudiante | `GET /api/dashboard` | Sí, rol `Student` |
 | Crear curso | `POST /api/courses` | Sí, rol `Administrator` |
 | Editar curso | `PUT /api/courses/:id` | Sí, rol `Administrator` |
 | Eliminar curso | `DELETE /api/courses/:id` | Sí, rol `Administrator` |
@@ -51,7 +54,8 @@ El login guarda el JWT y los datos básicos del usuario en `localStorage`, respe
 | `/register` | Registro de estudiantes con validaciones y mensajes amigables |
 | `/lostPassword` | Información de estado; no hay endpoint de recuperación de contraseña |
 | `/courses` | Catálogo público consultado desde la API |
-| `/courses/:id` | Detalle público del curso |
+| `/courses/:id` | Detalle público del curso; permite inscribirse a estudiantes autenticados |
+| `/dashboard` | Panel del estudiante con inscripciones, métricas y progreso; requiere rol `Student` |
 | `/controlPanelAdmin` | Administración de cursos; requiere rol `Administrator` |
 | `/createCourse` | Alta de curso; requiere rol `Administrator` |
 | `/editCourse/:id` | Edición de curso; requiere rol `Administrator` |
@@ -95,6 +99,27 @@ Los textos aprobados por Marketing se encuentran en `src/content/marketingCopy.j
 - Crear, editar y eliminar cursos muestran feedback de resultado y errores contextualizados.
 - Los botones de envío se deshabilitan durante la solicitud y muestran `LoadingSpinner` para evitar envíos repetidos.
 - Los íconos SVG reales de alertas y el GIF final de carga todavía no estaban disponibles en el ZIP de entrega (en el documento figuran como recursos en desarrollo). En su lugar se usan SVG provisionales y un spinner CSS accesible; pueden reemplazarse sin cambiar los componentes.
+
+
+
+## Inscripciones y Dashboard (Semana 5)
+
+- `src/api/enrollments.js` implementa `POST /api/enrollments` y `GET /api/enrollments/me`.
+- `POST /api/enrollments` envía únicamente `{ course_id }`; el frontend nunca envía `user_id`, porque el backend lo obtiene del JWT.
+- El detalle de curso permite inscribirse a usuarios con rol `Student`, verifica previamente si ya existe una inscripción y muestra estados de carga, éxito y error. Los visitantes pueden iniciar sesión y volver al detalle del curso; docentes y administradores reciben un aviso de que la inscripción es exclusiva para estudiantes.
+- `src/api/dashboard.js` consume `GET /api/dashboard` para recuperar las métricas y el progreso académico.
+- `/dashboard` usa `GET /api/enrollments/me` como fuente de las tarjetas de cursos y combina esos datos con el progreso devuelto por `GET /api/dashboard`.
+- El Empty State del Dashboard se muestra cuando el estudiante todavía no tiene cursos inscriptos y ofrece un acceso al catálogo.
+- Si el servidor responde `401` a una petición autenticada, `api/client.js` notifica a `AuthContext`, se elimina la sesión rechazada y `ProtectedRoute` redirige a Login. La sesión también se cierra al alcanzar la expiración almacenada.
+- El Dashboard está protegido exclusivamente para `Student`, de acuerdo con los permisos del endpoint.
+- Las respuestas de cursos, inscripciones y dashboard normalizan `level` para que el resto del frontend reciba texto y no intente renderizar objetos React.
+- La carga se indica mediante `LoadingSpinner`; no se muestra una pantalla vacía mientras esperan las peticiones.
+
+### Estados vacíos existentes
+
+- Catálogo (`/courses`): ya contempla el caso en que `GET /api/courses` devuelve `data: []`.
+- Administración (`/controlPanelAdmin`): ya contempla el caso en que no hay cursos publicados.
+- Dashboard (`/dashboard`): implementa el Empty State de Semana 5 para `GET /api/enrollments/me` vacío.
 
 ## Límites respetados
 

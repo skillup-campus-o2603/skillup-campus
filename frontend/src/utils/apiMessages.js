@@ -9,6 +9,8 @@ export const marketingMessages = {
     courseCreated: '¡Nuevo curso creado con éxito! Ya forma parte de nuestro catálogo.',
     courseUpdated: '¡Cambios guardados! La información del curso se actualizó correctamente.',
     courseDeleted: 'El curso se eliminó correctamente del catálogo.',
+    enrollmentCreated: '¡Ya estás inscripto! Encontrá este curso en tu panel de aprendizaje.',
+    enrollmentDuplicate: 'Ya estás inscripto en este curso. Podés encontrarlo en tu panel de aprendizaje.',
 };
 
 export function getFriendlyApiMessage(error, context = 'general') {
@@ -39,6 +41,23 @@ export function getFriendlyApiMessage(error, context = 'general') {
         if (status === 403) return 'No tenés permisos para realizar esta acción.';
         if (status === 404) return 'No encontramos ese curso. Actualizá la página y volvé a intentarlo.';
         if (status === 409) return 'No se pudo eliminar el curso porque tiene información asociada.';
+    }
+
+    if (context === 'enrollment') {
+        if (status === 400) return 'No pudimos identificar el curso. Volvé al catálogo y seleccioná un curso disponible.';
+        if (status === 403) return 'La inscripción está disponible únicamente para cuentas de estudiante.';
+        if (status === 404) return 'Este curso ya no está disponible. Actualizá el catálogo y volvé a intentarlo.';
+        if (status === 409) {
+            if (rawMessage.includes('ya estás inscrito') || rawMessage.includes('ya esta inscrito')) {
+                return marketingMessages.enrollmentDuplicate;
+            }
+            return 'No pudimos completar la inscripción por un conflicto con los datos del curso. Actualizá la página e intentá nuevamente.';
+        }
+    }
+
+    if (context === 'dashboard') {
+        if (status === 403) return 'El panel de aprendizaje está disponible únicamente para estudiantes.';
+        if (status === 500) return 'No pudimos cargar tu actividad académica. Intentá nuevamente en unos minutos.';
     }
 
     if (status === 401) return 'Tu sesión ya no está activa. Volvé a iniciar sesión para continuar.';

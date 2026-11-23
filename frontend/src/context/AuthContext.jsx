@@ -1,13 +1,15 @@
-import { createContext, useContext, useMemo, useState } from 'react';
+import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { loginRequest } from '../api/auth.js';
 
 const AuthContext = createContext(null);
 const STORAGE_KEY = 'skillup.session';
+const SESSION_EXPIRED_EVENT = 'skillup:session-expired';
 
 function readStoredSession() {
     try {
         const raw = localStorage.getItem(STORAGE_KEY);
         if (!raw) return null;
+
         const session = JSON.parse(raw);
         if (!session?.token || !session?.user || !session?.expiresAt) {
             localStorage.removeItem(STORAGE_KEY);
@@ -61,10 +63,61 @@ export function AuthProvider({ children }) {
         setSession(null);
     }
 
+    // Un 401 en una petición con JWT invalida únicamente la sesión que originó
+    // esa petición, evitando cerrar una sesión nueva por una respuesta tardía.
+    useEffect(() => {
+        function handleSessionExpired(event) {
+            const rejectedToken = event.detail?.token;
+            if (!rejectedToken) return;
+
+            try {
+                const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+                if (stored?.token !== rejectedToken) return;
+                localStorage.removeItem(STORAGE_KEY);
+                setSession(null);
+            } catch {
+                localStorage.removeItem(STORAGE_KEY);
+                setSession(null);
+            }
+        }
+
+        window.addEventListener(SESSION_EXPIRED_EVENT, handleSessionExpired);
+        return () => window.removeEventListener(SESSION_EXPIRED_EVENT, handleSessionExpired);
+    }, []);
+
+    // La sesión también se cierra automáticamente cuando vence expiresAt,
+    // aunque el usuario no navegue ni realice otra petición a la API.
+    useEffect(() => {
+        if (!session?.token || !session?.expiresAt) return undefined;
+
+        const delay = Math.max(0, session.expiresAt - Date.now());
+        const timer = window.setTimeout(() => {
+            try {
+                const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+                if (stored?.token !== session.token) return;
+
+                // Si el vencimiento supera el máximo admitido por setTimeout,
+                // reprograma la comprobación sin cerrar antes la sesión.
+                if (Date.now() < session.expiresAt) {
+                    setSession((current) => current?.token === session.token ? { ...current } : current);
+                    return;
+                }
+
+                localStorage.removeItem(STORAGE_KEY);
+                setSession(null);
+            } catch {
+                localStorage.removeItem(STORAGE_KEY);
+                setSession(null);
+            }
+        }, Math.min(delay, 2_147_000_000));
+
+        return () => window.clearTimeout(timer);
+    }, [session]);
+
     const value = useMemo(() => ({
         user: session?.user || null,
         token: session?.token || null,
-        isAuthenticated: Boolean(session?.token),
+        isAuthenticated: Boolean(session?.token && Date.now() < session.expiresAt),
         signIn,
         signOut,
     }), [session]);

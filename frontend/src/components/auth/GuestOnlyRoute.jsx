@@ -5,7 +5,7 @@ import { useAuth } from '../../context/AuthContext.jsx';
 const AUTHENTICATED_HOME = {
     Administrator: '/controlPanelAdmin',
     Teacher: '/controlPanel',
-    Student: '/courses',
+    Student: '/dashboard',
 };
 
 export default function GuestOnlyRoute({ children }) {

@@ -43,8 +43,8 @@ export default function Footer() {
                             <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram de SkillUp Campus">
                                 <img src="/src/assets/icons/socials/instagram.svg" alt="Instagram" />
                             </a>
-                            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" aria-label="YouTube de SkillUp Campus">
-                                <img src="/src/assets/icons/socials/github.svg" alt="YouTube" />
+                            <a href="https://github.com" target="_blank" rel="noopener noreferrer" aria-label="GitHub de SkillUp Campus">
+                                <img src="/src/assets/icons/socials/github.svg" alt="GitHub" />
                             </a>
                         </div>
                     </div>

@@ -12,7 +12,7 @@ export default function ProtectedRoute({ children, roles }) {
     const allowedRoles = roles?.flat() || [];
 
     if (allowedRoles.length && !allowedRoles.includes(user?.role)) {
-        return <Navigate to="/courses" replace />;
+        return <Navigate to="/notFound" replace />;
     }
 
     return children;

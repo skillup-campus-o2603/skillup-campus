@@ -50,6 +50,12 @@ export async function apiRequest(path, { method = 'GET', body, token, headers = 
         payload = text ? { message: text } : null;
     }
 
+    // Si una operación autenticada recibe 401, el JWT ya no es válido
+    // para el servidor. AuthProvider escucha este evento y elimina esa sesión.
+    if (token && response.status === 401 && typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('skillup:session-expired', { detail: { token } }));
+    }
+
     if (!response.ok || payload?.success === false) {
         throw new ApiError(
             payload?.message || `La solicitud falló (HTTP ${response.status}).`,

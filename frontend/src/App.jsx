@@ -60,7 +60,7 @@ export default function App() {
                 <Route path="profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
 				
 				{/*Student and course catalog */}
-                <Route path="dashboard" element={<ProtectedRoute roles={[ADMIN, STUDENT]}><Dashboard /></ProtectedRoute>} />
+                <Route path="dashboard" element={<ProtectedRoute roles={STUDENT}><Dashboard /></ProtectedRoute>} />
                 <Route path="courses" element={<Courses />} />
                 <Route path="courses/:id" element={<DetailsCourse />} />
 				{/*<Route path="detailsCourse" element={<DetailsCourse />} /> */}
@@ -68,14 +68,14 @@ export default function App() {
                 <Route path="detailsJob" element={<ProtectedRoute roles={[ADMIN, STUDENT]}><DetailsJob /></ProtectedRoute>} />
 				
 				{/*Teacher */}
-                <Route path="controlPanel" element={<ProtectedRoute roles={[ADMIN, TEACHER]}><ControlPanel /></ProtectedRoute>} />
+                <Route path="controlPanel" element={<ProtectedRoute roles={TEACHER}><ControlPanel /></ProtectedRoute>} />
 				
 				{/*Global administration */}
                 <Route path="controlPanelAdmin" element={<ProtectedRoute roles={ADMIN}><ControlPanelAdmin /></ProtectedRoute>} />
 				
 				{/* Courses management */}
                 <Route path="createCourse" element={<ProtectedRoute roles={ADMIN}><CreateCourse /></ProtectedRoute>} />
-                <Route path="editCourse/:id" element={<ProtectedRoute roles={ADMIN}><EditCourse /></ProtectedRoute>} />
+                <Route path="editCourse/:id" element={<ProtectedRoute roles={[ADMIN, TEACHER]}><EditCourse /></ProtectedRoute>} />
 				{/*<Route path="editCourse" element={<EditCourse />} /> */}
 				
 				{/* Teachers management */}
