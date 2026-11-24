@@ -21,3 +21,5 @@ build/
 
 # Cobertura de pruebas
 coverage/
+
+backend/database/seedUsers.js

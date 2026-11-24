@@ -16,6 +16,7 @@ const categoryRoutes = require('./routes/categoryRoutes');
 const levelRoutes = require('./routes/levelRoutes');
 const enrollmentRoutes = require('./routes/enrollmentRoutes');
 const dashboardRoutes = require('./routes/dashboardRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 
 app.use(cors());
 app.use(express.json());
@@ -32,6 +33,8 @@ app.use('/api/levels', levelRoutes);
 app.use('/api/enrollments', enrollmentRoutes);
 // Dashboard del estudiante
 app.use('/api/dashboard', dashboardRoutes);
+// Rutas Admin
+app.use('/api/admin', adminRoutes);
 
 // Ruta inicial
 app.get('/', (req, res) => {
