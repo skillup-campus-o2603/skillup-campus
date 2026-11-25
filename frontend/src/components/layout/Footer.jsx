@@ -1,5 +1,4 @@
 import { Link } from 'react-router';
-import logo from '../../assets/brand/skillup-logo-footer.svg';
 
 export default function Footer() {
     return (
@@ -7,12 +6,12 @@ export default function Footer() {
             <div className="container footer-main">
                 <div className="footer-about">
                     <Link className="footer-brand" to="/" aria-label="SkillUp Campus, ir al inicio">
-                        <img className="footer-brand-logo" src={logo} alt="SkillUp" />
+                        <img className="footer-brand-logo" src="../src/assets/brand/skillup-logo-footer.svg" alt="SkillUp" />
                         <span style={{ transform: 'translateY(18%)' }} className="footer-brand-campus">Campus</span>
                     </Link>
-                    <p>Potenciá tu futuro.</p>
+                    <p>Aprendé hoy. Construí lo que sigue.</p>
                     <span className="footer-about-note">
-                        Una plataforma para seguir aprendiendo y desarrollar nuevas habilidades.
+                        Una plataforma para explorar conocimientos y desarrollar nuevas habilidades.
                     </span>
                 </div>
 
@@ -33,7 +32,7 @@ export default function Footer() {
 
                 <div className="footer-column footer-contact-column">
                     <h2>Contacto y comunidad</h2>
-                    <p>Conectate con SkillUp Campus. Los canales oficiales se publicarán cuando estén definidos por el equipo.</p>
+                    <p>Conectate con nuestra comunidad y enterate de todas las novedades y eventos.</p>
                     <div className="footer-socials-wrap">
                         <span className="footer-socials-title">Canales Oficiales</span>
                         <div className="footer-socials-list">
@@ -54,8 +53,8 @@ export default function Footer() {
             <div className="footer-bottom">
                 <div className="container footer-bottom-inner">
                     <span>© {new Date().getFullYear()} SkillUp Campus. Todos los derechos reservados.</span>
-                    <span>Políticas y condiciones · Próximamente</span>
-                    <span className="footer-project-status">Potenciá tu futuro.</span>
+                    <span>Políticas y Condiciones · Preguntas Frecuentes</span>
+                    <span className="footer-project-status">Términos y uso · Privacidad</span>
                 </div>
             </div>
         </footer>

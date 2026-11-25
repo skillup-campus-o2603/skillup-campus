@@ -81,22 +81,25 @@ export default function Register() {
         <section className="auth-page auth-register-page">
             <div className="auth-layout auth-register-layout">
                 <aside className="auth-aside auth-register-aside">
-                    <span className="auth-aside-kicker">SKILLUP CAMPUS</span>
+                    <img className="auth-aside-kicker" src="../src/assets/brand/skillup-logo-footer.svg" alt="Logo SkillUp"></img>
+                    <br /><br />
                     <h1>{landingCopy.registerTitle}</h1>
+                    <br />
                     <p>{landingCopy.registerSubtitle}</p>
-                    <div className="auth-aside-decoration" aria-hidden="true">
+                    {/* <div className="auth-aside-decoration" aria-hidden="true">
                         <span className="auth-orbit orbit-a" />
                         <span className="auth-orbit orbit-b" />
                         <span className="auth-star">✦</span>
                         <span className="auth-aside-badge">Aprender · Crecer · Avanzar</span>
-                    </div>
+                    </div> */}
                 </aside>
 
                 <div className="auth-card auth-register-card">
                     <div className="auth-heading">
-                        <span className="eyebrow">CREÁ TU CUENTA</span>
-                        <h2>{landingCopy.registerTitle}</h2>
-                        <p>{landingCopy.registerSubtitle}</p>
+                        <span className="eyebrow auth-heading-kicker">TU HISTORIA EN SKILLUP</span>
+                        <br /><br />
+                        <h2>Creá tu cuenta</h2>
+                        <p>Completá tus datos para registrarte como estudiante.</p>
                     </div>
 
                     <form className="auth-form auth-register-form" onSubmit={handleSubmit} noValidate>

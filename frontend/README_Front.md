@@ -64,14 +64,15 @@ El Header/Navbar y el Footer se renderizan globalmente mediante `AppLayout`, por
 
 ## Sistema de diseño y UX/UI
 
-La implementación toma como referencia el UI Kit, el layout grid, los wireframes y el prototipo de alta fidelidad incluidos en Semana 2:
+La implementación toma como referencia el UI Kit actualizado, el layout grid, los wireframes y el prototipo de alta fidelidad incluidos en `Semana 2/Diseño_UX-UI/Prototipo landing.png` y el documento de Marketing/Diseño más reciente:
 
 - Grilla desktop de 12 columnas, 80 px de margen lateral a 1440 px y 20 px de gutter.
 - Baseline grid y escala de espaciado en incrementos de 10 px.
 - Roboto como tipografía principal.
-- Escalas de tokens de 100 a 900 para Primary (azul), Secondary (naranja), Tertiary (violeta), Caution (amarillo), Info (cyan), Error (rojo), Success y Surface.
-- Botones con estados hover, active, focus y disabled; inputs y tarjetas normalizados.
-- Header y Footer responsive globales.
+- Escalas de tokens para Primary (azul), Secondary (naranja), Tertiary (violeta), Caution (amarillo), Info (cyan), Error (rojo), Success y Surface, definidas como variables CSS.
+- Botones Primary y Secondary (rellenos y outline) con estados Default, Hover, Active, Disabled y Focus según el handoff actualizado.
+- Header, anuncio superior, Landing, formularios de Login/Registro, tarjetas y Footer ajustados al prototipo.
+- Todo el CSS activo está centralizado en `src/styles/skillup-styles.css`, importado desde `src/main.jsx`. Los otros CSS permanecen sin uso y no se deben importar en paralelo.
 
 ## Organización de recursos
 
@@ -82,13 +83,15 @@ src/assets/
 ├── brand/          # Logotipos oficiales para fondos claros y oscuros
 ├── banners/        # SVG de marca/banner entregado por Diseño
 ├── certificates/   # PDF de certificado de referencia
-├── courses/        # Recursos decorativos de las cuatro miniaturas de curso
+├── courses/        # Recursos geométricos de las cuatro miniaturas de curso
+├── landing/        # Ilustración SVG del hero
+├── testimonials/  # Emblema, logotipo y piezas visuales del prototipo de reseñas
 └── icons/
     ├── alerts/     # Íconos provisionales de éxito, error, advertencia e información
     └── navigation/ # SVG de Inicio, Mis cursos, Perfil y Certificados
 ```
 
-Los recursos gráficos originales se copiaron desde las carpetas de Diseño Gráfico de las semanas 1, 2 y 3. Las miniaturas usan las formas originales del diseño junto con los datos que devuelve PostgreSQL; no se usan los precios ni descuentos impresos en la lámina de muestra.
+Los recursos gráficos se copiaron desde las carpetas de Diseño Gráfico y UX/UI. Las miniaturas usan las formas originales junto con los datos que devuelve PostgreSQL; no se reemplazan los precios de la API por valores impresos en las láminas.
 
 Los textos aprobados por Marketing se encuentran en `src/content/marketingCopy.js`. La plantilla de correo de bienvenida está en `src/content/welcome-email.md`; queda como material de contenido y **no se envía desde el frontend**, porque no hay integración de correo en los endpoints usados por esta tarea.
 
@@ -98,7 +101,7 @@ Los textos aprobados por Marketing se encuentran en `src/content/marketingCopy.j
 - Los errores de la API se traducen a los mensajes amigables de Marketing desde `src/utils/apiMessages.js`.
 - Crear, editar y eliminar cursos muestran feedback de resultado y errores contextualizados.
 - Los botones de envío se deshabilitan durante la solicitud y muestran `LoadingSpinner` para evitar envíos repetidos.
-- Los íconos SVG reales de alertas y el GIF final de carga todavía no estaban disponibles en el ZIP de entrega (en el documento figuran como recursos en desarrollo). En su lugar se usan SVG provisionales y un spinner CSS accesible; pueden reemplazarse sin cambiar los componentes.
+- Los íconos SVG de éxito, error, advertencia e información se importan desde `src/assets/icons/alerts/`. El GIF definitivo de carga continúa pendiente según el documento; mientras tanto se usa un spinner CSS accesible, que puede reemplazarse sin cambiar los formularios ni sus estados.
 
 
 
@@ -130,6 +133,6 @@ Los textos aprobados por Marketing se encuentran en `src/content/marketingCopy.j
 - Los íconos de navegación de estudiante quedan almacenados en `src/assets/icons/navigation/`; las vistas de Mis cursos y Certificados no se implementan como funcionalidades nuevas en esta entrega.
 - No se modificó el backend.
 
-## Fotografías de la landing
+## Landing y contenido visual
 
-Las fotografías del hero y de beneficios se cargan desde Pexels y requieren conexión a Internet. Los cursos usan `imageUrl` de la API cuando existe; si no, se muestra el arte local entregado por Diseño o un fallback gráfico, sin presentar imágenes ficticias como material real del curso.
+El hero usa la ilustración SVG local entregada por Diseño. Los beneficios usan íconos SVG dibujados en el componente porque el ZIP contiene la referencia visual, pero no archivos SVG individuales de esos tres íconos. Los cursos usan `imageUrl` de la API cuando existe; si no, se muestra el arte geométrico local entregado por Diseño o un fallback gráfico. El anuncio superior reproduce el texto promocional del prototipo; los precios y descuentos de las tarjetas no se inventan y los importes siguen viniendo de la API.

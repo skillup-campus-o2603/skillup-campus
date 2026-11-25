@@ -55,22 +55,25 @@ export default function Login() {
         <section className="auth-page">
             <div className="auth-layout">
                 <aside className="auth-aside">
-                    <span className="auth-aside-kicker">SKILLUP CAMPUS</span>
+                    <img className="auth-aside-kicker" src="../src/assets/brand/skillup-logo-footer.svg" alt="Logo SkillUp"></img>
+                    <br /><br />
                     <h1>{landingCopy.loginTitle}</h1>
                     <p>{landingCopy.loginSubtitle}</p>
-                    <div className="auth-aside-decoration" aria-hidden="true">
+                    {/* <div className="auth-aside-decoration" aria-hidden="true">
                         <span className="auth-orbit orbit-a" />
                         <span className="auth-orbit orbit-b" />
                         <span className="auth-star">✦</span>
                         <span className="auth-aside-badge">Aprender · Crecer · Avanzar</span>
-                    </div>
+                    </div> */}
                 </aside>
 
                 <div className="auth-card">
                     <div className="auth-heading">
-                        <span className="eyebrow">SKILLUP CAMPUS</span>
-                        <h2>{landingCopy.loginTitle}</h2>
-                        <p>{landingCopy.loginSubtitle}</p>
+                        <span className="eyebrow auth-heading-kicker">¡QUÉ BUENO VERTE DE NUEVO!</span>
+                        <br /><br />
+                        <h2>Iniciá Sesión</h2>
+                        <br />
+                        <p>Ingresá tus datos para continuar.</p>
                     </div>
 
                     {registered && (
@@ -117,7 +120,7 @@ export default function Login() {
                     </form>
 
                     <p className="auth-footnote">
-                        ¿Todavía no tenés cuenta? <Link to="/register">Empezá hoy</Link>
+                        ¿Todavía no tenés cuenta? <Link to="/register">Registrate acá - Estudiante</Link>
                     </p>
                     <Link className="back-link" to="/">← Volver al inicio</Link>
                 </div>

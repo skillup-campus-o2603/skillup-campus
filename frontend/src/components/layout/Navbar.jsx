@@ -1,6 +1,5 @@
 import { Link, NavLink, useNavigate } from 'react-router';
 import { useAuth } from '../../context/AuthContext.jsx';
-import logo from '../../assets/brand/skillup-logo.svg';
 import { landingCopy } from '../../content/marketingCopy.js';
 
 function navLinkClass({ isActive }) {
@@ -23,16 +22,17 @@ export default function Navbar() {
         <header className="site-header">
             <div className="announcement-bar">
                 <div className="container announcement-content">
-                    <p><span className="announcement-icon" aria-hidden="true">✦</span>{landingCopy.announcement}</p>
+                    <p>{landingCopy.announcement}</p>
+                    {/* <p><span className="announcement-icon" aria-hidden="true">✦</span>{landingCopy.announcement}</p>
                     <Link to="/courses">
                         Explorar cursos <span aria-hidden="true">→</span>
-                    </Link>
+                    </Link> */}
                 </div>
             </div>
 
             <div className="container navbar landing-navbar">
                 <Link className="brand" to="/" aria-label="SkillUp Campus, ir al inicio">
-                    <img className="brand-logo" src={logo} alt="SkillUp" />
+                    <img className="brand-logo" src="../src/assets/brand/skillup-logo.svg" alt="SkillUp" />
                 </Link>
 
                 <nav className="main-nav" aria-label="Navegación principal">

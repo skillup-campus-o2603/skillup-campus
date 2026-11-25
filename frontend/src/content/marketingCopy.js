@@ -4,18 +4,18 @@
  * siguen viniendo de la API; estos textos se aplican solo a cursos coincidentes.
  */
 export const landingCopy = {
-    announcement: 'Inscripciones abiertas para el nuevo ciclo lectivo.',
-    heroTitle: 'Tu futuro en tecnología empieza hoy.',
+    announcement: '¡Inscripciones abiertas para el nuevo ciclo lectivo! Obtené un 20 % Off.',
+    heroTitle: 'Tu futuro en tecnología empieza hoy.', 
     heroSubtitle:
-        'Una plataforma adaptada a tus tiempos: combinamos contenido grabado, clases en vivo y soporte 24/7 para llevar tus habilidades al siguiente nivel.',
+        'Una plataforma adaptada a tus tiempos:\nCombinamos contenido grabado, clases en vivo y soporte 24/7 para llevar tus habilidades al siguiente nivel.',
     heroCta: 'Explorar cursos',
     benefitsTitle: 'Nuestros diferenciales',
     coursesTitle: 'Catálogo de cursos',
     testimonialsTitle: 'Reseña de nuestros alumnos',
-    loginTitle: '¡Qué bueno tenerte de vuelta!',
-    loginSubtitle: 'Seguí aprendiendo y acercate a tus objetivos.',
-    registerTitle: '¡Tu futuro en tecnología empieza hoy!',
-    registerSubtitle: 'Creá tu cuenta y descubrí todo lo que podés aprender.',
+    loginTitle: 'Tu próximo paso empieza acá.',
+    loginSubtitle: 'Volvé a tu espacio de aprendizaje y seguí construyendo tu camino.',
+    registerTitle: 'Tu próximo paso comienza con una cuenta. ',
+    registerSubtitle: 'Sumate a la comunidad, descubrí nuevas habilidades y empezá a construir el camino que querés para tu futuro.',
 };
 
 export const benefitCopy = [

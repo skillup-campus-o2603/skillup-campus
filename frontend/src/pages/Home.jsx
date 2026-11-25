@@ -116,12 +116,12 @@ export default function Home() {
                                 <strong>Potenciá tu futuro.</strong>
                             </div>
                         </div>
-                        <div className="landing-hero-floating-card" aria-hidden="true">
+                        {/* <div className="landing-hero-floating-card" aria-hidden="true">
                             <span className="floating-card-icon">✦</span>
                             <span><strong>Potenciá tu futuro</strong><small>Aprendé a tu ritmo.</small></span>
                         </div>
                         <span className="landing-hero-orbit landing-orbit-one" aria-hidden="true" />
-                        <span className="landing-hero-orbit landing-orbit-two" aria-hidden="true" />
+                        <span className="landing-hero-orbit landing-orbit-two" aria-hidden="true" /> */}
                     </div>
 
                     <div className="landing-hero-copy">
@@ -130,9 +130,9 @@ export default function Home() {
                             APRENDIZAJE PARA LO QUE VIENE
                         </span>
                         <h1 id="landing-title">{landingCopy.heroTitle}</h1>
-                        <p>{landingCopy.heroSubtitle}</p>
+                        <p style={{ whiteSpace: 'pre-line' }}>{landingCopy.heroSubtitle}</p>
                         <div className="landing-hero-actions">
-                            <Link className="button button-primary" to="/courses">{landingCopy.heroCta} <span aria-hidden="true">↗</span></Link>
+                            <Link className="button button-outline-secondary" to="/courses">{landingCopy.heroCta} <span aria-hidden="true">↗</span></Link>
                             <Link className="landing-secondary-link" to="/#beneficios">Conocé nuestros diferenciales <span aria-hidden="true">→</span></Link>
                         </div>
                         <div className="landing-hero-note">
@@ -147,7 +147,7 @@ export default function Home() {
                 <div className="container">
                     <div className="landing-section-heading landing-section-heading-centered">
                         {/* <span className="eyebrow">NUESTROS DIFERENCIALES</span> */}
-                        <h2 id="benefits-title">{landingCopy.benefitsTitle}</h2>
+                        <h2 id="benefits-title" className="benefits-title">{landingCopy.benefitsTitle}</h2>
                         <p>Recursos y acompañamiento para que puedas avanzar a tu ritmo.</p>
                     </div>
 
@@ -161,6 +161,13 @@ export default function Home() {
                                 <div className="benefit-feature-copy">
                                     <h3>{benefit.title}</h3>
                                     <p>{benefit.description}</p>
+                                    <br />
+                                    <Link
+                                        className="button button-outline-secondary button-small"
+                                        to="/#contacto"
+                                        style={{ display: 'block', width: 'fit-content', margin: '0 auto' }}>
+                                        {benefit.action}
+                                    </Link>
                                 </div>
                             </article>
                         ))}
@@ -173,7 +180,7 @@ export default function Home() {
                     <div className="landing-section-heading landing-course-heading">
                         <div>
                             <span className="eyebrow">EMPEZÁ A EXPLORAR</span>
-                            <h2 id="courses-title">{landingCopy.coursesTitle}</h2>
+                            <h2 id="courses-title" className="courses-title">{landingCopy.coursesTitle}</h2>
                             <p>Encontrá una propuesta que acompañe tus intereses y objetivos.</p>
                         </div>
                         <Link className="button button-primary landing-course-cta" to="/courses">

@@ -4,7 +4,7 @@ import webCover from '../../assets/courses/web-cover.webp';
 import uxuiCover from '../../assets/courses/uxui-cover.webp';
 
 const LOCAL_COVERS = [
-    { image: aiCover, variant: 'course-cover-ai', match: (text) => text.includes('inteligencia artificial') || text.includes('automatizacion') },
+    { image: aiCover, variant: 'course-cover-ai', match: (text) => text.includes('inteligencia artificial') || text.includes('automatizacion') || text.includes('vibe coding') },
     { image: excelCover, variant: 'course-cover-data', match: (text) => text.includes('excel') || text.includes('dashboards') },
     { image: webCover, variant: 'course-cover-web', match: (text) => text.includes('desarrollo web') || text.includes('sitio web') },
     { image: uxuiCover, variant: 'course-cover-ux', match: (text) => text.includes('ux/ui') || text.includes('ux') || text.includes('diseno') },
