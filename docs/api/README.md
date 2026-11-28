@@ -586,7 +586,231 @@ roleMiddleware('Student')
 
 ---
 
-## 8. Integración con frontend
+---
+
+## 8. Administración de usuarios y profesores
+
+Todos los endpoints de esta sección requieren `Authorization: Bearer <token>` y el rol `Administrator`.
+
+### GET /api/admin/users
+
+Lista los usuarios registrados, incluyendo los datos de su rol. No devuelve contraseñas.
+
+**Autenticación:** JWT obligatorio. **Rol:** `Administrator`. **Parámetros/body:** ninguno.
+
+**Respuesta — 200 OK** (ejemplo ilustrativo)
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": "8",
+      "name": "Ana",
+      "surname": "García",
+      "email": "ana@ejemplo.com",
+      "username": "anagarcia",
+      "country": "Argentina",
+      "address": null,
+      "telephone": null,
+      "role": { "id": 3, "name": "Student" }
+    }
+  ]
+}
+```
+
+**Errores:** `401` JWT ausente/inválido; `403` rol distinto de Administrator; `500` error interno.
+
+### GET /api/admin/students
+
+Lista los perfiles de estudiantes junto con los datos de sus usuarios.
+
+**Autenticación:** JWT obligatorio. **Rol:** `Administrator`. **Parámetros/body:** ninguno.
+
+**Respuesta — 200 OK** (ejemplo ilustrativo)
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "student_id": 1,
+      "user_id": "8",
+      "average_grade": null,
+      "student_created_at": "2026-11-20T02:00:00.000Z",
+      "name": "Ana",
+      "surname": "García",
+      "email": "ana@ejemplo.com",
+      "username": "anagarcia",
+      "country": "Argentina",
+      "address": null,
+      "telephone": null
+    }
+  ]
+}
+```
+
+`student_id` identifica el perfil y `user_id` al usuario asociado. **Errores:** `401`, `403`, `500`.
+
+### GET /api/admin/teachers
+
+Lista los perfiles de profesores junto con los datos de sus usuarios.
+
+**Autenticación:** JWT obligatorio. **Rol:** `Administrator`. **Parámetros/body:** ninguno.
+
+**Respuesta — 200 OK** (ejemplo ilustrativo)
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "teacher_id": 1,
+      "user_id": "9",
+      "teacher_created_at": "2026-11-20T02:00:00.000Z",
+      "name": "Carlos",
+      "surname": "Pérez",
+      "email": "carlos@ejemplo.com",
+      "username": "carlosperez",
+      "country": "Argentina",
+      "address": null,
+      "telephone": null
+    }
+  ]
+}
+```
+
+`teacher_id` identifica el perfil y `user_id` al usuario asociado. **Errores:** `401`, `403`, `500`.
+
+### POST /api/admin/teachers
+
+Crea un usuario con rol `Teacher` y su perfil en `teachers`. La operación utiliza una transacción y guarda la contraseña con bcrypt.
+
+**Autenticación:** JWT obligatorio. **Rol:** `Administrator`. **Parámetros:** ninguno.
+
+**Body — JSON**
+
+```json
+{
+  "name": "Carlos",
+  "surname": "Pérez",
+  "email": "carlos.perez@ejemplo.com",
+  "username": "carlosperez",
+  "password": "ClaveSegura123",
+  "country": "Argentina",
+  "address": "Dirección opcional",
+  "telephone": "3704000000"
+}
+```
+
+**Obligatorios:** `name`, `surname`, `email`, `username`, `password`, `country`. **Opcionales:** `address`, `telephone`. El rol `Teacher` se asigna automáticamente; email y username deben ser únicos.
+
+**Respuesta — 201 Created** (ejemplo ilustrativo)
+
+```json
+{
+  "success": true,
+  "message": "Profesor creado correctamente",
+  "data": {
+    "teacher_id": 1,
+    "user_id": "9",
+    "name": "Carlos",
+    "surname": "Pérez",
+    "email": "carlos.perez@ejemplo.com",
+    "username": "carlosperez",
+    "country": "Argentina",
+    "address": "Dirección opcional",
+    "telephone": "3704000000",
+    "role": "Teacher"
+  }
+}
+```
+
+**Errores:** `400` campos obligatorios/datos inválidos; `401` JWT ausente o inválido; `403` rol no autorizado; `409` email o username duplicado; `500` error interno.
+
+### PUT /api/admin/teachers/:id
+
+Actualiza parcialmente los datos de un profesor. Los campos omitidos conservan su valor.
+
+**Autenticación:** JWT obligatorio. **Rol:** `Administrator`. **Parámetro:** `id` numérico positivo correspondiente a `teacher_id` (ID del perfil, no `user_id`).
+
+**Body — JSON de ejemplo**
+
+```json
+{
+  "name": "Carlos Alberto",
+  "surname": "Pérez",
+  "address": "Nueva dirección 456",
+  "telephone": "3704111111"
+}
+```
+
+**Campos editables:** `name`, `surname`, `email`, `username`, `country`, `address`, `telephone`. `address` y `telephone` admiten `null` o cadena vacía para limpiar el dato. No permite cambiar la contraseña.
+
+**Respuesta — 200 OK** (ejemplo ilustrativo)
+
+```json
+{
+  "success": true,
+  "message": "Profesor actualizado correctamente",
+  "data": {
+    "teacher_id": 1,
+    "user_id": "9",
+    "name": "Carlos Alberto",
+    "surname": "Pérez",
+    "email": "carlos.perez@ejemplo.com",
+    "username": "carlosperez",
+    "country": "Argentina",
+    "address": "Nueva dirección 456",
+    "telephone": "3704111111",
+    "role": "Teacher"
+  }
+}
+```
+
+**Errores:** `400` ID/body/campos inválidos; `401` JWT ausente o inválido; `403` rol no autorizado; `404` profesor inexistente; `409` email o username utilizado por otro usuario; `500` error interno.
+
+### DELETE /api/admin/teachers/:id
+
+Elimina el perfil del profesor y su usuario asociado.
+
+**Autenticación:** JWT obligatorio. **Rol:** `Administrator`. **Parámetro:** `id` numérico positivo correspondiente a `teacher_id`. **Body:** no requerido.
+
+Antes de eliminar, verifica si el profesor está asignado a cursos en `course_teachers`. Si tiene asignaciones, bloquea la operación. Si no tiene, elimina dentro de una transacción los tokens de recuperación asociados, el perfil y el usuario.
+
+**Respuesta — 200 OK**
+
+```json
+{
+  "success": true,
+  "message": "Profesor y usuario asociado eliminados correctamente",
+  "data": {
+    "teacher_id": 1,
+    "user_id": "9"
+  }
+}
+```
+
+**Respuesta — 409 Conflict**, si tiene cursos asignados:
+
+```json
+{
+  "success": false,
+  "message": "No se puede eliminar el profesor porque está asignado a uno o más cursos",
+  "data": {
+    "teacher_id": 1,
+    "assigned_courses": 1
+  }
+}
+```
+
+**Otros errores:** `400` ID inválido; `401` JWT ausente o inválido; `403` rol no autorizado; `404` profesor inexistente; `409` otras restricciones de integridad referencial; `500` error interno.
+
+**Pruebas de DELETE confirmadas:** eliminación exitosa (`200`) y bloqueo por asignación a cursos (`409`). Los demás errores son respuestas contempladas por el contrato, pero no se registran aquí como pruebas ejecutadas.
+
+---
+
+## 9. Integración con frontend
 
 El frontend utiliza **React y Vite**. Durante el desarrollo local, las peticiones pueden dirigirse a `http://localhost:3001` o utilizar el proxy `/api` configurado en Vite.
 
@@ -607,6 +831,12 @@ El frontend utiliza **React y Vite**. Durante el desarrollo local, las peticione
 | POST | `/api/enrollments` | Student | Inscribirse en un curso |
 | GET | `/api/enrollments/me` | Student | Consultar mis inscripciones |
 | GET | `/api/dashboard` | Student | Dashboard del estudiante |
+| GET | `/api/admin/users` | Administrator | Listado general de usuarios |
+| GET | `/api/admin/students` | Administrator | Listado de estudiantes |
+| GET | `/api/admin/teachers` | Administrator | Listado de profesores |
+| POST | `/api/admin/teachers` | Administrator | Crear profesor |
+| PUT | `/api/admin/teachers/:id` | Administrator | Editar profesor |
+| DELETE | `/api/admin/teachers/:id` | Administrator | Eliminar profesor si no tiene cursos asignados |
 
 ### Consideraciones de integración
 
@@ -616,10 +846,16 @@ El frontend utiliza **React y Vite**. Durante el desarrollo local, las peticione
 - Los formularios de cursos deben consultar `/api/categories` y `/api/levels` y enviar los IDs seleccionados mediante `category_id` y `level_id`.
 - El frontend envía únicamente `course_id` para inscribirse; el backend determina `user_id` desde el JWT.
 - La vista «Mis cursos» puede consumir `GET /api/enrollments/me`.
+- Las rutas administrativas requieren un JWT con rol `Administrator`.
+- En `PUT` y `DELETE /api/admin/teachers/:id`, `:id` es `teacher_id`, no `user_id`.
+- El alta de profesores requiere `name`, `surname`, `email`, `username`, `password` y `country`; `address` y `telephone` son opcionales.
+- La edición de profesores es parcial y no cambia la contraseña. Para limpiar `address` o `telephone`, enviar `null` o una cadena vacía.
+- No se puede eliminar un profesor que esté asignado a cursos: la API responde `409 Conflict`.
+
 
 ---
 
-## 9. Estado de implementación
+## 10. Estado de implementación
 
 | Endpoint | Estado |
 |---|---|
@@ -636,6 +872,12 @@ El frontend utiliza **React y Vite**. Durante el desarrollo local, las peticione
 | POST `/api/enrollments` | Implementado y probado |
 | GET `/api/enrollments/me` | Implementado y probado |
 | GET `/api/dashboard` | Implementado y probado |
+| GET `/api/admin/users` | Implementado y probado |
+| GET `/api/admin/students` | Implementado y probado |
+| GET `/api/admin/teachers` | Implementado y probado |
+| POST `/api/admin/teachers` | Implementado y probado |
+| PUT `/api/admin/teachers/:id` | Implementado y probado |
+| DELETE `/api/admin/teachers/:id` | Implementado y probado |
 
 ### Pruebas realizadas con Postman
 
@@ -658,9 +900,40 @@ El frontend utiliza **React y Vite**. Durante el desarrollo local, las peticione
 - Consulta del dashboard sin JWT: `401 Unauthorized`.
 - Acceso al dashboard con JWT de Administrator: `403 Forbidden`.
 - Acceso al dashboard con JWT de Teacher: `403 Forbidden`.
+- Listado administrativo de usuarios con JWT de Administrator: `200 OK`, sin exponer contraseñas.
+- Acceso a `GET /api/admin/users` con JWT de Student: `403 Forbidden`.
+- Listado administrativo de estudiantes: `200 OK`.
+- Listado administrativo de profesores: `200 OK`.
+- Alta de profesor: `201 Created`.
+- Alta de profesor con campos obligatorios faltantes: `400 Bad Request`.
+- Alta de profesor con email o username duplicado: `409 Conflict`.
+- Alta de profesor sin JWT o con JWT inválido: `401 Unauthorized`.
+- Alta de profesor con JWT de un rol distinto de Administrator: `403 Forbidden`.
+- Actualización completa y parcial de profesor: `200 OK`.
+- Actualización con ID inexistente: `404 Not Found`.
+- Actualización con ID inválido, body vacío, campo no permitido o campo obligatorio vacío: `400 Bad Request`.
+- Actualización con email o username utilizado por otro usuario: `409 Conflict`.
+- Actualización sin JWT o con JWT inválido: `401 Unauthorized`.
+- Actualización con JWT de un rol distinto de Administrator: `403 Forbidden`.
+- Eliminación de profesor sin asignaciones a cursos: `200 OK`.
+- Intento de eliminar un profesor asignado a un curso: `409 Conflict`.
 
 **Prueba adicional recomendada:** verificar `DELETE /api/courses/:id` sobre un curso que ya tenga inscripciones para confirmar `409 Conflict`. No se registra como probada hasta ejecutarla.
 
 ### Tecnologías utilizadas
 
 Node.js, Express, PostgreSQL, Sequelize, bcryptjs, jsonwebtoken, dotenv y Postman.
+
+## 11. Funcionalidades pendientes de implementación
+
+Esta sección separa el avance actual del resto del alcance del proyecto. Los siguientes puntos no deben considerarse endpoints disponibles hasta que se desarrollen y se prueben:
+
+- **Administración de administradores:** listado y CRUD de usuarios con rol `Administrator`, con controles para evitar eliminar el último administrador.
+- **Gestión de módulos y lecciones:** creación, consulta, actualización y eliminación de módulos y lecciones de cursos.
+- **Panel del profesor:** consulta de cursos asignados, estudiantes inscriptos y estadísticas de sus cursos.
+- **Panel administrativo y estadísticas globales:** resumen de estudiantes, profesores, cursos e inscripciones.
+- **Ofertas laborales:** listado y detalle de ofertas, y operaciones administrativas para gestionarlas. Se dejó esta funcionalidad para una etapa posterior.
+- **Progreso académico:** registro y consulta del avance de estudiantes en módulos y lecciones.
+- **Perfil y avatar:** consulta y actualización del perfil propio y gestión de imagen/avatar, si se mantiene este requisito en el alcance final.
+
+Antes de integrar estos módulos, se deben definir sus contratos, permisos, validaciones y pruebas de Postman. No se agregan rutas tentativas para evitar que el frontend consuma endpoints que todavía no existen.
