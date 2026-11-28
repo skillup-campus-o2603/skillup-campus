@@ -46,6 +46,9 @@ export default function Footer() {
                                 <img src="/src/assets/icons/socials/github.svg" alt="GitHub" />
                             </a>
                         </div>
+                        <div className="landing-hero-actions">
+                            <Link className="button button-big button-outline-secondary" to="/#contacto">Contactanos</Link>
+                        </div>
                     </div>
                 </div>
             </div>

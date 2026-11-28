@@ -37,8 +37,8 @@ export default function Navbar() {
 
                 <nav className="main-nav" aria-label="Navegación principal">
                     <NavLink to="/" end className={navLinkClass}>Inicio</NavLink>
-                    <Link className="nav-link" to="/#beneficios">Nosotros</Link>
                     <Link className="nav-link" to="/#cursos">Cursos</Link>
+                    <Link className="nav-link" to="/#beneficios">Nosotros</Link>
                     {user?.role === 'Student' && (
                         <NavLink to="/dashboard" className={navLinkClass}>Mi aprendizaje</NavLink>
                     )}

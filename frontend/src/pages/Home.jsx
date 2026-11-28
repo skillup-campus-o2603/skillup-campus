@@ -111,33 +111,23 @@ export default function Home() {
                                 alt="Estudiantes usando una computadora portátil"
                                 fetchPriority="high"
                             />
-                            <div className="landing-hero-photo-caption">
-                                <span>SKILLUP CAMPUS</span>
-                                <strong>Potenciá tu futuro.</strong>
-                            </div>
                         </div>
-                        {/* <div className="landing-hero-floating-card" aria-hidden="true">
-                            <span className="floating-card-icon">✦</span>
-                            <span><strong>Potenciá tu futuro</strong><small>Aprendé a tu ritmo.</small></span>
-                        </div>
-                        <span className="landing-hero-orbit landing-orbit-one" aria-hidden="true" />
-                        <span className="landing-hero-orbit landing-orbit-two" aria-hidden="true" /> */}
                     </div>
 
                     <div className="landing-hero-copy">
-                        <span className="landing-eyebrow">
-                            <span className="landing-eyebrow-dot" aria-hidden="true" />
-                            APRENDIZAJE PARA LO QUE VIENE
-                        </span>
-                        <h1 id="landing-title">{landingCopy.heroTitle}</h1>
-                        <p style={{ whiteSpace: 'pre-line' }}>{landingCopy.heroSubtitle}</p>
+                        <h1 id="landing-title">{landingCopy.heroTitleFirst}</h1>
+                        <h1 id="landing-title">{landingCopy.heroTitleSecond}</h1>
+                        <h1 id="landing-title">{landingCopy.heroTitleThird}</h1>
+
+                        <p className="hero-subtitle">
+                            <strong>{landingCopy.heroSubtitleBoldStart}</strong>
+                            <br />
+                            {landingCopy.heroSubtitleRegular}
+                            <strong>{landingCopy.heroSubtitleBoldEnd}</strong>
+                        </p>
+
                         <div className="landing-hero-actions">
-                            <Link className="button button-outline-secondary" to="/courses">{landingCopy.heroCta} <span aria-hidden="true">↗</span></Link>
-                            <Link className="landing-secondary-link" to="/#beneficios">Conocé nuestros diferenciales <span aria-hidden="true">→</span></Link>
-                        </div>
-                        <div className="landing-hero-note">
-                            <span aria-hidden="true">✓</span>
-                            Una plataforma adaptada a tus tiempos.
+                            <Link className="button button-big button-outline-secondary" to="/courses">{landingCopy.heroCta}</Link>
                         </div>
                     </div>
                 </div>
@@ -145,7 +135,7 @@ export default function Home() {
 
             <section className="landing-benefits section-space" id="beneficios" aria-labelledby="benefits-title">
                 <div className="container">
-                    <div className="landing-section-heading landing-section-heading-centered">
+                    <div className="landing-section-heading landing-section-heading-left-aligned">
                         {/* <span className="eyebrow">NUESTROS DIFERENCIALES</span> */}
                         <h2 id="benefits-title" className="benefits-title">{landingCopy.benefitsTitle}</h2>
                         <p>Recursos y acompañamiento para que puedas avanzar a tu ritmo.</p>
@@ -156,14 +146,14 @@ export default function Home() {
                             <article className={`benefit-feature-card ${benefit.tone}`} key={benefit.title}>
                                 <div className="benefit-feature-image">
                                     <img src={benefit.image} alt={benefit.imageAlt} loading="lazy" />
-                                    <span className="benefit-feature-number">0{index + 1}</span>
                                 </div>
                                 <div className="benefit-feature-copy">
                                     <h3>{benefit.title}</h3>
+                                    <br /> <br />
                                     <p>{benefit.description}</p>
                                     <br />
                                     <Link
-                                        className="button button-outline-secondary button-small"
+                                        className="button button-primary button-small"
                                         to="/#contacto"
                                         style={{ display: 'block', width: 'fit-content', margin: '0 auto' }}>
                                         {benefit.action}
@@ -179,13 +169,11 @@ export default function Home() {
                 <div className="container">
                     <div className="landing-section-heading landing-course-heading">
                         <div>
-                            <span className="eyebrow">EMPEZÁ A EXPLORAR</span>
                             <h2 id="courses-title" className="courses-title">{landingCopy.coursesTitle}</h2>
-                            <p>Encontrá una propuesta que acompañe tus intereses y objetivos.</p>
                         </div>
-                        <Link className="button button-primary landing-course-cta" to="/courses">
-                            Ver catálogo completo <span aria-hidden="true">→</span>
-                        </Link>
+                        {/* <Link className="button button-primary landing-course-cta" to="/courses">
+                            Ver catálogo completo <span aria-hidden="true"></span>
+                        </Link> */}
                     </div>
 
                     {coursesLoading && <div className="loading-state"><LoadingSpinner label="Cargando cursos" /> Cargando cursos…</div>}
@@ -217,16 +205,23 @@ export default function Home() {
                             ))}
                         </div>
                     )}
+                    <div className="landing-section-heading landing-course-heading">
+                        <div>
+                            <h2> </h2>
+                            <p> </p>
+                        </div>
+                        <Link className="button button-primary landing-course-cta" to="/courses">Ver catálogo completo</Link>
+                    </div>
                 </div>
             </section>
 
             <section className="landing-testimonials section-space" id="testimonios" aria-labelledby="testimonials-title">
-                <div className="container">
+                <div className="container landing-testimonials-container">
                     <div className="testimonials-banner">
                         {/* El translate es para bajar un poquito la imagen, ya que por defecto el svg definido, tenía más sobrante abajo que arriba*/}
-                        <span className="testimonials-banner-mark" aria-hidden="true"><img style={{ transform: 'translateY(6%)' }} src={circularEmblem} alt="" /></span>
+                        <span className="testimonials-banner-mark" aria-hidden="true"></span>
                         <h2 id="testimonials-title">{landingCopy.testimonialsTitle}</h2>
-                        <span className="testimonials-banner-mark" aria-hidden="true"><img style={{ transform: 'translateY(6%)' }} src={circularEmblem} alt="" /></span>
+                        <span className="testimonials-banner-mark" aria-hidden="true"></span>
                     </div>
 
                     <div className="testimonials-grid">

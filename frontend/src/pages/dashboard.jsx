@@ -6,7 +6,7 @@ import { useAuth } from '../context/AuthContext.jsx';
 import CourseThumbnail from '../components/courses/CourseThumbnail.jsx';
 import FeedbackMessage from '../components/feedback/FeedbackMessage.jsx';
 import LoadingSpinner from '../components/feedback/LoadingSpinner.jsx';
-import myCoursesIcon from '../assets/icons/navigation/my-courses.svg';
+import myCoursesIcon from '../assets/icons/navigation/icono_mis_cursos.svg';
 import { getCourseDescription, getCourseDurationLabel, getCourseLevelLabel, getCourseTitle } from '../content/marketingCopy.js';
 import { getFriendlyApiMessage } from '../utils/apiMessages.js';
 
@@ -134,7 +134,7 @@ export default function Dashboard() {
                     <span className="eyebrow">TU PRÓXIMO PASO</span>
                     <h2>Tu recorrido empieza con un curso.</h2>
                     <p>Todavía no estás inscripto en ningún curso. Explorá el catálogo y encontrá el próximo tema que quieras aprender.</p>
-                    <Link className="button button-primary" to="/courses">Explorar cursos <span aria-hidden="true">→</span></Link>
+                    <Link className="button button-primary" to="/courses">Explorar cursos</Link>
                 </div>
             )}
 

@@ -5,13 +5,16 @@
  */
 export const landingCopy = {
     announcement: '¡Inscripciones abiertas para el nuevo ciclo lectivo! Obtené un 20 % Off.',
-    heroTitle: 'Tu futuro en tecnología empieza hoy.', 
-    heroSubtitle:
-        'Una plataforma adaptada a tus tiempos:\nCombinamos contenido grabado, clases en vivo y soporte 24/7 para llevar tus habilidades al siguiente nivel.',
+    heroTitleFirst: 'Tu futuro',
+    heroTitleSecond: 'en tecnología',
+    heroTitleThird: 'empieza hoy.',
+    heroSubtitleBoldStart: 'Una plataforma adaptada a tus tiempos:',
+    heroSubtitleRegular: 'Combinamos contenido grabado, clases en vivo y soporte 24/7 para llevar ',
+    heroSubtitleBoldEnd: 'tus habilidades al siguiente nivel.',
     heroCta: 'Explorar cursos',
     benefitsTitle: 'Nuestros diferenciales',
     coursesTitle: 'Catálogo de cursos',
-    testimonialsTitle: 'Reseña de nuestros alumnos',
+    testimonialsTitle: 'Reseñas de nuestros alumnos',
     loginTitle: 'Tu próximo paso empieza acá.',
     loginSubtitle: 'Volvé a tu espacio de aprendizaje y seguí construyendo tu camino.',
     registerTitle: 'Tu próximo paso comienza con una cuenta. ',
@@ -42,7 +45,7 @@ export const benefitCopy = [
     {
         title: 'Certificación oficial',
         description:
-            'Validá tus conocimientos con certificados reconocidos para destacar tu perfil profesional.',
+            'Validá tus conocimientos con certificados reconocidos para destacar tu perfil profesional.          ',
         image:
             'https://images.pexels.com/photos/7713379/pexels-photo-7713379.jpeg?auto=compress&cs=tinysrgb&w=1000',
         imageAlt: 'Certificado de finalización de estudios',
